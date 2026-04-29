@@ -15,5 +15,6 @@
 |------|--------|------------------|
 | [papagei-llm](papagei-llm/README.md) | 🔬 Recherche | Eigenes LLM für Verkaufstelefonie (Outbound/Inbound), self-hosted für niedrige Latenzen |
 | [bluetooth-dual](bluetooth-dual/README.md) | 🔬 Recherche | Audio von einem Handy auf zwei verschiedene Bluetooth-Kopfhörer streamen |
+| [auto-bewaesserung](auto-bewaesserung/README.md) | 🔬 Recherche | Selbstbau-Bewässerung für 4 Balkon-Blumenkästen, autark mit Tank, Solar & Akku |
 
 <!-- Neue Ideen hier eintragen. Reihenfolge: aktivste oben. -->
