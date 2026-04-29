@@ -15,5 +15,6 @@
 |------|--------|------------------|
 | [papagei-llm](papagei-llm/README.md) | 🔬 Recherche | Eigenes LLM für Verkaufstelefonie (Outbound/Inbound), self-hosted für niedrige Latenzen |
 | [bluetooth-dual](bluetooth-dual/README.md) | 🔬 Recherche | Audio von einem Handy auf zwei verschiedene Bluetooth-Kopfhörer streamen |
+| [habit-tamagotchi](habit-tamagotchi/README.md) | 🌱 Brainstorm | E-Ink-Tier am Schlüsselbund, das von echten Habits (Schritte, Wasser, Commits) lebt |
 
 <!-- Neue Ideen hier eintragen. Reihenfolge: aktivste oben. -->
