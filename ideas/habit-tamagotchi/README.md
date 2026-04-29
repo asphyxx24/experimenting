@@ -32,13 +32,18 @@ Diese Idee wird **als Spike 0 vom [Jarvis-Companion-Device](../../.context/attac
 
 ## Hardware-Entscheidung
 
-**Gewählt: Waveshare ESP32-S3-LCD-1.28** (~20 €).
+**Gewählt: Waveshare ESP32-S3-Touch-LCD-1.28** (~25 €).
+
+Upgrade gegenüber dem non-Touch-Modell (~20 €): kapazitiver Touchscreen on-board — nützlich für Streicheln/Wischen im Tamagotchi-UI, kaum Aufpreis, alles andere identisch.
 
 Begründung gegen die Alternativen:
 - Gegen E-Ink-Varianten: zu langsam für Sprite-Animation, kein Charme.
 - Gegen Sharp Memory LCD: kleinere Auswahl an fertigen Cases.
 - Gegen RP2040-Variante: kein WiFi/BLE — Killer für Voice + Sync.
 - Gegen LilyGo T-Watch-S3: teurer (~60 €), weniger flexibel beim Bauteil-Layout.
+- Gegen ESP32-S3-LCD-1.85: rund, mehr Pixel (360×360), aber zu groß für eine Uhr.
+- Gegen ESP32-S3-Touch-AMOLED-2.06: hat Mikro + Speaker on-board (gut), aber fast keine freien GPIOs mehr — IR, Vibration, RGB-LED kaum unterzubringen. Außerdem rechteckig.
+- Gegen ESP32-C3/C6-Varianten: single-core, zu schwach für flüssige Animation + Voice-Streaming gleichzeitig.
 
 ESP32-S3 hat WiFi + BLE 5.0, 240 MHz Dual-Core, IMU on-board, USB-C-Charging, 65k-Farben-IPS-Display. Animation mit 30–60 fps problemlos.
 
