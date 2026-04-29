@@ -1,101 +1,136 @@
-# Habit-Tamagotchi
+# Habit-Tamagotchi → Companion-Device
 
-**Status:** 🌱 Brainstorm
+**Status:** 🔬 Recherche
 **Letztes Update:** 2026-04-29
 
 ## Idee
 
-Ein kleines E-Ink-Gerät am Schlüsselbund / auf dem Schreibtisch, das ein virtuelles Tier zeigt. Das Tier lebt von **echten Habits** des Users (Schritte, Wasser, Code-Commits, Lesezeit, …) und reagiert sichtbar darauf:
+Ein kleines Gerät als Smartwatch (oder optional Schlüsselbund/Schreibtisch), das ein virtuelles Tier zeigt. Das Tier lebt von **echten Habits** des Users (Schritte, Wasser, Code-Commits, Schlaf, Lesezeit, …) und reagiert sichtbar darauf:
 
-- Habits regelmäßig erfüllt → Tier wächst, freut sich, "evolved" in Stufen.
+- Habits regelmäßig erfüllt → Tier wächst, freut sich, evolved.
 - Mehrere Tage geschludert → Tier wird traurig, mager, schläft viel.
-- Ganz ignoriert → Tier zieht aus / geht in Winterschlaf (kein "Tod" — Frust statt Spaß).
+- Ganz ignoriert → Tier zieht aus / Winterschlaf (kein "Tod", weniger Frust).
 
-Charme-Hook: anders als Habit-Apps, die in der Schublade verschwinden, hängt das Ding sichtbar am Schlüsselbund und schaut dich an.
+Charme-Hook: anders als Habit-Apps verschwindet das Ding nicht in der Schublade, sondern sitzt sichtbar am Handgelenk und schaut dich an.
+
+## Wesentliche Entscheidung: Companion statt Standalone
+
+Diese Idee wird **als Spike 0 vom [Jarvis-Companion-Device](../../.context/attachments/pasted_text_2026-04-29_14-50-06.txt) gebaut**, nicht als isoliertes Tamagotchi. Begründung:
+
+- Selbe Hardware-Klasse (ESP32-S3, rundes Display, Akku, Sensoren).
+- Selbes Form-Factor-Ziel (Smartwatch).
+- Pet-Persönlichkeit ist gleichzeitig die Repräsentation von Jarvis (eine Stimmung, ein Wesen, mehrere Modi) — kein Zoo.
+- Habit-Daten kommen über das Jarvis-Backend rein (Mi-Fit / Google-Fit / Health Connect), Pet-Stimmung folgt daraus.
 
 ## Use Case
 
-- Morgens beim Rausgehen: kurzer Blick auf Schlüssel → "Mist, ich war gestern faul, das Vieh schaut traurig."
-- Abends: Schritte erreicht → Animation "Tier macht Liegestütze" für ein paar Sekunden via Partial Refresh.
-- Wochenstreak → Evolution / neuer Sticker / neues Outfit.
+- 24/7 am Handgelenk getragen → ersetzt Xiaomi Mi Band komplett (siehe Trade-off unten).
+- Morgens Blick aufs Handgelenk → Pet-Stimmung = Status der gestrigen Habits.
+- Tagsüber Push-to-Talk-Knopf für Jarvis-Voice-Anfragen.
+- IR-Funktion als Universal-Remote (TV/HiFi/Klima vom Handgelenk).
+- Nachts Schlaftracking via IMU + PPG.
 
-## Hardware-Optionen
+## Hardware-Entscheidung
 
-| Option | Display | MCU | Größe | Akku-Laufzeit | Preis |
-|--------|---------|-----|-------|---------------|-------|
-| **Waveshare 2.13" + ESP32-C3** | 250×122 SW | ESP32-C3 | Klein, aber nicht Keychain-tauglich | Wochen mit Deep Sleep | ~25 € |
-| **LilyGO T5 / TTGO T5** | 2.13" / 2.9" SW | ESP32 + integrierter E-Ink-Driver | All-in-One Board | Wochen | ~30 € |
-| **Inkplate 2** | 2.13" SW | ESP32, fertiges Gehäuse-Konzept | Tischgröße | Monate | ~50 € |
-| **M5Stack CoreInk** | 1.54" SW | ESP32 | Sehr klein, fertig im Gehäuse | Wochen | ~30 € |
-| **nRF52840 + 1.54" Waveshare** | 152×152 SW | nRF52840 (BLE only) | Sehr stromsparend | Monate–Jahr | ~25 € |
-| **Pimoroni Badger 2040 W** | 2.9" SW | RP2040 + WiFi | Anhänger-tauglich | Tage–Wochen | ~30 € |
+**Gewählt: Waveshare ESP32-S3-LCD-1.28** (~20 €).
 
-**Tendenz:** für Keychain-Variante → **M5Stack CoreInk** oder **nRF52 + 1.54"-Waveshare**. Für Schreibtisch-Variante → **Inkplate 2** wegen fertigem Look.
+Begründung gegen die Alternativen:
+- Gegen E-Ink-Varianten: zu langsam für Sprite-Animation, kein Charme.
+- Gegen Sharp Memory LCD: kleinere Auswahl an fertigen Cases.
+- Gegen RP2040-Variante: kein WiFi/BLE — Killer für Voice + Sync.
+- Gegen LilyGo T-Watch-S3: teurer (~60 €), weniger flexibel beim Bauteil-Layout.
+
+ESP32-S3 hat WiFi + BLE 5.0, 240 MHz Dual-Core, IMU on-board, USB-C-Charging, 65k-Farben-IPS-Display. Animation mit 30–60 fps problemlos.
+
+**Komplette Bauteile-Liste:** siehe [`BAUTEILE.md`](BAUTEILE.md).
+
+## Spielmechanik
+
+- **Stufen:** Egg → Baby → Teen → Adult → Legend. Pro Stufe n Tage Streak.
+- **Stats:** Health (Schritte/Sport), Hydration (Wasser, manuell), Brain (Lesezeit/Code-Commits), Sleep (aus PPG+IMU), Mood (Mittel).
+- **Daily Check:** einmal pro Tag wertet das Backend Habits aus, schickt Update via WiFi ans Gerät.
+- **Evolution / Outfits:** Belohnungs-Sprite pro Wochenstreak.
+- **Tod ist raus.** Stattdessen: Tier zieht aus, kommt zurück wenn du wieder dranbleibst.
+- **Pet = Jarvis-Avatar:** Stimmung reflektiert auch Backend-State ("denkt nach" = LLM-Call läuft, "schläft" = Backend offline).
+
+## Mi-Band-Ersatz — Trade-offs
+
+| | Mi Band 8 | Companion | Bewertung |
+|--|-----------|-----------|-----------|
+| Akku | 14 Tage | 2–3 Tage | Mi Band gewinnt klar |
+| Schritte | ✓ | ✓ (IMU) | gleich |
+| Puls 24/7 | ✓ | ✓ (MAX30102) | gleich |
+| Schlaf-Stages | ✓ | ✓ (Algo-Port nötig) | gleich |
+| SpO2 | ✓ | ✓ | gleich |
+| Voice/Jarvis-PTT | ✗ | ✓ | unser Vorteil |
+| IR-Remote | ✗ | ✓ | unser Vorteil |
+| Pet-Personality | ✗ | ✓ | unser Vorteil |
+| Tragekomfort | super dünn | klotzig (~18 mm) | Mi Band gewinnt |
+| Daten offen / hackbar | proprietär | komplett offen | unser Vorteil |
+
+**Konsequenz:** ersetzt die Mi Band, wenn man die Lade-Routine alle 2–3 Tage und die Bauhöhe akzeptiert. Algorithmen für Sleep-Staging müssen portiert werden (z. B. Cole-Kripke, [pyActigraphy](https://github.com/ghammad/pyActigraphy), [Bangle.js Sleep-Logger](https://github.com/espruino/BangleApps/tree/master/apps/sleeplog)).
 
 ## Architektur (Skizze)
 
 ```
-[Phone-App / Backend]  ─BLE/WiFi─►  [E-Ink-Device]
-        ▲                                 │
-        │                                 │ Render (Partial Refresh)
-        │                                 ▼
-[Habit-Quellen]                      [Display: Tier + Status]
-- Apple Health / Google Fit
-- Strava / Garmin
-- GitHub Commits
-- Custom API (Wasser, Lesezeit, …)
-- Manuelle Taps (Knopf am Gerät)
+[Jarvis-Backend] ──WiFi/WebSocket──► [ESP32-S3 Companion am Handgelenk]
+        ▲                                       │
+        │                                       │ Display: Pet + Status
+        │ Datenquellen + Push                   │ Audio I2S in/out
+        │                                       │ IR-Blaster
+        ▼                                       │ IMU + PPG
+[Health Connect / Mi Fit / Strava /             │
+ GitHub / Calendar / Custom-API]                │
+                                                ▼
+                                       [User: Tap, PTT, Schlaf, …]
 ```
 
-Zwei Ansätze:
-
-1. **Phone-zentriert (BLE-Sync, alle paar Stunden):** Logik & Habit-Aggregation läuft auf dem Handy, Device ist nur Display. Vorteil: lange Akkulaufzeit, einfache Firmware. Nachteil: braucht Companion-App.
-2. **Cloud-zentriert (WiFi):** Device pollt selbst ein Backend. Vorteil: keine App nötig. Nachteil: Stromhungriger, Setup pro WLAN nötig.
-
-→ **Variante 1 ist vermutlich die richtige.**
-
-## Spielmechanik
-
-- **Stufen:** Egg → Baby → Teen → Adult → Legend. Jede Stufe braucht n Tage Streak.
-- **Stats:** Health (Schritte / Sport), Hydration (Wasser), Brain (Lesezeit / Code), Mood (Mittel über alles).
-- **Daily Check:** einmal pro Tag (z.B. 22:00) wertet das Phone aus, ob Habits erfüllt sind, und schickt Update ans Device.
-- **Evolution / Outfits:** Belohnungs-Sprite pro Wochenstreak. Charm-Faktor.
-- **Tod ist raus.** Stattdessen: "Tier zieht aus, kommt zurück wenn du wieder dranbleibst." Weniger frustig, weniger drama-trigger.
+Das Gerät ist **dummer Client mit IO**, nicht eigenständige AI. Modi:
+1. **Idle:** Pet-Animation, IMU lauscht, WiFi off.
+2. **Voice:** PTT gedrückt → WiFi connect → Audio-Stream zu Jarvis → Antwort.
+3. **Remote:** Display zeigt Buttons, IR/BLE/WiFi-Calls feuern.
+4. **Notification:** Backend pusht → Display + ggf. Vibration.
+5. **Sleep:** Display off, IMU + PPG samplen, alles in Flash, morgens syncen.
 
 ## Offene Fragen
 
-- [ ] Form-Factor entschieden? Keychain (klein, robust, < 2") vs. Schreibtisch (4"+ mit Detail)?
-- [ ] Welche Habit-Quellen wirklich? Manuelle Taps reichen vielleicht schon (1 Knopf = 1 Habit-Done für heute).
-- [ ] Companion-App: native Android-only (passt zu vorhandenen Geräten)? Oder Flutter / React Native für beide?
-- [ ] Wie viele Sprites muss man malen, damit das Tier "lebendig" wirkt? 20? 100?
-- [ ] Gibt es schon was Ähnliches Open Source, das man forken kann (Pebble-Watchfaces? Flipper-Zero-Pets?)?
-- [ ] Sound? Vibration? Oder bewusst stumm/passiv (Schlüsselbund-tauglich)?
-- [ ] Privacy: Health-Daten bleiben besser nur auf dem Phone — keine Cloud.
-
-## Recherche-Ideen vor dem Bau
-
-- Bestehende Projekte sichten: "M5Stack Tamagotchi", "ESP32 e-ink pet", "Watchy pet face", "Flipper Zero Tamagotchi App".
-- E-Ink Partial Refresh: wie viele Frames/Sekunde realistisch? (Typisch 5–10 Hz partial, > 1s full).
-- Pixel-Art-Stil definieren — passt zum SW-Display und ist machbar ohne Profi-Designer.
+- [ ] Watch-Case: bestehendes STL ([Watch-Case mit Akku-Slot](https://www.printables.com/model/484236-waveshare-rp2040-mcu-board-with-128inch-round-lcd-)) reicht erstmal, oder direkt eigener Custom-Print?
+- [ ] PTT-Hardware: Side-Push am Gehäuse vs. Touchscreen-Hold vs. IMU-Geste? → Knopf am verlässlichsten.
+- [ ] Backend-Push-Protokoll: WebSocket dauerhaft offen vs. MQTT mit Wakeup-Pings vs. nur Pull bei PTT?
+- [ ] Sleep-Stage-Algorithmus: Cole-Kripke selbst implementieren oder pyActigraphy-Logik portieren?
+- [ ] Authentifizierung Gerät ↔ Backend: Pre-Shared-Key flashen vs. mTLS-Cert?
+- [ ] Mehrere Geräte (Schlüsselbund + Schreibtisch + Handgelenk): wie unterscheidet das Backend?
 
 ## Nächste Schritte
 
-### Phase 1 — Form-Factor + Plattform entscheiden (1 Woche)
-1. Vergleich Keychain vs. Schreibtisch → wonach hätten *wir* mehr Bock?
-2. Hardware-Auswahl basierend darauf (siehe Tabelle oben).
-3. Existierende Open-Source-Projekte als Basis suchen.
+### Spike 0 — Tamagotchi-Idle-Loop (1–2 Wochen)
+1. Hardware bestellen ([`BAUTEILE.md`](BAUTEILE.md) Pflicht-Block).
+2. Display ansteuern, ein Sprite, drei Stimmungen statisch.
+3. Watch-Case drucken (existierendes STL), Board einbauen.
+4. Battery-Lebensdauer im Idle-Mode messen.
 
-### Phase 2 — Minimal-Prototyp (2–3 Wochen)
-4. Display ansteuern, ein Sprite anzeigen.
-5. Drei Stimmungen (happy / neutral / sad) statisch durchschalten via Knopf.
-6. Battery-Lebensdauer messen.
+### Spike A — Aktigraphie (1 Woche)
+5. IMU-Daten loggen, Schritte zählen.
+6. Cole-Kripke-Algo aufsetzen, Tag/Nacht-Erkennung.
 
-### Phase 3 — Habit-Sync (2–4 Wochen)
-7. Companion-App-Stub (Android), liest Google Fit Schritte.
-8. BLE-Pairing + tägliches Sync-Protokoll.
-9. Stimmung des Tiers richtet sich nach echtem Schritt-Wert.
+### Spike B — PPG / Puls (1–2 Wochen)
+7. MAX30102 verlöten + I2C ansprechen.
+8. Spot-Check ("Puls drücken") + 5-min-Sampling-Loop.
+9. HRV (RMSSD) berechnen.
 
-### Phase 4 — Polish + Spielmechanik (offen)
-10. Mehr Habit-Quellen anbinden.
-11. Sprite-Set ausarbeiten, Evolutionen.
-12. Gehäuse / 3D-Druck.
+### Spike C — Sleep-Mode (1 Woche)
+10. Power-State, der nachts Display abschaltet, IMU + PPG samplet.
+11. Logs in Flash, morgens Sync ans Backend.
+
+### Spike D — Jarvis-Voice-Integration (2–3 Wochen)
+12. PTT-Knopf, INMP441 + MAX98357A verkabeln.
+13. WiFi-Stream zum Backend (WebSocket + Opus oder PCM).
+14. Audio-Wiedergabe der Antwort.
+
+### Spike E — IR-Universal-Remote (1 Woche)
+15. IR-LED + Treiber-Transistor.
+16. IR-Codes vom Backend pushen lassen.
+
+### Spike F — Mi-Band-Ablöse (laufend)
+17. Eine Woche parallel zur Mi Band tragen, Daten vergleichen.
+18. Wenn Sleep-Daten plausibel → Mi Band weglegen.
