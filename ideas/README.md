@@ -13,6 +13,7 @@
 
 | Idee | Status | Kurzbeschreibung |
 |------|--------|------------------|
+| [piano-display](piano-display/README.md) | 🔬 Recherche | Kabelloser 13" RPi-5-Touchscreen fürs E-Piano — Noten, YouTube, optional PC-Zusatzmonitor |
 | [papagei-llm](papagei-llm/README.md) | 🔬 Recherche | Eigenes LLM für Verkaufstelefonie (Outbound/Inbound), self-hosted für niedrige Latenzen |
 | [bluetooth-dual](bluetooth-dual/README.md) | 🔬 Recherche | Audio von einem Handy auf zwei verschiedene Bluetooth-Kopfhörer streamen |
 | [habit-tamagotchi](habit-tamagotchi/README.md) | 🔬 Recherche | ESP32-S3-Smartwatch mit Tamagotchi-UI, Jarvis-Voice-PTT, IR-Remote und Schlaf-Tracking — Mi-Band-Ersatz |
