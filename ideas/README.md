@@ -13,6 +13,7 @@
 
 | Idee | Status | Kurzbeschreibung |
 |------|--------|------------------|
+| [papagei-llm](papagei-llm/README.md) | 🔬 Recherche | Eigenes LLM für Verkaufstelefonie (Outbound/Inbound), self-hosted für niedrige Latenzen |
 | [bluetooth-dual](bluetooth-dual/README.md) | 🔬 Recherche | Audio von einem Handy auf zwei verschiedene Bluetooth-Kopfhörer streamen |
 
 <!-- Neue Ideen hier eintragen. Reihenfolge: aktivste oben. -->
