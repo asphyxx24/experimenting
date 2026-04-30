@@ -58,6 +58,20 @@ ESP32-S3 hat WiFi + BLE 5.0, 240 MHz Dual-Core, IMU on-board, USB-C-Charging, 65
 - **Tod ist raus.** Stattdessen: Tier zieht aus, kommt zurück wenn du wieder dranbleibst.
 - **Pet = Jarvis-Avatar:** Stimmung reflektiert auch Backend-State ("denkt nach" = LLM-Call läuft, "schläft" = Backend offline).
 
+## Visuelle Assets
+
+**Pipeline gewählt: [Retro Diffusion](https://retrodiffusion.ai)** — AI-Tool, das Pixel-Sprites inkl. Animations-Frames direkt für genau solche Use-Cases generiert.
+
+Begründung: weder 3D-Modelling noch klassische Pixel-Animation im Skill-Set, Aseprite-Lernkurve nicht im Budget. Bei 240×240-Display ist Pixel-Art ohnehin der natürliche Stil.
+
+**Workflow:**
+1. Concept-Sprite (1 Pose) für jede der 5 Stimmungen via Retro Diffusion generieren.
+2. Pro Stimmung 2–4 Animations-Frames (Idle-Loop) ableiten.
+3. Procedural-Tricks im Code (Y-Bounce, Atem-Skalierung, Augen-Overlay) reduzieren die benötigte Frame-Zahl deutlich.
+4. Fallback: einzelne Stimmungen via Fiverr / r/PixelArt nachschärfen, falls AI-Output zwischen Stimmungen inkonsistent wirkt.
+
+**Speicherung auf dem ESP:** Sprite-Sheets in PROGMEM (Flash), Format RGB565 oder palettiert.
+
 ## Mi-Band-Ersatz — Trade-offs
 
 | | Mi Band 8 | Companion | Bewertung |
@@ -105,6 +119,7 @@ Das Gerät ist **dummer Client mit IO**, nicht eigenständige AI. Modi:
 - [ ] Sleep-Stage-Algorithmus: Cole-Kripke selbst implementieren oder pyActigraphy-Logik portieren?
 - [ ] Authentifizierung Gerät ↔ Backend: Pre-Shared-Key flashen vs. mTLS-Cert?
 - [ ] Mehrere Geräte (Schlüsselbund + Schreibtisch + Handgelenk): wie unterscheidet das Backend?
+- [ ] Asset-Pipeline-Details: wie viele Frames pro Stimmung, Stil-Lock (Konsistenz über alle 5 Stimmungen), Sprite-Sheet-Format (RGB565 vs. palettiert)?
 
 ## Nächste Schritte
 
