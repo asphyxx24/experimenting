@@ -1,6 +1,6 @@
 # Trading Bot
 
-Modularer, erweiterbarer Trading Bot für EU- und US-Aktien. Fokus auf technische Indikatoren und News-Sentiment. Startkapital ~100€ nach erfolgreichem Backtesting. Kein Cloud-LLM im kritischen Pfad.
+Modularer, erweiterbarer Trading Bot für EU- und US-Aktien. Fokus auf technische Indikatoren und News-Sentiment. Startkapital ~100€ nach erfolgreichem Backtesting.
 
 ---
 
@@ -30,7 +30,7 @@ IBKR ist die zentrale Wahl — nicht Alpaca. Gründe:
 | Sentiment Sekundär | `yfinance` News → FinBERT | Kostenlos, inoffiziell, als Fallback |
 | Sentiment Tertiär | NewsAPI → FinBERT | 100 req/day kostenlos (~alle 15 Min) |
 | Sentiment-Modell | `ProsusAI/finbert` | Auf Finanz-Headlines trainiert, richtig für diesen Use Case |
-| Reasoning | Ollama HTTP API | Nur bei Bedarf, nicht im Hot Path |
+| Reasoning (optional) | OpenAI / Requesty API | Nur bei Bedarf für Edge Cases, nicht im Hot Path |
 | Logging | SQLite via `sqlalchemy` | Lokal, kein Cloud-Overhead |
 | Config | `.env` + `config.yaml` | Kein Hardcoding von Keys |
 | Scheduler | `asyncio` Loop | Simpel, kein APScheduler-Overhead |
@@ -59,7 +59,7 @@ bot/
 ├── analysis/
 │   ├── indicators.py           # pandas-ta Wrapper
 │   ├── sentiment.py            # FinBERT + Alpha Vantage + NewsAPI Aggregator
-│   └── reasoning.py            # Ollama API Wrapper (optional, nicht im Hot Path)
+│   └── reasoning.py            # OpenAI/Requesty API Wrapper (optional, nur für Edge Cases)
 ├── strategy/
 │   ├── base_strategy.py        # Abstract Base Class
 │   ├── momentum.py             # RSI + MACD + EMA Cross
@@ -106,7 +106,7 @@ Die ursprüngliche Formel (`risk_per_trade * capital / ATR`) fehlte die `multipl
 
 1. **Dry-run by default** — `dry_run: true` in config, echter Handel explizit opt-in
 2. **Backtesting vor Paper Trading** — keine ungetestete Strategie live schalten
-3. **Kein LLM im Hot Path** — FinBERT lazy-loaded, Ollama nur on-demand
+3. **Kein LLM im Hot Path** — FinBERT lazy-loaded, externes Reasoning-API nur on-demand
 4. **Jede Entscheidung geloggt** — Signal, Confidence, Indikatoren, Sentiment-Scores, Reasoning
 5. **Fehler crashen nicht den Bot** — try/except auf Feed- und Execution-Ebene
 6. **Thread Safety** — `get_reasoning()` darf keinen State in der Strategie-Klasse speichern wenn mehrere Symbole parallel analysiert werden
@@ -143,10 +143,11 @@ sentiment:
     enabled: true
     model: ProsusAI/finbert
 
-ollama:
-  enabled: false
-  model: qwen2.5:14b
-  use_for: edge_cases
+reasoning:
+  enabled: false          # Nur aktivieren wenn Edge-Case-Analyse gewünscht
+  provider: openai        # openai | requesty
+  model: gpt-4o-mini      # Günstiges Modell reicht für diese Aufgabe
+  use_for: edge_cases     # Nur bei widersprüchlichen Signalen aufrufen
 
 ibkr:
   host: 127.0.0.1
@@ -175,8 +176,32 @@ ibkr:
 ### Milestone 3 — Live
 - Live-Switch in config (`port: 7496`)
 - `reporter.py` für Trade-History
-- `reasoning.py` Ollama optional aktivieren
+- `reasoning.py` optional aktivieren (OpenAI/Requesty für Edge Cases)
 - Manuelle Steuer-Dokumentation einrichten
+
+---
+
+## Deployment: Dell OptiPlex 3090
+
+Der Bot läuft permanent auf einem dedizierten Heimserver — nicht auf dem Haupt-Rechner.
+
+**Hardware:** Dell OptiPlex 3090 — i5-10500T, 16GB DDR4, 256GB SSD, Windows 11
+
+| Aspekt | Bewertung |
+|---|---|
+| CPU (i5-10500T, 35W TDP) | T-Variante = Low-Power, ideal für 24/7-Betrieb |
+| RAM (16GB) | FinBERT-Inferenz braucht ~2GB, kein Problem |
+| Stromkosten | ~15–25W unter Last, ca. 3–5€/Monat |
+| FinBERT auf CPU | Funktioniert problemlos für stündliche Batch-Analyse |
+| Externes Reasoning-API | Kein RAM-Problem, da API-Call statt lokalem Modell |
+
+**Bot-Start via Windows Task Scheduler** — automatisch starten zu Marktöffnung, beenden nach Marktschluss:
+- XETRA/Euronext: 09:00–17:30 Uhr
+- NASDAQ: 15:30–22:00 Uhr
+
+Der Bot muss also nicht wirklich 24/7 laufen, nur während der Marktzeiten.
+
+**Speicherhinweis:** 256GB werden mit Emulations-ROMs, Cloud-Daten und Bot-Logs mittel­fristig eng. Externe SSD oder USB-NAS empfohlen — für den Start reicht es.
 
 ---
 
