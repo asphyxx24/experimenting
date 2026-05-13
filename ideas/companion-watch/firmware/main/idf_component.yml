@@ -1,0 +1,5 @@
+dependencies:
+  idf:
+    version: ">=5.1"
+  espressif/esp_lcd_gc9a01:
+    version: "*"
