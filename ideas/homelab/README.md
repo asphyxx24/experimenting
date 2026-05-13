@@ -183,6 +183,18 @@ Mosquitto als zentraler Broker für alle ESP32-Projekte aus diesem Repo:
 
 ---
 
+## Peripherie
+
+| Gerät | Modell | Status |
+|---|---|---|
+| Tastatur + Touchpad | Rii Wireless (2.4GHz + Bluetooth) | bestellt |
+| Gamepad | offen — z.B. Xbox Controller | wenn Emulation eingerichtet |
+| Display-Anschluss | HDMI (direkt zum TV) | vorhanden |
+
+**Hinweis Display:** Intel UHD 630 schafft via HDMI nur 4K@30Hz — für Netflix und Emulation kein Problem. Für flüssige 4K-Inhalte lieber 1080p@60Hz verwenden.
+
+---
+
 ## Offene Fragen
 
 - [ ] **Desktop-Umgebung**: GNOME, KDE Plasma oder XFCE? → ausprobieren
