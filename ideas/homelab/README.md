@@ -189,9 +189,24 @@ Mosquitto als zentraler Broker für alle ESP32-Projekte aus diesem Repo:
 |---|---|---|
 | Tastatur + Touchpad | Rii Wireless (2.4GHz + Bluetooth) | bestellt |
 | Gamepad | offen — z.B. Xbox Controller | wenn Emulation eingerichtet |
-| Display-Anschluss | HDMI (direkt zum TV) | vorhanden |
 
-**Hinweis Display:** Intel UHD 630 schafft via HDMI nur 4K@30Hz — für Netflix und Emulation kein Problem. Für flüssige 4K-Inhalte lieber 1080p@60Hz verwenden.
+### Display-Anschluss
+
+Die Artikelliste zeigt **DisplayPort + VGA** — kein HDMI. Standard-Spezifikation des OptiPlex 3090 Micro hat normalerweise HDMI 1.4 + DisplayPort 1.4. Erst beim Auspacken prüfen.
+
+| Szenario | Lösung | Auflösung |
+|---|---|---|
+| HDMI vorhanden | direkt ans TV | 4K@30Hz / 1080p@60Hz |
+| Nur DisplayPort | passiver DP→HDMI Adapter (~10€) | 4K@30Hz / 1080p@60Hz |
+| Nur DisplayPort, 4K@60Hz gewünscht | aktiver DP 1.4→HDMI 2.0 Adapter (~25€) | 4K@60Hz |
+
+**Für den geplanten Use Case (Netflix, Emulation) ist 1080p@60Hz der Sweet Spot** — PS2-Spiele laufen in niedrigeren Auflösungen, Netflix-Inhalte sind meist 24fps. Der passive Adapter reicht völlig.
+
+### LAN-Adapter
+
+Nativer LAN-Port defekt — USB 3.0 Gigabit Adapter als dauerhafte Lösung (~15€).
+
+Realistische Einbußen: **keine spürbaren.** USB 3.0 Gigabit Adapter erreicht ~900 Mbps, natives LAN ~940 Mbps. Für Nextcloud, AdGuard, Trading Bot und Streaming ist der Unterschied irrelevant — der Heimanschluss ist der echte Flaschenhals, nicht der Adapter.
 
 ---
 
