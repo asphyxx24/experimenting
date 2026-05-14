@@ -22,6 +22,7 @@ idf.py -p COM5 flash
 - **LCD SPI:** MOSI=11, SCLK=10, CS=9, DC=8, RST=14, Backlight=2
 - **Touch (CST816S):** I2C SDA=6, SCL=7, RST=13, Addr=0x15
 - **IMU (QMI8658):** gleicher I2C-Bus (GPIO 6/7)
+- **INMP441 Mikrofon (I2S):** BCLK=4, LRCLK/WS=5, DIN=3
 
 ## Projekt-Struktur
 
@@ -48,16 +49,19 @@ python tools\generate_pig.py
 ```
 Liest `C:\Users\anton\Downloads\Minecraft_pig_walkin...-888999626-0.png`, erzeugt `firmware/main/pig_sprites.h` mit 3 Animationen (idle, walk, sleep).
 
-## Aktueller Stand (2026-05-11)
+## Aktueller Stand (2026-05-14)
 
 - Display (GC9A01) funktioniert ✓
 - Touch (CST816S) Tap-Erkennung funktioniert ✓
 - Sprite-Animation mit Tap-Umschaltung funktioniert ✓
 - Pig-Sprites aus Retro-Diffusion-Sheet geladen — funktioniert grundsätzlich, aber noch nicht 100% (Farben/Darstellung noch nicht perfekt)
 - Placeholder-Sprites sind noch im Code als Fallback (sprite_engine.c)
+- INMP441-Treiber (mic.c) implementiert — noch nicht hardware-getestet
 
 ## Offene Punkte
 
+- INMP441 anlöten und testen (BCLK=4, LRCLK=5, DIN=3, VDD=3.3V, GND, L/R→GND)
+- MIC_PEAK_MAX ggf. nach erstem Hörtest anpassen (aktuell 800000)
 - Sprite-Darstellung verfeinern (Farben, Byte-Order prüfen falls Farben falsch)
 - Weitere/bessere Sprite-Sheets generieren
 - Sleep-Animation verbessern (zzz-Overlay)

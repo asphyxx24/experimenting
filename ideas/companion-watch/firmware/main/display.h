@@ -7,3 +7,4 @@
 void display_init(void);
 void display_clear(uint16_t color);
 void display_draw_bitmap(int x_start, int y_start, int x_end, int y_end, const void *data);
+void display_fill_rect(int x, int y, int w, int h, uint16_t color);

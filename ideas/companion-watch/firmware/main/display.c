@@ -90,3 +90,15 @@ void display_draw_bitmap(int x_start, int y_start, int x_end, int y_end, const v
 {
     esp_lcd_panel_draw_bitmap(panel, x_start, y_start, x_end, y_end, data);
 }
+
+void display_fill_rect(int x, int y, int w, int h, uint16_t color)
+{
+    if (w <= 0 || h <= 0) return;
+    uint16_t *buf = heap_caps_malloc(w * sizeof(uint16_t), MALLOC_CAP_DMA);
+    if (!buf) return;
+    for (int i = 0; i < w; i++) buf[i] = color;
+    for (int row = y; row < y + h; row++) {
+        esp_lcd_panel_draw_bitmap(panel, x, row, x + w, row + 1, buf);
+    }
+    free(buf);
+}
