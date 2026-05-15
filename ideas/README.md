@@ -13,6 +13,7 @@
 
 | Idee | Status | Kurzbeschreibung |
 |------|--------|------------------|
+| [eigener-router](eigener-router/README.md) | 🔬 Recherche | Fritz!Box-Ersatz mit MikroTik hAP ac2 + Technicolor TC4400-EU — volle Kontrolle, REST API für Jarvis |
 | [homelab](homelab/README.md) | 🛠 Prototyp | Dell OptiPlex 3090 als Heimserver: Emulation, Nextcloud, Home Assistant, MQTT, Trading Bot |
 | [trading-bot](trading-bot/README.md) | 🔬 Recherche | Modularer Aktien-Trading-Bot (IBKR, FinBERT Sentiment, vectorbt Backtesting) |
 | [piano-display](piano-display/README.md) | 🔬 Recherche | Kabelloser 13" RPi-5-Touchscreen fürs E-Piano — Noten, YouTube, optional PC-Zusatzmonitor |
