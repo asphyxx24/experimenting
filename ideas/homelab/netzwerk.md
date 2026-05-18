@@ -1,12 +1,31 @@
 # Homelab — Netzwerk & Remote-Zugriff
 
+## Klarstellung: FritzBox 7520 und Coax
+
+Die FritzBox 7520 ist ein **DSL-Router (VDSL2/ADSL2+)** — sie kann keine Coax-Leitung verarbeiten.
+AVM-Nomenklatur: 7xxx = DSL, 6xxx = Kabel/DOCSIS.
+
+DSL (Telefonleitung, verdrilltes Kupferpaar) und Kabelinternet (Coax, DOCSIS-Protokoll) sind komplett verschiedene Technologien — man kann kein DSL über eine Coax-Dose betreiben.
+
+**Was mit der 7520 passiert:**
+- Phase 1: weiterhin als Router hinter einem Kabelmodem betreiben (FritzOS unterstützt "Internet via LAN"-Modus)
+- Oder: als reiner WLAN-Access-Point im neuen Setup verwenden
+- Oder: verkaufen (~30–50€)
+
+**Der OptiPlex 3090 ist kein Router** — er soll Application Server bleiben:
+- Sein einziger Netzwerkanschluss ist ein USB 3.0 Adapter (nativer Port defekt) — ein Router braucht mindestens 2 Interfaces
+- Wenn der Server für Updates neustartet, verliert man sonst das Internet
+- Klare Trennung: Netzinfrastruktur ↔ Services
+
+---
+
 ## Das Grundproblem: CGNAT bei deutschen Kabelanbietern
 
 Praktisch alle deutschen Kabel-ISPs (Vodafone Kabel, Pyur, ...) nutzen heute **DS-Lite**:
-Du bekommst eine echte native IPv6-Adresse, aber IPv4 läuft durch Carrier-Grade NAT (CGNAT).
+Native IPv6 vorhanden, aber IPv4 läuft durch Carrier-Grade NAT (CGNAT).
 Klassisches Port-Forwarding über IPv4 funktioniert damit nicht.
 
-→ Die Lösung ist nicht "besserer Vertrag" suchen, sondern das Setup CGNAT-agnostisch bauen.
+→ Das Setup muss CGNAT-agnostisch funktionieren.
 
 ---
 
@@ -23,145 +42,127 @@ Klassisches Port-Forwarding über IPv4 funktioniert damit nicht.
 
 ### Anbieter-Einschätzung (Coax, Stand 2026)
 
-| Anbieter | IPv4 | Upoad-Max | Notiz |
+| Anbieter | IPv4 | Upload-Max | Notiz |
 |---|---|---|---|
 | **Vodafone Kabel** | DS-Lite by default — explizit DualStack anfragen | 100 Mbit/s (GigaCable Max) | Größtes Netz, explizit nachfragen |
-| **NetCologne** | DualStack, echte IPv4 | 300 Mbit/s | Nur Köln/Bonn/NRW-Raum, empfohlen wenn verfügbar |
+| **NetCologne** | DualStack, echte IPv4 | 300 Mbit/s | Nur Köln/Bonn/NRW-Raum |
 | **M-Net** | DualStack | 100 Mbit/s | Nur Bayern/München |
 | **Pyur** | CGNAT auf vielen Leitungen | 50 Mbit/s | Nicht empfohlen für Homelab |
 | **Wilhelm.tel** | DualStack | 200 Mbit/s | Nur Norderstedt/Hamburg Umland |
 
-> **Tipp:** Beim Anruf direkt fragen "Bekomme ich eine öffentliche IPv4-Adresse (DualStack) oder DS-Lite/CGNAT?". Wenn der Support nicht antworten kann: Abstand nehmen.
+> **Tipp:** Direkt fragen: "Bekomme ich eine öffentliche IPv4-Adresse (DualStack) oder DS-Lite/CGNAT?" — wenn der Support die Frage nicht beantworten kann: Abstand nehmen.
 
 ### Upload ist wichtiger als Download für Nextcloud
 
-Kabel ist asymmetrisch. 1 Gbit/s Download klingt gut, aber wenn du von unterwegs 4K-Fotos in Nextcloud synchst, limitiert der Upload. Ziel: **≥ 50 Mbit/s Upload**, bei Vodafone Kabel bisher max. 100 Mbit/s auf GigaCable Max.
+Kabel ist asymmetrisch. Ziel: **≥ 50 Mbit/s Upload**. Bei Vodafone Kabel derzeit max. 100 Mbit/s auf GigaCable Max.
 
 ---
 
-## Router-Setup
+## Router-Hardware
 
-### Aktuelle Situation
-
-FritzBox 7520 = DOCSIS-Kabelmodem + Router kombiniert. Kein echter Bridge-Mode → bleibt als kombiniertes Gerät erhalten.
-
-### Phase 1 — Sofort einsatzbereit (FritzBox 7520 behalten)
+### Phase 1 — Schnellstart mit vorhandener FritzBox (~80–100 €)
 
 ```
-[Kabel-ISP] → [FritzBox 7520] → [OptiPlex 3090]
-                                 └─ Tailscale
-                                 └─ Port-Freigaben (wenn DualStack)
+[Coax-Dose]
+    ↓
+[FritzBox 6660 Cable oder 6591 Cable]   ← DOCSIS 3.1 + Router in einem Gerät
+    ↓ LAN
+[OptiPlex 3090]
+    └─ Tailscale (Remote-Zugriff)
+    └─ Port-Freigaben in der FritzBox (wenn DualStack)
 ```
 
-Einrichten:
-1. **FritzOS aktualisieren** → auf Version 7.50+ für WireGuard-Support
-2. **MyFRITZ! aktivieren** → kostenloser DynDNS von AVM, automatisch (myfritz.net-Subdomain)
-3. **WireGuard-Server in FritzBox** aktivieren → für direkten VPN-Einwahl (Handy, Laptop)
-4. **Port-Freigaben** eintragen (nur wenn DualStack/echte IPv4):
-   - 443 → OptiPlex (Nextcloud via Caddy)
-   - 8883 → OptiPlex (MQTT/TLS für Companion Watch)
-5. **Tailscale** auf OptiPlex installieren → als primärer Remote-Zugriff (funktioniert auch hinter CGNAT)
+**Empfohlen: FritzBox 6660 Cable** (~100 € neu, ~60–80 € gebraucht)
+- Verbindet sich direkt mit der Coax-Dose (DOCSIS 3.1)
+- Bekannte FritzOS-Oberfläche wie die 7520
+- WireGuard VPN-Server eingebaut (ab FritzOS 7.50)
+- MyFRITZ! DynDNS kostenlos inklusive
+- Eingeschränktes VLAN-Routing (reicht für Phase 1)
 
-**Wenn DS-Lite (kein echtes IPv4):** Tailscale + Hetzner VPS übernehmen, Port-Freigaben entfallen.
+**Alternativ: FritzBox 7520 weiterverwenden** hinter einem reinen DOCSIS-Modem:
+- Separates DOCSIS 3.1 Modem (z.B. ARRIS S33, ~80 €) in Bridge-Mode
+- FritzBox 7520 als Router dahinter ("Internet via LAN"-Modus in FritzOS)
+- Erspart die Anschaffung eines neuen Routers, aber aufwändiger
 
-### Phase 2 — Sauberes Homelab-Netz (optional, ~230 €)
+### Phase 2 — Sauberes Homelab-Netz (~270 €)
 
-FritzBox 7520 kann kein VLAN-Routing. Für saubere Netztrennung (IoT ↔ Server ↔ Heimnetz):
-
-**Neue Hardware:**
+Für VLAN-Trennung (IoT ↔ Server ↔ Heimnetz) braucht man OPNsense:
 
 | Gerät | Modell | Preis | Rolle |
 |---|---|---|---|
-| DOCSIS 3.1 Kabelmodem | ARRIS S33 oder Motorola MB8611 | ~80 € | Nur Modem, echter Bridge-Mode |
+| DOCSIS 3.1 Modem | ARRIS S33 oder Motorola MB8611 | ~80 € | Nur Modem, Bridge-Mode |
 | Router/Firewall | N100 Mini-PC (z.B. Beelink EQ12 Pro) mit OPNsense | ~150 € | Routing, VLANs, Firewall, WireGuard |
 | Managed Switch | Netgear GS308E (8-Port) | ~40 € | VLAN-Verteilung im LAN |
+
+**FritzBox 6660/7520:** dann als reiner WLAN-Access-Point in einem anderen Raum verwenden oder verkaufen.
 
 **Netzwerk-Architektur Phase 2:**
 
 ```
-[Kabel-ISP]
+[Coax-Dose]
     ↓
-[DOCSIS-Modem] ← Bridge-Mode, reine Umwandlung Coax→Ethernet
-    ↓ öffentliche IPv4 (bei DualStack) oder IPv6-native (bei DS-Lite)
-[OPNsense Box]
+[DOCSIS 3.1 Modem] ← Bridge-Mode, reine Umwandlung Coax→Ethernet
+    ↓
+[OPNsense Box (N100)]
     ├─ VLAN 10: Heimnetz  (192.168.10.0/24) ← PCs, Handys, Piano-Display (RPi)
     ├─ VLAN 20: Server    (192.168.20.0/24) ← OptiPlex 3090
     └─ VLAN 30: IoT       (192.168.30.0/24) ← ESP32 (Companion Watch, Bewässerung)
-          ↕ Firewall-Regel: IoT → MQTT auf Server erlaubt, alles andere blockiert
-[Managed Switch] ← verteilt VLAN-Tags auf Ports
-[WiFi AP] ← separater AP mit SSID pro VLAN (oder FritzBox als reiner AP im VLAN)
+          ↕ Firewall-Regel: IoT darf nur MQTT auf Server, nichts sonst
+[Netgear GS308E] ← verteilt VLAN-Tags auf Ports
+[FritzBox 6660 als AP] ← WLAN pro SSID/VLAN (optional)
 ```
 
-**Warum VLANs:** IoT-Geräte (ESP32s) haben begrenzte Sicherheits-Updates. VLANs verhindern, dass ein kompromittierter ESP32 deinen Heimnetz-Traffic sehen kann. Server-VLAN isoliert den OptiPlex vom Heimnetz.
+**Warum VLANs:** ESP32-Geräte bekommen selten Sicherheits-Updates. VLANs verhindern, dass ein kompromittierter ESP32 Heimnetz-Traffic sehen kann.
 
 ---
 
-## Remote-Zugriff — Entscheidungsbaum
+## Remote-Zugriff
 
 ```
-Willst du von außen auf Nextcloud/HA/SSH zugreifen?
-    ↓
-    → Tailscale auf OptiPlex installieren.
-      Fertig. Läuft hinter CGNAT, hinter doppeltem NAT, überall.
-      Keine offene Ports. Kein DynDNS nötig.
+Zugriff von außen auf Nextcloud / HA / SSH?
+    → Tailscale auf OptiPlex.
+      Läuft hinter CGNAT, hinter doppeltem NAT, überall.
+      Keine offenen Ports, kein DynDNS nötig.
 
-Zusätzlich: Companion Watch braucht MQTT von unterwegs?
-    ↓
+Companion Watch (ESP32) braucht MQTT von unterwegs?
     → ESP32 kann kein Tailscale.
-      Lösung: Hetzner VPS als Relay.
+      Lösung: Hetzner VPS als Relay (4 €/Monat).
 
-Willst du Nextcloud-Links mit anderen teilen (ohne VPN)?
-    ↓
-    → Auch über Hetzner VPS, oder:
-      Bei DualStack: Port 443 auf FritzBox freigeben + Caddy auf OptiPlex.
+Nextcloud-Links mit anderen teilen (ohne VPN)?
+    → Über Hetzner VPS.
+      Oder bei DualStack: Port 443 im Router freigeben + Caddy auf OptiPlex.
 ```
 
 ---
 
 ## Hetzner VPS als Relay (4 €/Monat)
 
-Für alles was öffentlich erreichbar sein muss ohne Tailscale-Client (ESP32, externe Shares).
-
-**Setup:**
+Für alles was ohne Tailscale-Client erreichbar sein muss (ESP32, öffentliche Links).
 
 ```
-[Hetzner CX22 VPS] ← feste public IPv4
+[Hetzner CX22]  ← feste public IPv4
     ├─ Caddy (Reverse Proxy, automatisch HTTPS)
-    ├─ WireGuard (Tunnel zum OptiPlex)
-    └─ MQTT-Port 8883 (TLS) → weiterleiten an OptiPlex via WireGuard
-
-[OptiPlex 3090]
-    └─ WireGuard Client → Verbindung zum VPS aufrecht halten
-       (funktioniert auch hinter CGNAT, da outbound-initiated)
+    ├─ WireGuard-Tunnel → OptiPlex (outbound-initiated, klappt hinter CGNAT)
+    └─ Port 8883 (MQTT/TLS) → durchleiten via WireGuard an Mosquitto auf OptiPlex
 ```
 
-**Was läuft über den VPS:**
-- MQTT/TLS (Port 8883) → für Companion Watch und Bewässerung wenn unterwegs
-- Nextcloud public share links (optional)
-- Kein Video-Streaming über VPS (Bandbreiten-Limit, nur 20 TB/Monat inkl. auf CX22)
-
-**Was läuft direkt über Tailscale (nicht über VPS):**
-- Alle persönlichen Nextcloud-Zugriffe
-- Home Assistant
-- n8n, AdGuard Admin
-- SSH, alle Admin-Interfaces
-
-**Gesamtkosten: ~4 €/Monat** (Hetzner CX22)
+**Über VPS:** MQTT für ESP32-Projekte, optionale Nextcloud-Shares
+**Über Tailscale direkt:** eigener Nextcloud-Zugriff, HA, n8n, SSH, alle Admin-UIs
+**Nicht über VPS:** Video-Streaming (CX22 hat 20 TB/Monat — reicht, aber kein CDN)
 
 ---
 
 ## AdGuard Home als Netz-DNS
 
-AdGuard Home läuft im Docker auf dem OptiPlex und ist DNS für alle Netzgeräte:
-- Im Router/DHCP: DNS-Server → `192.168.20.X` (OptiPlex Server-VLAN-IP)
-- Alle Geräte im Netz nutzen damit den lokalen Blocker
-- Upstream: Cloudflare 1.1.1.1 (DoH) oder Quad9
+Läuft im Docker auf dem OptiPlex. Im Router/DHCP als DNS-Server eintragen → alle Netzgeräte nutzen automatisch den lokalen Blocker.
 
 ---
 
 ## Offene Punkte (Netzwerk)
 
-- [ ] Vertrag: DualStack vs. DS-Lite beim neuen Anbieter klären und dokumentieren
-- [ ] Phase 1 umsetzen: MyFRITZ + WireGuard auf FritzBox, Tailscale auf OptiPlex
-- [ ] Hetzner VPS aufsetzen sobald Companion Watch MQTT braucht
-- [ ] Phase 2 Hardware kaufen wenn VLAN-Bedarf konkret wird (frühestens wenn IoT-Projekte laufen)
+- [ ] Vertrag abschließen: DualStack (echte IPv4) vs. DS-Lite beim Anbieter bestätigen
+- [ ] Hardware kaufen: FritzBox 6660 Cable (Phase 1) oder direkt DOCSIS-Modem + OPNsense (Phase 2)
+- [ ] FritzBox 7520 Verwendung klären: AP behalten oder verkaufen
+- [ ] Tailscale auf OptiPlex einrichten nach Linux-Installation
+- [ ] Hetzner VPS aufsetzen sobald Companion Watch MQTT von außen braucht
+- [ ] Phase 2 Hardware wenn IoT-Projekte konkret werden

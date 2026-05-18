@@ -199,7 +199,7 @@ Details in [`netzwerk.md`](netzwerk.md) — hier die Kurzfassung:
 - **Cloudflare Tunnel:** nicht empfohlen — 100 MB Upload-Limit, keine UDP-Unterstützung, ToS-Grauzone bei Video
 
 **Vertrag:** beim neuen Anbieter explizit nach "DualStack (echte IPv4, kein CGNAT)" fragen. Checkliste in `netzwerk.md`.
-**Router:** FritzBox 7520 für Phase 1 ausreichend (WireGuard ab FritzOS 7.50 an Bord). Phase 2: separates DOCSIS-Modem + OPNsense-Box für VLANs.
+**Router:** FritzBox 7520 ist ein DSL-Router (kein DOCSIS/Kabel). Für Coax-Anschluss: FritzBox 6660 Cable als Phase-1-Ersatz (~80€ gebraucht), oder separates DOCSIS-Modem + OPNsense-Box für Phase 2. Details in `netzwerk.md`.
 
 ---
 
