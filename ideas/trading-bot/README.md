@@ -185,7 +185,7 @@ ibkr:
 
 Der Bot läuft permanent auf einem dedizierten Heimserver — nicht auf dem Haupt-Rechner.
 
-**Hardware:** Dell OptiPlex 3090 — i5-10500T, 16GB DDR4, 256GB SSD, Windows 11
+**Hardware:** Dell OptiPlex 3090 — i5-10500T, 16GB DDR4, 256GB SSD, Ubuntu 24.04 LTS
 
 | Aspekt | Bewertung |
 |---|---|
@@ -195,7 +195,7 @@ Der Bot läuft permanent auf einem dedizierten Heimserver — nicht auf dem Haup
 | FinBERT auf CPU | Funktioniert problemlos für stündliche Batch-Analyse |
 | Externes Reasoning-API | Kein RAM-Problem, da API-Call statt lokalem Modell |
 
-**Bot-Start via Windows Task Scheduler** — automatisch starten zu Marktöffnung, beenden nach Marktschluss:
+**Bot-Start via systemd-Timer** — automatisch starten zu Marktöffnung, beenden nach Marktschluss:
 - XETRA/Euronext: 09:00–17:30 Uhr
 - NASDAQ: 15:30–22:00 Uhr
 

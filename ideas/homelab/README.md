@@ -68,7 +68,7 @@ Die Wahl der DE ist **reine Geschmackssache** — alle drei laufen identisch sta
 | Rolle | Lösung | Status |
 |---|---|---|
 | Emulation (bis PS2) | PCSX2, RetroArch | geplant |
-| Lokale Cloud | Nextcloud | geplant |
+| Persönliche Cloud | Nextcloud | geplant |
 | DNS-Werbeblocker | AdGuard Home | geplant |
 | Heimautomatisierung | Home Assistant | geplant |
 | IoT-Endpunkt | Mosquitto MQTT | geplant |
@@ -154,20 +154,52 @@ Mosquitto als zentraler Broker für alle ESP32-Projekte aus diesem Repo:
 | OS + Desktop | ~15–20 GB |
 | Docker Volumes (alle Dienste) | ~20–40 GB |
 | PS2-ROMs | 1–4 GB pro Spiel |
-| Nextcloud-Daten | wächst |
+| Nextcloud-Daten | wächst (Fotos, Dokumente, Backups) |
 | Trading Bot Logs | minimal |
 
-**Erweiterung:** 2,5"-SATA-Fach im OptiPlex 3090 intern verfügbar → günstige 1–2 TB HDD oder SSD einbauen. Alternativ USB 3.0 HDD extern.
+**Erweiterung:** 2,5"-SATA-Fach im OptiPlex 3090 intern verfügbar → **2 TB Samsung 870 EVO (~70 €) empfohlen**, dediziert für Nextcloud-Daten.
 
 **Backup:** 3-2-1-Regel — mindestens eine Kopie extern (Backblaze B2 via `rclone` empfohlen)
 
 ---
 
+## Persönliche Cloud (Nextcloud)
+
+Ersetzt Google Drive / iCloud für Fotos, Dokumente, Kontakte, Kalender.
+
+**Scope:** primär persönlicher Gebrauch, maximal 2 weitere Nutzer.
+
+| Feature | Nextcloud-Lösung |
+|---|---|
+| Fotos (automatischer Sync vom Handy) | Nextcloud Android/iOS App → auto-upload |
+| Dokumente / Dateien | WebDAV-Mount oder App |
+| Kalender-Sync | CalDAV (Nextcloud Calendar App) |
+| Kontakte-Sync | CardDAV (Nextcloud Contacts App) |
+| Öffentliche Share-Links | ja — für gelegentliches Teilen mit anderen |
+
+**Zugriff von unterwegs:** über Tailscale (kein offener Port nötig). Nextcloud-App auf Android/iOS unterstützt VPN-Zugriff nativ.
+
+**Storage-Empfehlung:** 2 TB interne SSD für Nextcloud-Volume. Fotos von modernen Handys: ~5 MB/Foto → 2 TB ≈ 400.000 Fotos. Für 1–3 Personen jahrelang ausreichend.
+
+**Externes Backup der Nextcloud-Daten:**
+```
+rclone sync /nextcloud-data backblaze:mein-bucket --progress
+```
+Backblaze B2: ~6 $/TB/Monat. Bei 100 GB = ~0,60 $/Monat.
+
+---
+
 ## Netzwerk & Remote-Zugriff
 
+Details in [`netzwerk.md`](netzwerk.md) — hier die Kurzfassung:
+
 - **LAN:** Gigabit-Kabel bevorzugt (stabiler als WLAN für Dauerbetrieb)
-- **SSH:** direkt im lokalen Netz, kein Extra-Setup nötig
-- **Von außen:** Cloudflare Tunnel (einfach, kostenlos) oder WireGuard VPN ins Heimnetz
+- **SSH & private Dienste von außen:** Tailscale auf OptiPlex — funktioniert auch hinter CGNAT, kein offener Port nötig
+- **Companion Watch / IoT-MQTT von außen:** Hetzner VPS (~4 €/Monat) als Relay + WireGuard-Tunnel zum OptiPlex
+- **Cloudflare Tunnel:** nicht empfohlen — 100 MB Upload-Limit, keine UDP-Unterstützung, ToS-Grauzone bei Video
+
+**Vertrag:** beim neuen Anbieter explizit nach "DualStack (echte IPv4, kein CGNAT)" fragen. Checkliste in `netzwerk.md`.
+**Router:** FritzBox 7520 für Phase 1 ausreichend (WireGuard ab FritzOS 7.50 an Bord). Phase 2: separates DOCSIS-Modem + OPNsense-Box für VLANs.
 
 ---
 
@@ -213,7 +245,7 @@ Realistische Einbußen: **keine spürbaren.** USB 3.0 Gigabit Adapter erreicht ~
 ## Offene Fragen
 
 - [ ] **Desktop-Umgebung**: GNOME, KDE Plasma oder XFCE? → ausprobieren
-- [ ] **Externer Speicher**: interne 2,5"-HDD/SSD oder externe USB-Lösung?
-- [ ] **Remote-Zugriff**: Cloudflare Tunnel oder WireGuard VPN?
-- [ ] **Netzwerk**: Gigabit LAN zum Router vorhanden oder WLAN?
-- [ ] **Nextcloud vs. Syncthing**: Nextcloud (vollwertige Cloud) oder Syncthing (simpler Sync)?
+- [ ] **Interner Speicher**: 2 TB Samsung 870 EVO ins 2,5"-SATA-Fach einbauen (Nextcloud-Daten)
+- [ ] **Netzwerk**: Gigabit LAN-Kabel zum Router legen (USB 3.0 LAN-Adapter bereits geplant)
+- [ ] **Vertrag**: DualStack (echte IPv4) beim neuen Anbieter bestätigen lassen → Checkliste in `netzwerk.md`
+- [ ] **Hetzner VPS**: aufsetzen sobald Companion Watch MQTT von außen braucht
