@@ -410,6 +410,55 @@ Die Artikelliste zeigt **DisplayPort + VGA** — kein HDMI. Standard-Spezifikati
 
 ---
 
+## Gastzugang für Kollegen (Trading Bot)
+
+Sicherer Zugang für eine Vertrauensperson die nur am Trading Bot arbeiten soll — kein Zugang zu anderen Diensten, kein sudo auf das System.
+
+### Voraussetzung: Tailscale
+
+Kollege installiert Tailscale, du lädst ihn per E-Mail ins Tailnet ein. Er erreicht den OptiPlex dann über die Tailscale-IP — keine offenen Ports, kein VPN-Gebastel.
+
+### Einrichtung
+
+```bash
+# 1. Dedizierter User anlegen
+sudo useradd -m -s /bin/bash kollege
+sudo passwd kollege
+
+# 2. SSH-Key des Kollegen hinterlegen
+sudo mkdir -p /home/kollege/.ssh
+sudo nano /home/kollege/.ssh/authorized_keys
+# → Public Key des Kollegen einfügen
+sudo chown -R kollege:kollege /home/kollege/.ssh
+sudo chmod 700 /home/kollege/.ssh
+
+# 3. Sudoers-Regel — nur Bot-spezifische Docker-Befehle erlaubt
+sudo nano /etc/sudoers.d/kollege
+```
+
+```
+kollege ALL=(ALL) NOPASSWD: /usr/bin/docker restart trading-bot
+kollege ALL=(ALL) NOPASSWD: /usr/bin/docker logs trading-bot
+kollege ALL=(ALL) NOPASSWD: /usr/bin/docker compose -f /home/kollege/trading-bot/docker-compose.yml up -d
+kollege ALL=(ALL) NOPASSWD: /usr/bin/docker compose -f /home/kollege/trading-bot/docker-compose.yml down
+```
+
+### Was der Kollege dann tun kann
+
+```bash
+# Neue Bot-Version hochladen
+scp bot.py kollege@100.x.x.x:~/trading-bot/
+
+# Einloggen und Bot neustarten
+ssh kollege@100.x.x.x
+sudo docker restart trading-bot
+sudo docker logs trading-bot
+```
+
+Er sieht nur sein Home-Verzeichnis und kann nur den Trading-Bot-Container steuern. Alle anderen Container (Jellyfin, Nextcloud, AdGuard etc.) und das restliche Dateisystem sind für ihn nicht erreichbar.
+
+---
+
 ## Offene Fragen
 
 - [ ] **Desktop-Umgebung**: GNOME, KDE Plasma oder XFCE? → ausprobieren
