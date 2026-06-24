@@ -11,9 +11,16 @@ Kompakter Heimserver auf Basis eines Dell OptiPlex 3090, der gleichzeitig mehrer
 **Dell OptiPlex 3090 Micro**
 - CPU: Intel Core i5-10500T (6 Kerne / 12 Threads, 3,8 GHz Boost, **35W TDP**)
 - iGPU: Intel UHD 630 — unterstützt Intel Quick Sync (H.264 + H.265/HEVC hardware-beschleunigt)
-- RAM: 16 GB DDR4
-- Storage: 256 GB SSD (intern, M.2) + 2,5"-SATA-Fach frei für Erweiterung
+- RAM: 16 GB DDR4 (2 SODIMM-Slots, max. 64 GB — siehe RAM-Abschnitt)
+- Storage: 256 GB SSD (intern, M.2 NVMe) + freier 2,5"-SATA-Schacht (7mm) für Erweiterung
 - OS: Windows 11 (vorinstalliert) → wird ersetzt durch Linux
+
+**Storage-Slots des 3090 Micro (laut Dell Service Manual):**
+- **1× M.2-Slot** (2230/2280, PCIe NVMe) — belegt von der 256-GB-OS-SSD. Das ist der **einzige** nutzbare SSD-Slot.
+- **1× M.2-Slot 2230** — **nur für die WLAN/BT-Karte**, nicht für SSDs nutzbar.
+- **1× 2,5"-SATA-Schacht** (7mm, CMR-HDD oder SSD) — die einzige freie Erweiterungsmöglichkeit. Braucht einen Caddy/Rahmen (Dell-Teil 0HTR70), der bei manchen Konfigurationen fehlt (~5–15 € Drittanbieter).
+
+> Eine zweite NVMe ist also **nicht** möglich (nur ein SSD-M.2-Slot, belegt vom OS). Für die Speicher-Strategie heißt das: Erweiterung läuft über USB (extern), nicht intern — siehe Abschnitt **Speicher**.
 
 Die T-Variante des i5-10500T ist explizit für Dauerbetrieb ausgelegt — niedrige Leistungsaufnahme, leise, thermisch stabil.
 
@@ -61,6 +68,18 @@ Die Wahl der DE ist **reine Geschmackssache** — alle drei laufen identisch sta
 | **Gesamt** | **~7–8 GB** |
 
 16 GB bieten selbst im Worst Case über 50% freien Headroom. Auch `papagei-llm` lokal zu betreiben wäre theoretisch möglich (je nach Modellgröße 4–12 GB zusätzlich).
+
+### Upgrade auf 32 GB? — nur fürs lokale LLM
+
+Der 3090 Micro hat **genau 2 SODIMM-Slots** (DDR4-2666/2933, max. 64 GB). **Ein 4-Riegel-Setup gibt es hier nicht** — 32 GB heißt immer **2× 16 GB**, nicht 4 Module (das wäre ein Tower/Desktop mit 4 DIMM-Slots).
+
+- **Für den dokumentierten Stack reichen 16 GB locker** (~7–8 GB Worst Case). Kein Upgrade nötig.
+- **32 GB lohnt nur**, wenn du `papagei-llm` lokal laufen lassen willst — dann braucht das Modell echten Puffer neben allem anderen.
+- Kosten: ~40–60 € für 2× 16 GB (DDR4-Preise sind 2025/26 gestiegen — vorher prüfen).
+- **Vorher checken**, ob die 16 GB als 1× 16 oder 2× 8 verbaut sind (`sudo dmidecode -t memory`):
+  - 1× 16 → ein Slot frei, einfach 1× 16 dazustecken = 32 GB (Dual-Channel ✓).
+  - 2× 8 → beide Slots voll, beide gegen 2× 16 tauschen.
+- **Dual-Channel** (2 Riegel) ist relevant, weil die iGPU (UHD 630) sich den RAM teilt — bringt für Jellyfin-Transcoding & Emulation mehr Grafikbandbreite.
 
 ---
 
@@ -111,19 +130,28 @@ Alle Server-Dienste in Docker → einfaches Update, saubere Isolation, einheitli
 
 ### Konzept
 
-Jellyfin läuft als Medienserver im Docker. Filme und Serien liegen auf der externen HDD, Jellyfin indexiert alles automatisch mit Postern, Metadaten und Untertiteln. Streaming auf beliebige Geräte im Heimnetz — oder über Tailscale von unterwegs. Samba macht denselben Speicher als klassisches Netzlaufwerk zugänglich.
+Jellyfin läuft als Medienserver im Docker. Filme und Serien liegen auf der externen 8-TB-USB-HDD (zusammen mit den ROMs), Jellyfin indexiert alles automatisch mit Postern, Metadaten und Untertiteln. Streaming auf beliebige Geräte im Heimnetz — oder über Tailscale von unterwegs. Samba macht denselben Speicher als klassisches Netzlaufwerk zugänglich.
 
 ### Video-Format: H.265 (HEVC) — immer
 
 H.265 spart ~50% Speicher gegenüber H.264 bei gleicher Qualität. Praktisch alle relevanten Abspielgeräte der letzten ~10 Jahre unterstützen es nativ.
 
-**Dateigrößen (H.265, 1080p):**
+**Zielauflösung: 1080p (Full HD) H.265 für alles.** Reicht für Handys, Tablets und selbst Mittelklasse-Smart-TVs locker — auf kleinen Displays ist der Unterschied zu 4K nicht sichtbar, und moderne TVs upscalen 1080p sauber. 4K nur als Ausnahme für einzelne Lieblingsfilme am großen TV (Direct Play, kein Upload nötig).
+
+> **Native Auflösung, kein Upscaling.** Existiert eine Quelle nur in 720p, wird sie auch in **720p H.265** kodiert — Hochskalieren auf 1080p erfindet keine Details, macht die Datei nur größer. Jellyfin spielt gemischte Auflösungen problemlos.
+
+**Dateigrößen (H.265):**
 | Inhalt | Größe |
 |---|---|
-| Spielfilm (2h) | ~2–6 GB |
-| Serienstaffel (10 × 45 min) | ~5–15 GB |
-| Planungswert | ~3 GB/Film |
-| **4 TB Festplatte** | **~1.000–1.300 Filme** |
+| Spielfilm 1080p (2h) | ~3–5 GB |
+| Spielfilm 720p (2h, ältere Quellen) | ~1,5–2,5 GB |
+| Serien-Episode 1080p (45 min) | ~0,7–1,5 GB |
+| Serienstaffel 1080p (10 Folgen) | ~7–15 GB |
+| Komplette Serie 1080p (5 Staffeln) | ~35–75 GB |
+| Planungswert | ~4 GB/Film |
+| **8 TB Festplatte (abzgl. ~1 TB ROMs)** | **~1.700+ Filme** |
+
+> Eine 8-TB-Platte füllst du mit einer persönlichen Sammlung praktisch nie — bewusst großzügig dimensioniert, damit dauerhaft Ruhe ist. 4K würde die Dateien ~5–8× aufblähen und die Kapazität schnell fressen.
 
 **H.265-Kompatibilität moderner Geräte:**
 | Gerät | H.265 ab |
@@ -277,22 +305,26 @@ Mosquitto als zentraler Broker für alle ESP32-Projekte aus diesem Repo:
 
 ## Speicher
 
-**Saubere Aufteilung nach Funktion:**
+**Aufteilung nach Ersetzbarkeit** (statt nach Funktion — das ist der Schlüssel für die Backup-Frage):
 
-| Speicher | Verwendung |
-|---|---|
-| 256 GB M.2 SSD (intern) | Ubuntu + Docker-Volumes + alle Dienste |
-| **1–2 TB 2,5" HDD intern** | ROMs (alle Systeme) + Nextcloud-Daten |
-| **4 TB USB 3.0 HDD extern** | Filmbibliothek (Jellyfin) |
-| USB-Stick | Wirklich unersetzliche Dateien (Passwörter, wichtige Dokumente) |
+| Speicher | Verwendung | Ersetzbar? |
+|---|---|---|
+| 256 GB M.2 SSD (intern, vorhanden) | Ubuntu + Docker-Volumes + alle Dienste + **Nextcloud-Daten (50–100 GB)** | OS ja, Nextcloud **nein** → Backup |
+| **8 TB USB 3.0 HDD extern** | Filmbibliothek (Jellyfin) **+ ROMs** (alle Systeme) | ja (neu rippbar/dumpbar) |
+| USB-Stick | Nextcloud-Backup + Passwörter, wichtige Dokumente | unersetzlich → offline |
 
-> **Warum 2,5"-SATA für ROMs und nicht für Filme?** 2,5"-HDDs sind auf max. 2 TB (CMR) limitiert — zu klein für die Filmbibliothek. Für ROMs reicht 1 TB locker. 4-TB-Modelle in 2,5" gibt es nur mit SMR und 15mm Bauhöhe, die nicht in den OptiPlex-Schacht passt.
+> **Warum keine interne Zusatzplatte mehr?** Frühere Planung: interne 2,5"-HDD für ROMs + Nextcloud. Drei Gründe dagegen:
+> 1. **Nur ein 2,5"-Schacht, gedeckelt bei 2 TB CMR** (7mm). Interne 2,5"-Platten sind außerdem zu einem Nischenprodukt geworden und absurd teuer (~94–150 € für 2 TB).
+> 2. **Nextcloud passt auf die SSD.** Bei 50–100 GB (eigene Bilder/Dateien) liegt es zuverlässig auf der internen SSD — schnelle Sync, kein extra Bauteil.
+> 3. **ROMs sind Bulk + ersetzbar** → gehören zu den Filmen auf die günstige externe 3,5"-Platte. Pro TB ist extern 2–3× billiger als intern.
+>
+> Ergebnis: **eine** externe 8-TB-Platte deckt Filme + ROMs ab, der 2,5"-Schacht bleibt leer (Reserve).
 
-### ROMs auf HDD: kein Geschwindigkeitsproblem
+### ROMs auf HDD: kein Geschwindigkeitsproblem (SSD wäre Overkill)
 
-Emulatoren laden Spiele beim Start komplett in den RAM. Die HDD-Geschwindigkeit betrifft nur die Ladezeit, nicht das Gameplay.
+Emulatoren laden Spiele beim Start komplett in den RAM. Die HDD-Geschwindigkeit betrifft nur die Ladezeit, nicht das Gameplay. Eine SSD bringt hier **keinen** spürbaren Vorteil — für ROMs ist eine HDD die richtige, günstige Wahl.
 
-Zum Vergleich: die originale PS2-DVD las mit maximal ~5,4 MB/s — eine 2,5"-HDD liest mit ~80–120 MB/s, also 15–20× schneller. Es gibt keine Emulations-Generation, bei der HDD-Geschwindigkeit ein Problem wäre.
+Zum Vergleich: die originale PS2-DVD las mit maximal ~5,4 MB/s — eine 3,5"-USB-HDD liest mit ~120–180 MB/s, also 20–30× schneller. Es gibt keine Emulations-Generation, bei der HDD-Geschwindigkeit ein Problem wäre. (Die ROMs liegen mit auf der externen 8-TB-Platte, USB-Autosuspend muss dafür aus sein — siehe unten.)
 
 **Größenabschätzung ROMs (persönliche Sammlung):**
 
@@ -304,9 +336,26 @@ Zum Vergleich: die originale PS2-DVD las mit maximal ~5,4 MB/s — eine 2,5"-HDD
 | PS1 | 600–700 MB | ~35 GB |
 | PS2 | 2–8 GB | ~200–400 GB |
 
-Eine **1 TB interne HDD** reicht für eine persönliche Sammlung über alle Systeme. Mit 2 TB ist man auf lange Zeit sicher.
+Etwa **1 TB** reicht für eine persönliche Sammlung über alle Systeme — auf der 8-TB-Platte ist das problemlos mit drin, der Rest gehört den Filmen.
 
-### Filmbibliothek auf externer USB HDD: kein Geschwindigkeitsproblem
+### Die externe Platte: WD Elements Desktop 8 TB
+
+**Empfehlung: WD Elements Desktop 8 TB (WDBWLG0080HBK), ~208 €.** Recherchiert und bewusst gewählt:
+
+| Kriterium | WD Elements 8 TB | Warum wichtig |
+|---|---|---|
+| **CMR** (kein SMR) | ✅ HGST Ultrastar He8 intern | s. SMR-Hinweis unten |
+| **Keine Hardware-Verschlüsselung** | ✅ (USB-3.0-Version) | bei Gehäuse-Defekt Platte einfach woanders auslesbar |
+| Eigenes Netzteil (3,5" Desktop) | ✅ | keine Last/Disconnect wie bei bus-powered 2,5" |
+| Kapazitätsgrenze über USB | keine | 3,5" hat die 2-TB-CMR-Grenze der 2,5"-Platten nicht |
+
+> **Warum 8 TB statt 4 TB?** 4-TB-Externe sind ausnahmslos **SMR** und teils sogar **teurer** (WD 4 TB ~252 €!) als die 8-TB-CMR. Der einzige günstige 4-TB-Tipp (Seagate ~120–145 €) ist SMR und spart nur ~60–80 € bei halber Kapazität. Also direkt zur 8-TB-CMR — bessere Technik, doppelter Platz, kaum Aufpreis.
+
+> **Warum SMR hier doof wäre:** SMR schreibt Spuren überlappend (wie Dachschindeln). Lesen ist gleich schnell, aber beim **Schreiben großer Mengen am Stück** (Filmsammlung/ROMs draufkopieren) bricht die Rate ein, sobald der Cache voll ist (~100–200 GB → dann 30–60 statt 150–200 MB/s). Und **parallel lesen + schreiben** (Jellyfin streamt, während archiviert wird) lässt SMR stottern. CMR bleibt durchgehend schnell. Da 8 TB ohnehin nur als CMR sinnvoll ist, umgeht man das Problem gratis.
+
+> **Finger weg von WD My Book / Easystore:** Die haben eine AES-Hardware-Verschlüsselung fest im USB-Chip — stirbt der Controller, sind die Daten **unwiederbringlich** verloren, selbst für Profi-Datenrettung. WD Elements hat diesen Chip nicht.
+
+### Filmbibliothek: kein Geschwindigkeitsproblem
 
 Die USB 3.0-Verbindung ist nicht der Flaschenhals — die HDD selbst ist es, und sie ist trotzdem mehr als schnell genug:
 
@@ -316,25 +365,28 @@ Die USB 3.0-Verbindung ist nicht der Flaschenhals — die HDD selbst ist es, und
 | 1080p H.265 Stream | ~5–15 MB/s |
 | 3 gleichzeitige Streams | ~45 MB/s → HDD schafft das 3–4× über |
 
-Einziger USB-Hinweis: USB-Autosuspend für Speicher in Ubuntu deaktivieren, damit die Platte sich nicht unerwartet trennt.
+### Linux-Setup der externen Platte (24/7-Pflicht)
 
-**HDD-Parken deaktivieren** (wichtig für 24/7-Betrieb):
-```bash
-hdparm -S 0 /dev/sdX
-```
-Ohne diese Einstellung akkumuliert die HDD tausende unnötige Start/Stop-Zyklen pro Jahr.
+1. **Auf ext4 formatieren** (nicht das Werks-NTFS/exFAT) — Journaling schützt bei Stromausfall, kein 4-GB-Dateilimit, saubere Linux-Rechte für Jellyfin/Samba. Samba teilt ext4 problemlos.
+2. **Per UUID in `/etc/fstab` mit Option `nofail`** einbinden — so bootet der Server auch, wenn die Platte mal nicht dranhängt.
+3. **USB-Autosuspend hart deaktivieren** — in `/etc/default/grub` den Kernel-Parameter `usbcore.autosuspend=-1` ergänzen, dann `sudo update-grub` + Neustart. Sonst drohen I/O-Fehler / spontanes Unmount im Dauerbetrieb.
+4. **HDD-Parken deaktivieren** (gegen unnötige Start/Stop-Zyklen):
+   ```bash
+   hdparm -S 0 /dev/sdX
+   ```
+5. **Kabel/Port:** Standard-USB-3.0-Micro-B-Kabel liegt bei, kommt in einen USB-A-Port am OptiPlex (kein Spezialkabel, kein ungepowerter Hub). HDD-Tempo liegt weit unter USB-3.0-Bandbreite → kein Flaschenhals.
 
 ### Backup-Strategie
 
-Keine zweite identische HDD nötig — die Filmbibliothek kann im Worst Case neu gerippt werden. Stattdessen:
+Backup nur für das **Unersetzliche** — Filme und ROMs sind ersetzbar (neu rippbar/dumpbar), nur die Nextcloud-Daten sind es nicht:
 
 | Was | Backup wie |
 |---|---|
-| Filmbibliothek (4 TB extern) | kein separates Backup — neu rippbar |
-| ROMs + Nextcloud-Daten (intern) | USB-Stick als Kopie der wirklich wichtigen Sachen |
+| Filmbibliothek + ROMs (8 TB extern) | kein separates Backup — neu rippbar/dumpbar |
+| **Nextcloud-Daten (auf SSD, 50–100 GB)** | USB-Stick (oder kleine externe SSD) als Kopie |
 | Dokumente / Passwörter | USB-Stick, räumlich getrennt aufbewahren |
 
-Wer doch ein vollständiges Backup will: zweite externe HDD + automatisches `rsync` per systemd-Timer reicht vollkommen — keine Cloud nötig.
+Da Nextcloud nur 50–100 GB groß ist, reicht ein **128–256-GB-USB-Stick** als Backup-Ziel locker — die teure zweite Platte braucht es nicht. Wer doch ein vollständiges, automatisches Backup will: zweite externe HDD + `rsync` per systemd-Timer reicht vollkommen — keine Cloud nötig.
 
 ---
 
@@ -356,10 +408,15 @@ Tailscale erstellt ein privates WireGuard-Mesh-Netzwerk zwischen eigenen Geräte
 
 ### Streaming von außerhalb — Upload-Bedarf
 
-| Qualität | Upload pro Stream |
-|---|---|
-| 1080p H.265 | ~5–15 Mbit/s |
-| 1080p H.264 | ~8–25 Mbit/s |
+**Vorhandener Upload zu Hause: 50 Mbit/s** — komfortabel überdurchschnittlich.
+
+| Qualität | Upload pro Stream | Bei 50 Mbit/s |
+|---|---|---|
+| 1080p H.265 | ~5–15 Mbit/s | ✅ **3–4 gleichzeitige** Streams von außen |
+| 1080p H.264 | ~8–25 Mbit/s | ✅ 2–3 gleichzeitig |
+| 4K H.265 | ~25–40 Mbit/s | ⚠️ **ein** Stream machbar, aber selten nötig |
+
+Heißt: Für 1080p (das Zielformat) reicht der Upload locker — auch wenn mehrere Personen gleichzeitig von außen schauen. 4K von unterwegs lohnt nicht (am Handy/Tablet nicht sichtbar, große Dateien, Transcoding-Last).
 
 Im Heimnetz: kein Internet-Upload nötig — alles läuft lokal.
 
@@ -390,11 +447,18 @@ Im Heimnetz: kein Internet-Upload nötig — alles läuft lokal.
 | Was | Warum | ~Kosten |
 |---|---|---|
 | USB 3.0 Gigabit LAN-Adapter | Nativer Port defekt | ~15 € |
-| **2 TB 2,5" HDD intern** (WD Blue WD20SPZX oder Seagate ST2000LM015 — beide 7mm CMR) | ROMs + Nextcloud-Daten | ~40–50 € |
-| **4 TB USB 3.0 HDD extern** | Filmbibliothek (Jellyfin) | ~80–100 € |
+| **8 TB USB 3.0 HDD extern** — WD Elements Desktop (WDBWLG0080HBK), CMR, ohne Encryption-Bridge | Filme (Jellyfin) **+ ROMs** | ~208 € |
 | **Externes USB Blu-ray-Laufwerk** | Discs rippen mit MakeMKV | ~60–80 € |
-| USB-Stick (32–64 GB) | Backup wichtiger Dateien | ~10–15 € |
+| USB-Stick (128–256 GB) | Nextcloud-Backup + wichtige Dateien | ~15–25 € |
 | **Gamepad** — 8BitDo Pro 2 (SNES-Layout, 2D-Fokus) oder Ultimate 2 (Xbox-Layout, Analog-Fokus) | Emulation | ~45–60 € |
+
+> **Bewusst nicht gekauft:**
+> - *Interne 2,5"-HDD* — überteuert (~94–150 € für 2 TB) und überflüssig, da Nextcloud auf die SSD passt und ROMs auf die externe Platte gehen.
+> - *4-TB-Externe* — lohnt nicht: ausnahmslos SMR, teils teurer als die 8-TB-CMR. Direkt 8 TB nehmen.
+>
+> **Optional (nur bei Bedarf):**
+> - *2× 16 GB DDR4 SODIMM* (~40–60 €) — nur falls `papagei-llm` lokal laufen soll. Für den Standard-Stack reichen die 16 GB. Kein 4-Riegel-Setup möglich (nur 2 Slots).
+> - *2,5"-Caddy 0HTR70* (~5–15 €) — nur falls der Schacht später doch genutzt wird und der Rahmen fehlt.
 
 ### Display-Anschluss
 
