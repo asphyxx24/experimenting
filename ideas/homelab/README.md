@@ -37,21 +37,22 @@ Windows wird neuinstalliert. Kein einziger geplanter Dienst oder Use Case erford
 - SSH out-of-the-box, weniger RAM-Overhead für das OS selbst
 - Alle Server-Dokumentationen (Nextcloud, Home Assistant, AdGuard etc.) primär auf Linux geschrieben
 
-### Basis: Ubuntu 24.04 LTS
+### Basis: Kubuntu 26.04 LTS ("Resolute Raccoon")
 
-Ubuntu 24.04 LTS als Grundlage — stabile, weit verbreitete Basis mit 5 Jahren Support bis 2029. Alle geplanten Tools haben offizielle Ubuntu-Anleitungen.
+**Entschieden (Stand 01.07.2026):** Kubuntu 26.04 LTS statt 24.04 — bringt **KDE Plasma 6.6 nativ** mit (kein PPA-Umweg, der für 24.04 ohnehin nicht existiert), Support bis April 2031 (ESM sogar bis 2036 mit kostenlosem Ubuntu Pro, bis 5 Geräte). Da der OptiPlex ohnehin neu aufgesetzt wird (kein Upgrade von einem laufenden 24.04-System), ist der übliche Rat "auf den ersten Point-Release 26.04.1 warten" hier nicht relevant — der betrifft nur den `do-release-upgrade`-Pfad von bestehenden Installationen. Bei einer Neuinstallation reicht: 26.04 installieren, einmal vollständig updaten (`sudo apt update && sudo apt upgrade`) → identischer Patch-Stand wie mit 26.04.1-Medium.
 
-### Desktop-Umgebung
+**Zwei Breaking Changes gegenüber 24.04, für den Neuaufbau aber folgenlos:**
+- **cgroup v1 wurde entfernt** (nur noch v2) — betrifft nur alte Container/Skripte mit hartcodierten v1-Annahmen, nicht eine frische Docker-Installation.
+- **X11-Session wurde komplett entfernt** — nur noch Wayland (XWayland deckt alte Apps ab). Für Intel-iGPU (UHD 630) unkritisch; bekannte Startprobleme sind laut Recherche vor allem ein Nvidia-Thema. Jellyfin-VAAPI-Transcoding läuft ohnehin headless über `/dev/dri`, unabhängig vom Display-Server.
 
-Die Wahl der DE ist **reine Geschmackssache** — alle drei laufen identisch stabil, haben vollen Software-Zugang und unterscheiden sich bei 16 GB RAM nicht spürbar in der Performance. Einfach ausprobieren was optisch gefällt.
+### Desktop-Umgebung: KDE Plasma (Kubuntu)
 
-| DE | Ubuntu-Variante | Charakter |
-|---|---|---|
-| **GNOME** | Ubuntu (Standard) | Modern, aufgeräumt, macOS-ähnlich |
-| **KDE Plasma** | Kubuntu | Sehr anpassbar, Windows-ähnlich, modern |
-| **XFCE** | Xubuntu | Schlicht, klassisch, ressourcenschonend |
-
-> DEs können parallel installiert werden — beim Login wechseln ist jederzeit möglich. Einfach eines wählen, ausprobieren, ggf. wechseln.
+**Entschieden:** KDE Plasma statt GNOME/XFCE. Begründung:
+- **KDE = maximal konfigurierbar** (jede Verhaltensweise direkt in den Systemeinstellungen einstellbar, kein Zwang zu Drittanbieter-Extensions) — passt zum Wunsch nach großen Einstellmöglichkeiten.
+- **GNOME = bewusst simpel/opinionated** (viele Anpassungen nur über Extensions möglich) — nicht die Präferenz hier.
+- Zusätzlicher Vorteil: KDE ist Basis von SteamOS/Steam Deck → gute Controller-Navigation für Emulation vom Sofa/TV aus, bleibt aber vollwertiger Desktop für Browser/YouTube/Nextcloud.
+- **COSMIC Desktop (System76, Rust-basiert) geprüft und verworfen:** Distro-unabhängige DE, wird u.a. von CachyOS als Option angeboten (nicht umgekehrt — CachyOS "basiert" nicht auf COSMIC). Stand Mitte 2026 (v1.2.0) noch unausgereift für diesen Use Case: fraktionales Scaling fehlerhaft, Multi-Monitor teils defekt, vor allem **Remote-Display/Screen-Sharing (xdg-desktop-portal) noch nicht production-ready** — kritisch für geplanten Fernzugriff.
+- **Bazzite/CachyOS/Nobara (Gaming-Distros) geprüft und verworfen:** primär auf reines Gaming/Handheld getrimmt, kein sauberer Docker-Weg (immutable Filesystem bei Bazzite → Podman/Quadlet statt Docker), CachyOS explizit als "Workstation, kein Server" positioniert — für einen unbeaufsichtigten 24/7-Homeserver unnötiges Risiko ohne Mehrwert.
 
 ---
 
@@ -96,6 +97,24 @@ Der 3090 Micro hat **genau 2 SODIMM-Slots** (DDR4-2666/2933, max. 64 GB). **Ein 
 | IoT-Endpunkt | Mosquitto MQTT | geplant |
 | Workflow-Automatisierung | n8n | geplant |
 | Trading Bot | Python-Bot (siehe `ideas/trading-bot`) | geplant |
+
+---
+
+## Lokale Cloud: Nextcloud
+
+**Entschieden (Stand 01.07.2026):** Nextcloud statt Syncthing — Syncthing kann strukturell keinen Browser-/App-Zugriff von unterwegs bieten (nur Administrations-Weboberfläche, kein Datei-Zugriff ohne eigenen Client auf jedem lesenden Gerät), reiner Peer-to-Peer-Sync zwischen eigenen Geräten. Da explizit Fernzugriff im Browser/per App gewünscht ist (nicht nur Gerätesync), fällt Syncthing als alleinige Lösung raus.
+
+**Aktuell reiner Einzelnutzer-Betrieb geplant — Mehrbenutzerbetrieb aber als mögliche spätere Erweiterung im Hinterkopf behalten.** Nextcloud unterstützt das nativ (mehrere Accounts, Freigaben zwischen Nutzern, Gruppen/Berechtigungen) — bei der Ersteinrichtung nichts Spezielles zu beachten, das lässt sich jederzeit nachträglich aktivieren, ohne die Grundinstallation umzubauen.
+
+**Open Source & Datenhoheit** (Kernmotivation: eigenständiges Homelab ohne Datenabfluss an Dritte):
+- Lizenz **AGPLv3**, Code komplett öffentlich auf GitHub (`github.com/nextcloud/server` + separate App-Repos), entwickelt von Nextcloud GmbH (Deutschland)
+- Kein Vergleich zu Google Drive/OneDrive/Dropbox: Serverlogik läuft vollständig lokal, Dateien verlassen den Server nie
+- Zwei optionale externe Kontakte (keine Inhalte, nur Metadaten, beide abschaltbar): App-Store-Katalog-Abruf (`apps.nextcloud.com`) beim Installieren neuer Apps, sowie periodischer Update-Checker
+- Wird u.a. von deutschen Bundesbehörden explizit wegen Datensouveränität gegenüber US-Cloud-Anbietern eingesetzt
+
+**Bekannter Ressourcen-Vorbehalt:** Offiziell reichen 2 vCPU/4GB RAM für 1–5 Nutzer, es gibt aber dokumentierte Fälle (GitHub `nextcloud/all-in-one` Issues #6211 März 2025, #6962 Okt. 2025), in denen Preview-/Thumbnail-Generierung und Nextcloud-AIO-Bugs zu 25–34 GB RAM-Verbrauch statt der erwarteten 4–5 GB führten. Auf dem geteilten 16-GB-Optiplex neben Jellyfin-Transcoding und n8n ein reales Risiko bei Lastspitzen.
+
+**Einrichtungs-Empfehlung:** Preview-Generierung von Anfang an deaktivieren/drosseln, RAM-Verbrauch in den ersten Wochen aktiv beobachten statt blind vertrauen.
 
 ---
 
@@ -402,9 +421,29 @@ Tailscale erstellt ein privates WireGuard-Mesh-Netzwerk zwischen eigenen Geräte
 - Installation auf OptiPlex + alle Client-Geräte (Handy, Laptop)
 - Jedes Gerät bekommt eine stabile interne IP (`100.x.x.x`)
 - Jellyfin, Nextcloud etc. erreichbar als wären sie im Heimnetz
-- Kostenlos bis 100 Geräte / 3 Nutzer
+- Kostenlos: 6 Nutzer/Tailnet, unbegrenzte Geräte (Stand Juli 2026)
 
 > Tailscale erfordert die App auf jedem Client-Gerät. Wer Dienste ohne App für andere teilen möchte → Cloudflare Tunnel als Alternative.
+
+### Entschieden: Hybrid-Setup — Tailscale + Cloudflare Tunnel
+
+**Recherchiert und entschieden (Stand 01.07.2026):** Kein Entweder-Oder, beide laufen konfliktfrei parallel (keine Portkonflikte).
+
+| Kriterium | Tailscale | Cloudflare Tunnel + Access |
+|---|---|---|
+| Free-Tier | 6 Nutzer/Tailnet, unbegrenzte Geräte | Bis 50 Nutzer, 100MB Body-Size-Limit |
+| Zugriff für Gelegenheitsgäste | Funnel: kein Client nötig, aber noch **Beta**, undokumentierte Bandbreitenlimits | Access mit E-Mail-OTP: 6-stelliger Code per Mail, kein Client nötig |
+| Granularer Gastzugang | ACL-Regeln (`dst: host:port`) + Tailscale SSH | "Access for Infrastructure" mit Service Tokens (seit Feb. 2026) |
+| Setup-Aufwand | Gering, kein DNS/Domain nötig | Höher — eigene Domain + Zero-Trust-Konfiguration |
+| Performance | Meist direktes WireGuard-P2P, bei CGNAT via Relay etwas langsamer | 20–50ms Zusatzlatenz, für Streaming unkritisch |
+| Ausfälle 2025/26 | Kleinere Control-Plane-Vorfälle, bestehende Verbindungen liefen meist weiter | Mehrere größere Outages (u.a. 18.11.2025 ~6h, 20.02.2026 ~6h) |
+| Datenschutz | Ende-zu-Ende WireGuard, kein Klartext-Zugriff durch Dritte | TLS wird an Cloudflare-Edge terminiert — Cloudflare sieht technisch den Klartext |
+
+**Aufteilung:**
+- **Tailscale** für den eigenen dauerhaften Zugriff (Nextcloud, Home Assistant, n8n, SSH) und für den **Kollegen-Zugang zum Trading-Bot** — eigene ACL-Regel (`dst: bot-host:port`) + zusätzlich `ForceCommand`/rbash im Container selbst als Defense-in-Depth. Kein öffentlicher Angriffspunkt, Ende-zu-Ende verschlüsselt.
+- **Cloudflare Tunnel + Access (E-Mail-OTP)** nur für **Jellyfin-Freigabe an Freunde/Familie**, die keinen eigenen Tailscale-Client installieren sollen. Tailscale Funnel wäre die naheliegende Alternative, ist aber noch Beta mit undokumentierten Limits — Cloudflares E-Mail-OTP-Zugang ist ausgereifter und pro E-Mail-Adresse granular steuerbar.
+
+> **Rechtlicher Hinweis:** Cloudflares ToS (Abschnitt 2.8) behandelt Mediendateien-Streaming in einer Grauzone — laut Recherche aktuell bei privater, nicht-kommerzieller Nutzung nicht durchgesetzt, aber erwähnenswert.
 
 ### Streaming von außerhalb — Upload-Bedarf
 
@@ -525,8 +564,8 @@ Er sieht nur sein Home-Verzeichnis und kann nur den Trading-Bot-Container steuer
 
 ## Offene Fragen
 
-- [ ] **Desktop-Umgebung**: GNOME, KDE Plasma oder XFCE? → ausprobieren
-- [ ] **Remote-Zugriff**: Tailscale testen (bevorzugt) oder Cloudflare Tunnel?
+- [x] **Desktop-Umgebung**: KDE Plasma (Kubuntu 26.04 LTS) — siehe Abschnitt "Betriebssystem: Linux"
+- [x] **Remote-Zugriff**: Hybrid — Tailscale (eigener Zugriff + Kollege) + Cloudflare Tunnel (Jellyfin-Freigabe an Freunde/Familie), siehe Abschnitt "Netzwerk & Remote-Zugriff"
 - [ ] **Netzwerk**: Gigabit LAN zum Router vorhanden oder WLAN?
-- [ ] **Nextcloud vs. Syncthing**: Nextcloud (vollwertige Cloud) oder Syncthing (simpler Sync)?
+- [x] **Nextcloud vs. Syncthing**: Nextcloud — siehe Abschnitt "Lokale Cloud: Nextcloud" (aktuell Einzelnutzer, Mehrbenutzerbetrieb später möglich)
 - [ ] **Blu-ray-Laufwerk**: Welches Modell? → MakeMKV-Kompatibilitätsliste prüfen vor dem Kauf
