@@ -357,22 +357,40 @@ Zum Vergleich: die originale PS2-DVD las mit maximal ~5,4 MB/s — eine 3,5"-USB
 
 Etwa **1 TB** reicht für eine persönliche Sammlung über alle Systeme — auf der 8-TB-Platte ist das problemlos mit drin, der Rest gehört den Filmen.
 
-### Die externe Platte: WD Elements Desktop 8 TB
+### Die externe Platte: Zwei Optionen (Stand Juli 2026)
 
-**Empfehlung: WD Elements Desktop 8 TB (WDBWLG0080HBK), ~208 €.** Recherchiert und bewusst gewählt:
+**Ursprüngliche Wahl (WD Elements Desktop 8 TB) nach tieferer Recherche revidiert.** Die WD Elements verbaut intern eine **WD80EDAZ** (WD Blue Consumer-Klasse) — nicht die früher angenommene HGST Ultrastar. Das bedeutet: nur 2.400 h/Jahr Workload-Limit (= 6,5 h/Tag), nicht für 24/7 spezifiziert, Temperaturen unter Last bis **60 °C**. Für einen Server der nie ausgeht ein echtes Langzeit-Risiko. Seagate Expansion Desktop 8 TB ebenfalls ausgeschlossen — verbaut SMR-Platte (Barracuda Compute).
 
-| Kriterium | WD Elements 8 TB | Warum wichtig |
+**Zwei sinnvolle Optionen:**
+
+| | Option A — Gebraucht | Option B — Neu |
 |---|---|---|
-| **CMR** (kein SMR) | ✅ HGST Ultrastar He8 intern | s. SMR-Hinweis unten |
-| **Keine Hardware-Verschlüsselung** | ✅ (USB-3.0-Version) | bei Gehäuse-Defekt Platte einfach woanders auslesbar |
-| Eigenes Netzteil (3,5" Desktop) | ✅ | keine Last/Disconnect wie bei bus-powered 2,5" |
-| Kapazitätsgrenze über USB | keine | 3,5" hat die 2-TB-CMR-Grenze der 2,5"-Platten nicht |
+| **Komponenten** | Seagate Exos 7E8 8TB (ST8000NM0055) + Inateck FE3002 | Seagate IronWolf 8TB (ST8000VN004) + Inateck FE3002 |
+| **Preis** | ~107–125 € | ~342 € |
+| **24/7-spezifiziert** | ✅ (550 TB/Jahr Workload) | ✅ (180 TB/Jahr Workload) |
+| **CMR** | ✅ | ✅ |
+| **Temperatur** | ~42 °C (Heliumfüllung) | ~45 °C |
+| **Garantie** | keine (Privatverkauf) | 3 Jahre (Hersteller) |
+| **Risiko** | SMART-Werte prüfen vor Kauf | keins |
 
-> **Warum 8 TB statt 4 TB?** 4-TB-Externe sind ausnahmslos **SMR** und teils sogar **teurer** (WD 4 TB ~252 €!) als die 8-TB-CMR. Der einzige günstige 4-TB-Tipp (Seagate ~120–145 €) ist SMR und spart nur ~60–80 € bei halber Kapazität. Also direkt zur 8-TB-CMR — bessere Technik, doppelter Platz, kaum Aufpreis.
+**Option A — Gebraucht:** Exos aus Rechenzentrums-Ausmusterung, auf Kleinanzeigen/eBay (~80–100 €) + Inateck FE3002 Gehäuse (~25 €). Enterprise-Klasse, läuft kühler als Consumer-Platten. Vor Kauf SMART-Daten vom Verkäufer anfordern (`smartctl -a /dev/sdX` oder CrystalDiskInfo-Screenshot):
 
-> **Warum SMR hier doof wäre:** SMR schreibt Spuren überlappend (wie Dachschindeln). Lesen ist gleich schnell, aber beim **Schreiben großer Mengen am Stück** (Filmsammlung/ROMs draufkopieren) bricht die Rate ein, sobald der Cache voll ist (~100–200 GB → dann 30–60 statt 150–200 MB/s). Und **parallel lesen + schreiben** (Jellyfin streamt, während archiviert wird) lässt SMR stottern. CMR bleibt durchgehend schnell. Da 8 TB ohnehin nur als CMR sinnvoll ist, umgeht man das Problem gratis.
+| SMART-Attribut | Muss sein |
+|---|---|
+| `Reallocated_Sector_Ct` | **0** — sonst nicht kaufen |
+| `Current_Pending_Sector` | **0** |
+| `Offline_Uncorrectable` | **0** |
+| `Power_On_Hours` | **unter 40.000 h** |
 
-> **Finger weg von WD My Book / Easystore:** Die haben eine AES-Hardware-Verschlüsselung fest im USB-Chip — stirbt der Controller, sind die Daten **unwiederbringlich** verloren, selbst für Profi-Datenrettung. WD Elements hat diesen Chip nicht.
+Modellnummer auf SATA-Variante prüfen: `ST8000NM0055` (SATA ✅) — nicht `ST8000NM0016` (SAS ❌, funktioniert nicht an normalem USB-Gehäuse).
+
+**Option B — Neu:** IronWolf ist eine echte NAS-Platte, 3 Jahre Garantie, keine Fragezeichen. Inateck FE3002 spezifisch kaufen (ASM1153E-Chip, UASP, eigenes 12V/2A-Netzteil, bis 20 TB).
+
+> **Warum 8 TB statt 4 TB?** 4-TB-Externe sind ausnahmslos **SMR** und teils sogar teurer als die 8-TB-CMR-Optionen. Direkt 8 TB — bessere Technik, doppelter Platz.
+
+> **Warum SMR hier doof wäre:** SMR schreibt Spuren überlappend (wie Dachschindeln). Beim **Schreiben großer Mengen am Stück** bricht die Rate ein, sobald der Cache voll ist. **Parallel lesen + schreiben** (Jellyfin streamt, während archiviert wird) lässt SMR stottern. CMR bleibt durchgehend schnell.
+
+> **Finger weg von WD My Book / Easystore:** Feste AES-Hardware-Verschlüsselung im USB-Chip — stirbt der Controller, sind die Daten unwiederbringlich verloren. WD Elements hat diesen Chip nicht, die hier empfohlenen Optionen ebenfalls nicht.
 
 ### Filmbibliothek: kein Geschwindigkeitsproblem
 
@@ -486,7 +504,7 @@ Im Heimnetz: kein Internet-Upload nötig — alles läuft lokal.
 | Was | Warum | ~Kosten |
 |---|---|---|
 | USB 3.0 Gigabit LAN-Adapter | Nativer Port defekt | ~15 € |
-| **8 TB USB 3.0 HDD extern** — WD Elements Desktop (WDBWLG0080HBK), CMR, ohne Encryption-Bridge | Filme (Jellyfin) **+ ROMs** | ~208 € |
+| **8 TB extern** — Option A: Seagate Exos 7E8 8TB `ST8000NM0055` (gebraucht, SMART prüfen) + Inateck FE3002 Gehäuse · Option B: Seagate IronWolf 8TB `ST8000VN004` (neu) + Inateck FE3002 | Filme (Jellyfin) **+ ROMs** | ~107–125 € (A) / ~342 € (B) |
 | **Externes USB Blu-ray-Laufwerk** | Discs rippen mit MakeMKV | ~60–80 € |
 | USB-Stick (128–256 GB) | Nextcloud-Backup + wichtige Dateien | ~15–25 € |
 | **Gamepad** — 8BitDo Pro 2 (SNES-Layout, 2D-Fokus) oder Ultimate 2 (Xbox-Layout, Analog-Fokus) | Emulation | ~45–60 € |
