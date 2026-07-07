@@ -13,7 +13,7 @@
 
 | Idee | Status | Kurzbeschreibung |
 |------|--------|------------------|
-| [homelab](homelab/README.md) | 🛠 Prototyp | Dell OptiPlex 3090 als Heimserver: Emulation, Nextcloud, Home Assistant, MQTT, Trading Bot |
+| [homelab](homelab/README.md) | 🛠 Prototyp | Dell OptiPlex 3090 als Heimserver: Emulation, Nextcloud, Jellyfin, Home Assistant, MQTT (Trading Bot: optional/zurückgestellt) |
 | [trading-bot](trading-bot/README.md) | 🔬 Recherche | Modularer Aktien-Trading-Bot (IBKR, FinBERT Sentiment, vectorbt Backtesting) |
 | [piano-display](piano-display/README.md) | 🔬 Recherche | Kabelloser 13" RPi-5-Touchscreen fürs E-Piano — Noten, YouTube, optional PC-Zusatzmonitor |
 | [papagei-llm](papagei-llm/README.md) | 🔬 Recherche | Eigenes LLM für Verkaufstelefonie (Outbound/Inbound), self-hosted für niedrige Latenzen |

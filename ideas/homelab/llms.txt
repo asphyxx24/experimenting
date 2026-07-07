@@ -1,0 +1,23 @@
+# Homelab
+
+> Heimserver-Projekt auf Basis eines Dell OptiPlex 3090 Micro: Nextcloud, Jellyfin, Samba, AdGuard Home, Home Assistant, MQTT, n8n, Uptime Kuma, Emulation. Status: Hardware gekauft, Linux-Installation ausstehend.
+
+Diese Datei ist ein Kurz-Index nach dem llms.txt-Standard (llmstxt.org) — für schnelle Orientierung, welche Datei zu welcher Anfrage passt. Vollständiger Inhalt steht in den verlinkten Dateien, nicht hier.
+
+## Dokumente
+
+- [README.md](./README.md): Vollständige Recherche, Entscheidungen inkl. Begründung, offene Fragen, Einkaufsliste. Erste Anlaufstelle für "warum wurde X so entschieden" oder "was ist der aktuelle Stand".
+- [SETUP-PRP.md](./SETUP-PRP.md): Ausführbarer Einrichtungsplan — Ziel, bekannte Gotchas, Schritt-für-Schritt-Blueprint, Validation Loop mit prüfbaren Kommandos. Anlaufstelle, wenn tatsächlich am Aufbau/an der Umsetzung gearbeitet werden soll.
+- [CLAUDE.md](./CLAUDE.md): Arbeitskonventionen für KI-Sessions in diesem Projekt — wie mit Status-Markierungen (`geplant`/`entschieden`/`optional`) umzugehen ist, wie Vorschläge gemacht werden sollen.
+
+## Wichtigste Entscheidungen (Stand siehe README)
+
+- OS: Kubuntu 26.04 LTS (KDE Plasma)
+- Cloud: Nextcloud, **Plain-Setup** (nicht AIO — RAM-Risiko)
+- Storage extern: Seagate Exos/IronWolf 8 TB CMR (kein SMR, kein WD Elements/My Book)
+- Remote-Zugriff: Tailscale (eigener Zugriff) + Cloudflare Tunnel (Jellyfin-Freigabe an Dritte)
+- Trading Bot: **optional / zurückgestellt** — nicht Teil der aktiven Planung
+
+## Optional
+
+- [Optional / Zurückgestellt](./README.md#optional--zurückgestellt): geparkte Ideen (Vaultwarden, Immich, UPS) — nur relevant, wenn der Nutzer explizit danach fragt.
