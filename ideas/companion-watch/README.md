@@ -12,7 +12,7 @@ Eine selbstgebaute Smartwatch auf ESP32-S3-Basis, die als universelles Companion
 - **Health-Tracking:** Schritte, Puls, SpO2, Schlaf — ersetzt das Xiaomi Mi Band.
 - **Notifications:** Backend pusht Meldungen → Display + Vibration.
 
-Langfristig Plattform für verschiedene UIs und Modi (z. B. [Habit-Tamagotchi](../habit-tamagotchi/README.md) als erste Zielplattform für ein Pet-UI).
+Langfristig Plattform für verschiedene UIs und Modi (z. B. [Habit-Tamagotchi](habit-tamagotchi/README.md) als erste Zielplattform für ein Pet-UI).
 
 ## Hardware-Entscheidung
 

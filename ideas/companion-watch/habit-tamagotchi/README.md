@@ -13,7 +13,7 @@ Ein virtuelles Tier, das von **echten Habits** des Users lebt (Schritte, Wasser,
 
 Charme-Hook: anders als Habit-Apps verschwindet das Ding nicht in der Schublade, sondern sitzt sichtbar am Handgelenk und schaut dich an.
 
-**Erste Zielplattform:** [Companion-Watch](../companion-watch/README.md) (ESP32-S3, rundes 240x240-Display). Konzept ist aber nicht an die Hardware gebunden — denkbar auch als Desktop-Widget, Handy-App oder Schreibtisch-Gerät.
+**Erste Zielplattform:** [Companion-Watch](../README.md) (ESP32-S3, rundes 240x240-Display). Konzept ist aber nicht an die Hardware gebunden — denkbar auch als Desktop-Widget, Handy-App oder Schreibtisch-Gerät.
 
 ## Spielmechanik
 
@@ -59,6 +59,6 @@ Begründung: weder 3D-Modelling noch klassische Pixel-Animation im Skill-Set, As
 ## Nächste Schritte
 
 1. Erstes Concept-Sprite via Retro Diffusion generieren (5 Stimmungen: happy, neutral, sad, sleepy, excited).
-2. Idle-Animation auf der [Companion-Watch](../companion-watch/README.md) rendern (Spike 0 der Watch).
+2. Idle-Animation auf der [Companion-Watch](../README.md) rendern (Spike 0 der Watch).
 3. Spielmechanik-Prototyp: Stats-Berechnung im Backend, Daily Check → Pet-Stimmung.
 4. Streak-System + Stufen-Progression implementieren.
