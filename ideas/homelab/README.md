@@ -232,8 +232,8 @@ Direct Play ist der Normalfall. Transcoding passiert nur wenn das Gerät den Cod
 Blu-rays und DVDs kaufen und rippen:
 - **MakeMKV** — ripped die Disc zur MKV-Datei (verlustfrei, große Datei). Rohdatei temporär auf die externe 8-TB-HDD schreiben (genug Platz), nicht auf die knappe interne 256-GB-SSD.
 - **Handbrake** — komprimiert auf H.265 1080p (empfohlen für Speichereffizienz). Nach der Kompression die MakeMKV-Rohdatei löschen.
-- Externes USB Blu-ray-Laufwerk nötig (~60–80€) — auf MakeMKV-Kompatibilitätsliste prüfen
-- Für **4K UHD Blu-rays**: nur bestimmte Laufwerke (ggf. Firmware-Modifikation nötig), deutlich aufwändiger
+- Externes USB Blu-ray-Laufwerk nötig — **vorhanden: LG BP55EB40**, gebraucht auf Kleinanzeigen für 50€ inkl. Versand gekauft, MakeMKV-Kompatibilität vorab verifiziert (Hitachi-LG-Mechanik, mehrfach im MakeMKV-Forum für 1080p-BD bestätigt, kein Firmware-Mod nötig)
+- Für **4K UHD Blu-rays**: nur bestimmte Laufwerke (ggf. Firmware-Modifikation nötig), deutlich aufwändiger — irrelevant hier, da 1080p Zielauflösung
 
 > **Rechtlicher Hinweis (Deutschland):** § 95a UrhG verbietet das Umgehen technischer Schutzmaßnahmen (AACS-Verschlüsselung auf Blu-rays) — auch für Privatkopien. Das Rippen kommerzieller Blu-rays ist nach aktuellem deutschen Recht rechtlich problematisch, auch wenn es in der Praxis nicht verfolgt wird.
 
@@ -369,10 +369,9 @@ Kein 24/7-Betrieb nötig — systemd startet und stoppt automatisch zur Marktzei
 
 Mosquitto als zentraler Broker für alle ESP32-Projekte aus diesem Repo:
 - `companion-watch` → sendet Gesundheits-/Statusdaten
-- `auto-bewaesserung` → sendet Sensor-Daten, empfängt Steuerbefehle
 - Home Assistant abonniert alle Topics und reagiert darauf
 
-**Auth statt offener Broker:** `allow_anonymous false` in `mosquitto.conf`, Benutzer/Passwort mit `mosquitto_passwd` anlegen. `companion-watch` und `auto-bewaesserung` entsprechend mit den vergebenen Zugangsdaten konfigurieren, sonst kann jeder im Netz mitlesen/publizieren.
+**Auth statt offener Broker:** `allow_anonymous false` in `mosquitto.conf`, Benutzer/Passwort mit `mosquitto_passwd` anlegen. `companion-watch` entsprechend mit den vergebenen Zugangsdaten konfigurieren, sonst kann jeder im Netz mitlesen/publizieren.
 
 ---
 
@@ -622,6 +621,7 @@ Im Heimnetz: kein Internet-Upload nötig — alles läuft lokal.
 |---|---|---|
 | Tastatur + Touchpad | Rii Wireless (2.4GHz + Bluetooth) | bestellt |
 | Festplattengehäuse (3,5", USB) | Inateck FE3002 | vorhanden |
+| Externes USB Blu-ray-Laufwerk | LG BP55EB40, gebraucht (Kleinanzeigen, 50€ inkl. Versand) | gekauft |
 
 ### Noch zu kaufen
 
@@ -629,7 +629,6 @@ Im Heimnetz: kein Internet-Upload nötig — alles läuft lokal.
 |---|---|---|
 | USB 3.0 Gigabit LAN-Adapter | Nativer LAN-Port hat defekten Pin (kein Wake-on-LAN möglich, Reparatur evtl. später) | ~15 € |
 | **8 TB extern** — Option A: Seagate Exos 7E8 8TB `ST8000NM0055` (gebraucht, SMART prüfen) + Inateck FE3002 Gehäuse · Option B: Seagate IronWolf 8TB `ST8000VN004` (neu) + Inateck FE3002 | Filme (Jellyfin) **+ ROMs** | ~107–125 € (A) / ~342 € (B) |
-| **Externes USB Blu-ray-Laufwerk** | Discs rippen mit MakeMKV | ~60–80 € |
 | USB-Stick (256 GB) | Backup (Nextcloud-Daten+DB 50–100 GB, HA/n8n/AdGuard-Configs, Snapshot-Historie) + wichtige Dateien — 128 GB reicht mit der jetzt hinzugekommenen Versionierung zu knapp | ~20–30 € |
 | **Gamepad** — 8BitDo Pro 2 (SNES-Layout, 2D-Fokus) oder Ultimate 2 (Xbox-Layout, Analog-Fokus) | Emulation | ~45–60 € |
 
@@ -751,4 +750,4 @@ Er sieht nur sein Home-Verzeichnis und kann nur den Trading-Bot-Container steuer
 - [x] **Remote-Zugriff**: Hybrid — Tailscale (eigener Zugriff + Kollege) + Cloudflare Tunnel (Jellyfin-Freigabe an Freunde/Familie), siehe Abschnitt "Netzwerk & Remote-Zugriff"
 - [x] **Netzwerk**: USB-Gigabit-LAN-Adapter, da nativer LAN-Port einen defekten Pin hat (deshalb aktuell kein Wake-on-LAN möglich, Reparatur evtl. später) — siehe Abschnitt "Netzwerk & Remote-Zugriff"
 - [x] **Nextcloud vs. Syncthing**: Nextcloud — siehe Abschnitt "Lokale Cloud: Nextcloud" (aktuell Einzelnutzer, Mehrbenutzerbetrieb später möglich)
-- [ ] **Blu-ray-Laufwerk**: Welches Modell? → MakeMKV-Kompatibilitätsliste prüfen vor dem Kauf
+- [x] **Blu-ray-Laufwerk**: LG BP55EB40 (extern, USB) — gebraucht auf Kleinanzeigen für 50€ inkl. Versand gekauft, MakeMKV-Kompatibilität vorab verifiziert (Hitachi-LG-Mechanik, im MakeMKV-Forum mehrfach für 1080p-BD bestätigt)
