@@ -25,9 +25,11 @@
 
 | Teil | Spec | Preis | Bezug | Notiz |
 |------|------|-------|-------|-------|
-| **INMP441 I2S MEMS-Mikro** | 14x4 mm | ~3 € | Berrybase / AliExpress | Voice-Capture, sauberes Signal |
-| **MAX98357A I2S-Verstärker** | 18x14 mm | ~3 € | Berrybase / AliExpress | Speaker-Treiber |
-| **Mini-Speaker 8 Ohm 1 W** | 13 mm rund | ~2 € | AliExpress | Antwort-Wiedergabe |
+| **I2S MEMS-Mikro** | 14x4 mm | ~3 € | Berrybase / AliExpress | ✅ **verlötet und funktionsfähig** (Stand 2026-08-07) — GPIO-Belegung noch nicht dokumentiert, siehe `CLAUDE.md` |
+| **MAX98357A I2S-Verstärker** | 18x14 mm | ~3 € | Berrybase / AliExpress | Speaker-Treiber — noch offen |
+| **Mini-Speaker 8 Ohm 1 W** | 13 mm rund | ~2 € | AliExpress | Antwort-Wiedergabe — noch offen |
+
+> **Kein PTT-Knopf mehr nötig.** Push-to-Talk läuft über den Touchscreen (siehe [README](README.md) → PTT). Der Side-Push-Schalter und ein Mikro-Taster aus Abschnitt E entfallen damit für diese Funktion — spart ein Bauteil, einen GPIO und einen Gehäuse-Durchbruch.
 
 ---
 

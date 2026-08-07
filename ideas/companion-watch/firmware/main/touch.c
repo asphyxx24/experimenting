@@ -2,10 +2,16 @@
 #include "driver/i2c_master.h"
 #include "driver/gpio.h"
 #include "esp_log.h"
+#include "esp_timer.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 
 static const char *TAG = "touch";
+
+// Der Sensor wird hoechstens alle CACHE_US wirklich per I2C gelesen. So
+// kosten mehrere Abfragen pro Loop-Durchlauf (tapped + is_down) nur eine
+// Transaktion, ohne dass der Aufrufer auf die Reihenfolge achten muss.
+#define CACHE_US 5000
 
 #define PIN_SDA      6
 #define PIN_SCL      7
@@ -50,16 +56,37 @@ void touch_init(void)
     ESP_LOGI(TAG, "Touch ready");
 }
 
-bool touch_tapped(void)
+// Liest Register 0x02 (Fingeranzahl) und cached das Ergebnis kurz.
+// Bei I2C-Fehlern bleibt der letzte bekannte Zustand stehen, statt einen
+// Loslass-Event vorzutaeuschen — sonst wuerde ein einzelner Bus-Aussetzer
+// mitten in einer PTT-Aufnahme die Aufnahme abbrechen.
+static bool read_touched(void)
 {
+    static int64_t last_read_us = 0;
+    static bool cached = false;
+
+    int64_t now = esp_timer_get_time();
+    if (now - last_read_us < CACHE_US) return cached;
+    last_read_us = now;
+
     uint8_t reg = 0x02;
     uint8_t fingers = 0;
-
     esp_err_t ret = i2c_master_transmit_receive(dev, &reg, 1, &fingers, 1, pdMS_TO_TICKS(50));
-    if (ret != ESP_OK) return false;
+    if (ret == ESP_OK) {
+        cached = fingers > 0;
+    }
+    return cached;
+}
 
-    bool touched = fingers > 0;
+bool touch_tapped(void)
+{
+    bool touched = read_touched();
     bool tapped = touched && !prev_touched;
     prev_touched = touched;
     return tapped;
+}
+
+bool touch_is_down(void)
+{
+    return read_touched();
 }
