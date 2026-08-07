@@ -86,6 +86,7 @@ Windows wird neuinstalliert. Kein einziger geplanter Dienst oder Use Case erford
 | Workflow-Automatisierung | n8n | geplant |
 | Monitoring / Alerting | Uptime Kuma | geplant |
 | Trading Bot | Python-Bot (siehe `ideas/trading-bot`) | optional / zurückgestellt |
+| Sprachassistent | whisper.cpp + Claude (Headless) + TTS (siehe [`ideas/jarvis`](../jarvis/README.md)) | Brainstorm — noch nicht in der Einrichtungsreihenfolge |
 
 **Entschieden: Home Assistant Container (Docker-Image), nicht Supervised/HAOS.** Passt zum Prinzip "eine `docker-compose.yml` pro Dienst" — Supervised würde den ganzen Host übernehmen wollen und mit dem restlichen Docker-Stack kollidieren. Der Add-on-Store entfällt dadurch, die meisten gängigen Integrationen (inkl. MQTT) funktionieren trotzdem.
 
@@ -259,7 +260,7 @@ Ideen, die interessant klingen, aber aktuell nicht verfolgt werden:
 
 - **Vaultwarden** (self-hosted Bitwarden-kompatibler Passwortmanager) — nur relevant, falls doch mehr als Hauptpasswort + Varianten verwaltet werden soll. Geparkt.
 - **Immich** (self-hosted Foto-Verwaltung mit KI-Gesichts-/Objekterkennung) — RAM-hungrigster Kandidat der Liste (Server + Postgres + Redis + ML-Container, ~1,5–2,5 GB idle, spürbar mehr bei aktiver Gesichtserkennung/großem Scan). Geparkt, ggf. später bei Bedarf nachziehen.
-- **USV (UPS)** — erst relevant, sobald der Server 24/7 läuft. Aktuell kein Dauerbetrieb geplant, daher zurückgestellt.
+- **USV (UPS)** — erst relevant, sobald der Server 24/7 läuft. Aktuell kein Dauerbetrieb geplant, daher zurückgestellt. (Sollte [`ideas/jarvis`](../jarvis/README.md) umgesetzt werden, setzt das Dauerbetrieb voraus — dann rückt diese Frage nach.)
 
 ---
 
