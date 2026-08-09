@@ -1,0 +1,1884 @@
+<!DOCTYPE html>
+<!-- saved from url=(0054)https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28 -->
+<html class="client-js" lang="en" dir="ltr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>ESP32-S3-Touch-LCD-1.28 - Waveshare Wiki</title>
+<script>document.documentElement.className="client-js";RLCONF={"wgBreakFrames":!1,"wgSeparatorTransformTable":["",""],"wgDigitTransformTable":["",""],"wgDefaultDateFormat":"dmy","wgMonthNames":["","January","February","March","April","May","June","July","August","September","October","November","December"],"wgRequestId":"bcbafb0060a07f97fde2d89c","wgCSPNonce":!1,"wgCanonicalNamespace":"","wgCanonicalSpecialPageName":!1,"wgNamespaceNumber":0,"wgPageName":"ESP32-S3-Touch-LCD-1.28","wgTitle":"ESP32-S3-Touch-LCD-1.28","wgCurRevisionId":106808,"wgRevisionId":106808,"wgArticleId":17403,"wgIsArticle":!0,"wgIsRedirect":!1,"wgAction":"view","wgUserName":null,"wgUserGroups":["*"],"wgCategories":[],"wgPageContentLanguage":"en","wgPageContentModel":"wikitext","wgRelevantPageName":"ESP32-S3-Touch-LCD-1.28","wgRelevantArticleId":17403,"wgIsProbablyEditable":!1,"wgRelevantPageIsProbablyEditable":!1,"wgRestrictionEdit":[],"wgRestrictionMove":[]};RLSTATE={"ext.gadget.tabber":"ready",
+"site.styles":"ready","noscript":"ready","user.styles":"ready","user":"ready","user.options":"loading","jquery.makeCollapsible.styles":"ready","mediawiki.toc.styles":"ready","skins.tweeki.styles":"ready","skins.tweeki.bootstraptheme.styles":"ready","skins.tweeki.externallinks.styles":"ready","skins.tweeki.awesome.styles":"ready"};RLPAGEMODULES=["site","mediawiki.page.startup","mediawiki.page.ready","jquery.makeCollapsible","mediawiki.toc","ext.FancyBoxThumbs","ext.HighlightjsIntegration","skins.tweeki.messages","skins.tweeki.scripts"];</script>
+<script>(RLQ=window.RLQ||[]).push(function(){mw.loader.implement("user.options@1hzgi",function($,jQuery,require,module){/*@nomin*/mw.user.tokens.set({"patrolToken":"+\\","watchToken":"+\\","csrfToken":"+\\"});
+});});</script>
+<link rel="stylesheet" href="./ESP32-S3-Touch-LCD-1.28 - Waveshare Wiki_files/aAdkk0o.php">
+<script async="" src="./ESP32-S3-Touch-LCD-1.28 - Waveshare Wiki_files/aAdkk0o(1).php"></script>
+<style>
+.mw-collapsible-toggle{float:right;-moz-user-select:none;-webkit-user-select:none;-ms-user-select:none;user-select:none}.mw-collapsible-toggle-default:before{content:'['}.mw-collapsible-toggle-default:after{content:']'}.mw-customtoggle,.mw-collapsible-toggle{cursor:pointer} caption .mw-collapsible-toggle,.mw-content-ltr caption .mw-collapsible-toggle,.mw-content-rtl caption .mw-collapsible-toggle,.mw-content-rtl .mw-content-ltr caption .mw-collapsible-toggle,.mw-content-ltr .mw-content-rtl caption .mw-collapsible-toggle{float:none}
+pre.code2highlight,pre.nohighlight{  padding:0.5em}code.code2highlight.hljs{  padding:1px 4px}.hljs{display:block;overflow-x:auto;padding:0.5em;background:#1E1E1E;color:#DCDCDC}.hljs-keyword,.hljs-literal,.hljs-symbol,.hljs-name{color:#569CD6}.hljs-link{color:#569CD6;text-decoration:underline}.hljs-built_in,.hljs-type{color:#4EC9B0}.hljs-number,.hljs-class{color:#B8D7A3}.hljs-string,.hljs-meta-string{color:#D69D85}.hljs-regexp,.hljs-template-tag{color:#9A5334}.hljs-subst,.hljs-function,.hljs-title,.hljs-params,.hljs-formula{color:#DCDCDC}.hljs-comment,.hljs-quote{color:#57A64A;font-style:italic}.hljs-doctag{color:#608B4E}.hljs-meta,.hljs-meta-keyword,.hljs-tag{color:#9B9B9B}.hljs-variable,.hljs-template-variable{color:#BD63C5}.hljs-attr,.hljs-attribute,.hljs-builtin-name{color:#9CDCFE}.hljs-section{color:gold}.hljs-emphasis{font-style:italic}.hljs-strong{font-weight:bold}.hljs-bullet,.hljs-selector-tag,.hljs-selector-id,.hljs-selector-class,.hljs-selector-attr,.hljs-selector-pseudo{color:#D7BA7D}.hljs-addition{background-color:#144212;display:inline-block;width:100%}.hljs-deletion{background-color:#600;display:inline-block;width:100%}
+.fancybox-wrap,.fancybox-skin,.fancybox-outer,.fancybox-inner,.fancybox-image,.fancybox-wrap iframe,.fancybox-wrap object,.fancybox-nav,.fancybox-nav span,.fancybox-tmp{padding:0;margin:0;border:0;outline:none;vertical-align:top}.fancybox-wrap{position:absolute;top:0;left:0;z-index:8020}.fancybox-skin{position:relative;background:#f9f9f9;color:#444;text-shadow:none;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px}.fancybox-opened{z-index:8030}.fancybox-opened .fancybox-skin{-webkit-box-shadow:0 10px 25px rgba(0,0,0,0.5);-moz-box-shadow:0 10px 25px rgba(0,0,0,0.5);box-shadow:0 10px 25px rgba(0,0,0,0.5)}.fancybox-outer,.fancybox-inner{position:relative}.fancybox-inner{overflow:hidden}.fancybox-type-iframe .fancybox-inner{-webkit-overflow-scrolling:touch}.fancybox-error{color:#444;font:14px/20px "Helvetica Neue",Helvetica,Arial,sans-serif;margin:0;padding:15px;white-space:nowrap}.fancybox-image,.fancybox-iframe{display:block;width:100%;height:100%}.fancybox-image{max-width:100%;max-height:100%}#fancybox-loading,.fancybox-close,.fancybox-prev span,.fancybox-next span{background-image:url(/w/extensions/FancyBoxThumbs/modules/fancyBox/source/fancybox_sprite.png?783d4)}#fancybox-loading{position:fixed;top:50%;left:50%;margin-top:-22px;margin-left:-22px;background-position:0 -108px;opacity:0.8;cursor:pointer;z-index:8060}#fancybox-loading div{width:44px;height:44px;background:url(/w/extensions/FancyBoxThumbs/modules/fancyBox/source/fancybox_loading.gif?c6f1a) center center no-repeat}.fancybox-close{position:absolute;top:-18px;right:-18px;width:36px;height:36px;cursor:pointer;z-index:8040}.fancybox-nav{position:absolute;top:0;width:40%;height:100%;cursor:pointer;text-decoration:none;background:transparent url(/w/extensions/FancyBoxThumbs/modules/fancyBox/source/blank.gif?32547); -webkit-tap-highlight-color:rgba(0,0,0,0);z-index:8040}.fancybox-prev{left:0}.fancybox-next{right:0}.fancybox-nav span{position:absolute;top:50%;width:36px;height:34px;margin-top:-18px;cursor:pointer;z-index:8040;visibility:hidden}.fancybox-prev span{left:10px;background-position:0 -36px}.fancybox-next span{right:10px;background-position:0 -72px}.fancybox-nav:hover span{visibility:visible}.fancybox-tmp{position:absolute;top:-99999px;left:-99999px;visibility:hidden;max-width:99999px;max-height:99999px;overflow:visible !important} .fancybox-lock{overflow:hidden}.fancybox-overlay{position:absolute;top:0;left:0;overflow:hidden;display:none;z-index:8010;background:url(/w/extensions/FancyBoxThumbs/modules/fancyBox/source/fancybox_overlay.png?77aea)}.fancybox-overlay-fixed{position:fixed;bottom:0;right:0}.fancybox-lock .fancybox-overlay{overflow:auto;overflow-y:scroll} .fancybox-title{visibility:hidden;font:normal 13px/20px "Helvetica Neue",Helvetica,Arial,sans-serif;position:relative;text-shadow:none;z-index:8050}.fancybox-opened .fancybox-title{visibility:visible}.fancybox-title-float-wrap{position:absolute;bottom:0;right:50%;margin-bottom:-35px;z-index:8050;text-align:center}.fancybox-title-float-wrap .child{display:inline-block;margin-right:-100%;padding:2px 20px;background:transparent; background:rgba(0,0,0,0.8);-webkit-border-radius:15px;-moz-border-radius:15px;border-radius:15px;text-shadow:0 1px 2px #222;color:#FFF;font-weight:bold;line-height:24px;white-space:nowrap}.fancybox-title-outside-wrap{position:relative;margin-top:10px;color:#fff}.fancybox-title-inside-wrap{padding-top:10px}.fancybox-title-over-wrap{position:absolute;bottom:0;left:0;color:#fff;padding:10px;background:#000;background:rgba(0,0,0,.8)}
+@media screen {
+	.toctoggle{-moz-user-select:none;-webkit-user-select:none;-ms-user-select:none;user-select:none;font-size:94%}}</style><meta name="ResourceLoaderDynamicStyles" content="">
+<link rel="stylesheet" href="./ESP32-S3-Touch-LCD-1.28 - Waveshare Wiki_files/aAdkk0o(2).php">
+<link rel="stylesheet" href="./ESP32-S3-Touch-LCD-1.28 - Waveshare Wiki_files/aAdkk0o(3).php">
+<meta name="generator" content="MediaWiki 1.35.5">
+<meta property="og:image" content="https://www.waveshare.com/w/upload/5/59/ESP32-S3-Touch-LCD-1.28.jpg">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="shortcut icon" href="https://www.waveshare.com/w/favicon.ico">
+<link rel="search" type="application/opensearchdescription+xml" href="https://www.waveshare.com/w/opensearch_desc.php" title="Waveshare Wiki (en)">
+<link rel="EditURI" type="application/rsd+xml" href="https://www.waveshare.com/w/api.php?action=rsd">
+<link rel="alternate" type="application/atom+xml" title="Waveshare Wiki Atom feed" href="https://www.waveshare.com/w/index.php?title=Special:RecentChanges&amp;feed=atom">
+<!--[if lt IE 9]><script src="/w/resources/lib/html5shiv/html5shiv.js"></script><![endif]-->
+<style id="dark-reader-style" type="text/css">@media screen {
+html {-webkit-transition : -webkit-filter 300ms linear;}
+}</style></head>
+<body class="mediawiki ltr sitedir-ltr mw-hide-empty-elt ns-0 ns-subject page-ESP32-S3-Touch-LCD-1_28 rootpage-ESP32-S3-Touch-LCD-1_28 skin-tweeki action-view tweeki-animateLayout tweeki-non-advanced tweeki-user-anon" style="margin-bottom: 0px; position: relative;">			<!-- navbar -->
+			<div id="mw-navigation" class="navbar navbar-default navbar-fixed-top navbar-expand-lg fixed-top navbar-light bg-light" role="navigation">
+				<h2>Navigation menu</h2>
+				<div id="mw-head" class="navbar-inner">
+					<div class="container">
+
+						<div class="navbar-header">
+							<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+								<span class="sr-only">Toggle navigation</span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+							</button>
+
+							<a href="https://www.waveshare.com/wiki/Main_Page" class="navbar-brand"><img src="./ESP32-S3-Touch-LCD-1.28 - Waveshare Wiki_files/Ws-watermark-en.svg" alt="Waveshare Wiki"></a>
+						</div>
+
+						<div id="navbar" class="navbar-collapse collapse">
+													<ul class="nav navbar-nav">
+							<li class="nav"><a href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#" id="n-raspberry-pi" class="dropdown-toggle" data-toggle="dropdown">Raspberry Pi <b class="caret"></b></a><ul class="dropdown-menu " role="menu"><li id="n-main_page.2523rpi-boards"><a href="https://www.waveshare.com/wiki/Main_Page#RPi-Boards" tabindex="-1">Boards/Kits</a></li><li id="n-main_page.2523rpi-displays"><a href="https://www.waveshare.com/wiki/Main_Page#RPi-Displays" tabindex="-1">Displays</a></li><li id="n-main_page.2523rpi-cameras"><a href="https://www.waveshare.com/wiki/Main_Page#RPi-Cameras" tabindex="-1">Cameras</a></li><li id="n-main_page.2523rpi-expansions"><a href="https://www.waveshare.com/wiki/Main_Page#RPi-Expansions" tabindex="-1">Expansions</a></li><li id="n-main_page.2523rpi-laptops"><a href="https://www.waveshare.com/wiki/Main_Page#RPi-Laptops" tabindex="-1">All-in-one</a></li><li id="n-main_page.2523rpi-robots"><a href="https://www.waveshare.com/wiki/Main_Page#RPi-Robots" tabindex="-1">Robots</a></li><li id="n-main_page.2523rpi-games"><a href="https://www.waveshare.com/wiki/Main_Page#RPi-Games" tabindex="-1">Portable Gaming</a></li><li id="n-main_page.2523rpi-acces"><a href="https://www.waveshare.com/wiki/Main_Page#RPi-Acces" tabindex="-1">Accessories</a></li><li id="n-main_page.2523android-linux-boards"><a href="https://www.waveshare.com/wiki/Main_Page#Android-Linux-Boards" tabindex="-1">Other Android/Linux Boards</a></li></ul></li><li class="nav"><a href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#" id="n-ai" class="dropdown-toggle" data-toggle="dropdown">AI <b class="caret"></b></a><ul class="dropdown-menu " role="menu"><li id="n-main_page.2523jetson-ai-boards"><a href="https://www.waveshare.com/wiki/Main_Page#Jetson-AI-Boards" tabindex="-1">Boards/Kits</a></li><li id="n-main_page.2523jetson-ai-displays"><a href="https://www.waveshare.com/wiki/Main_Page#Jetson-AI-Displays" tabindex="-1">Displays</a></li><li id="n-main_page.2523jetson-ai-cameras"><a href="https://www.waveshare.com/wiki/Main_Page#Jetson-AI-Cameras" tabindex="-1">Cameras</a></li><li id="n-main_page.2523jetson-ai-hat"><a href="https://www.waveshare.com/wiki/Main_Page#Jetson-AI-HAT" tabindex="-1">Expansions</a></li><li id="n-main_page.2523jetson-ai-robots"><a href="https://www.waveshare.com/wiki/Main_Page#Jetson-AI-Robots" tabindex="-1">Robots</a></li></ul></li><li class="nav"><a href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#" id="n-displays" class="dropdown-toggle" data-toggle="dropdown">Displays <b class="caret"></b></a><ul class="dropdown-menu " role="menu"><li id="n-main_page.2523display-lcd-oleds"><a href="https://www.waveshare.com/wiki/Main_Page#Display-LCD-OLEDs" tabindex="-1">LCD/OLED</a></li><li id="n-main_page.2523display-e-paper"><a href="https://www.waveshare.com/wiki/Main_Page#Display-e-Paper" tabindex="-1">e-Paper</a></li></ul></li><li class="nav"><a href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#" id="n-iot" class="dropdown-toggle" data-toggle="dropdown">IoT <b class="caret"></b></a><ul class="dropdown-menu " role="menu"><li id="n-main_page.2523long-range-wireless-comm"><a href="https://www.waveshare.com/wiki/Main_Page#Long-range-wireless-comm" tabindex="-1">Long Range Wireless</a></li><li id="n-main_page.2523short-range-wireless-comm"><a href="https://www.waveshare.com/wiki/Main_Page#Short-range-wireless-comm" tabindex="-1">Short Range Wireless</a></li><li id="n-main_page.2523wired-communication"><a href="https://www.waveshare.com/wiki/Main_Page#Wired-communication" tabindex="-1">Wired Comm / Converter</a></li><li id="n-main_page.2523misc-cameras-av"><a href="https://www.waveshare.com/wiki/Main_Page#Misc-cameras-av" tabindex="-1">Cameras / Audio / Video</a></li><li id="n-main_page.2523misc-sensor-modules"><a href="https://www.waveshare.com/wiki/Main_Page#Misc-sensor-modules" tabindex="-1">Sensors</a></li><li id="n-main_page.2523misc-servos-motors"><a href="https://www.waveshare.com/wiki/Main_Page#Misc-servos-motors" tabindex="-1">Motors / Servos</a></li><li id="n-main_page.2523misc-other-modules"><a href="https://www.waveshare.com/wiki/Main_Page#Misc-other-modules" tabindex="-1">others</a></li></ul></li><li class="nav"><a href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#" id="n-robotics" class="dropdown-toggle" data-toggle="dropdown">Robotics <b class="caret"></b></a><ul class="dropdown-menu " role="menu"><li id="n-main_page.2523robotics-cars"><a href="https://www.waveshare.com/wiki/Main_Page#Robotics-cars" tabindex="-1">Mobile Robots</a></li><li id="n-main_page.2523dog-like-robots"><a href="https://www.waveshare.com/wiki/Main_Page#Dog-like-Robots" tabindex="-1">Dog-like Robots</a></li><li id="n-main_page.2523robotics-drivers-sensors"><a href="https://www.waveshare.com/wiki/Main_Page#Robotics-drivers-sensors" tabindex="-1">Drivers / Sensors</a></li><li id="n-main_page.2523robotics-robot-arms"><a href="https://www.waveshare.com/wiki/Main_Page#Robotics-robot-arms" tabindex="-1">Robot Arm / Control</a></li></ul></li><li class="nav"><a href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#" id="n-mcu.252Ffpga" class="dropdown-toggle" data-toggle="dropdown">MCU/FPGA <b class="caret"></b></a><ul class="dropdown-menu " role="menu"><li id="n-main_page.2523arduino-main-boards"><a href="https://www.waveshare.com/wiki/Main_Page#Arduino-main-boards" tabindex="-1">Arduino</a></li><li id="n-main_page.2523micro.253Abit"><a href="https://www.waveshare.com/wiki/Main_Page#micro:bit" tabindex="-1">micro:bit</a></li><li id="n-main_page.2523mcu.2farm" class="LPC"><a href="https://www.waveshare.com/wiki/Main_Page#MCU.2FARM" tabindex="-1">STM32</a></li><li id="n-main_page.2523fpga"><a href="https://www.waveshare.com/wiki/Main_Page#FPGA" tabindex="-1">FPGA</a></li></ul></li><li class="nav"><a href="https://service.waveshare.com/" id="n-https.253A.252F.252Fservice.waveshare.com" rel="nofollow" target="_blank">Support</a></li>							</ul>
+						
+													<ul class="nav navbar-nav navbar-right">
+							</ul>
+				<form class="navbar-form navbar-right" action="https://www.waveshare.com/w/index.php" id="searchform">
+					<div class="form-group"><input type="search" name="search" placeholder="Product name search" title="Search Waveshare Wiki [alt-shift-f]" accesskey="f" id="searchInput" class="search-query form-control"><input type="submit" name="go" value="Go" title="Go to a page with this exact name if it exists" id="mw-searchButton" class="searchButton btn hidden">
+					</div>
+				</form><ul class="nav navbar-nav navbar-right">							</ul>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+			<!-- /navbar -->
+					<div id="mw-page-base"></div>
+			<div id="mw-head-base"></div>
+			<a id="top"></a>
+
+			<!-- content -->
+			<div id="contentwrapper" class="user-loggedout not-editable container with-navbar with-navbar-fixed">
+
+				
+				<div class="row">
+					<div class="col-md-offset-2 col-md-10" role="main">
+								<div class="mw-body" id="content">
+			<div id="mw-js-message" style="display:none;"></div>
+									<h1 id="firstHeading" class="firstHeading page-header" lang="en"><span dir="auto">ESP32-S3-Touch-LCD-1.28</span></h1>
+									<!-- bodyContent -->
+			<div id="bodyContent">
+								<div id="siteSub">From Waveshare Wiki</div>
+								<div id="contentSub"></div>
+												<div id="jump-to-nav" class="mw-jump">
+					Jump to:					<a href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#mw-navigation">navigation</a>, 					<a href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#p-search">search</a>
+				</div>
+				<div id="mw-content-text" lang="en" dir="ltr" class="mw-content-ltr"><div class="mw-parser-output"><div class="wiki-pages jet-green-color">
+<table id="infotable" class="a-r at-c roundy bgd-green bl-white" style="margin-left: 5px; margin-bottom: 5px; width: 30%;">
+
+<tbody><tr>
+<td>
+<table class="at-c roundy" style="background: transparent;width:100%;">
+
+<tbody><tr>
+<td class="at-c textwhite"><b>ESP32-S3-Touch-LCD-1.28</b>
+</td></tr>
+<tr>
+<td class="at-c bgwhite" style="margin:5px;"><a href="https://www.waveshare.com/esp32-s3-touch-lcd-1.28.htm" target="_blank" rel="nofollow noreferrer noopener"><img alt="ESP32-S3-Touch-LCD-1.28.jpg" src="./ESP32-S3-Touch-LCD-1.28 - Waveshare Wiki_files/300px-ESP32-S3-Touch-LCD-1.28.jpg" decoding="async" loading="lazy" width="300" height="225" srcset="/w/upload/5/59/ESP32-S3-Touch-LCD-1.28.jpg 1.5x"></a><br><br><small>ESP32-S3R2<br> Type C USB</small>
+</td></tr></tbody></table>
+</td></tr>
+<tr style="display:none;">
+<td>
+<table class="roundy" style="background: transparent;width:100%;">
+
+<tbody><tr>
+<td class="at-c textwhite"><b>{{{name2}}}</b>
+</td></tr>
+<tr>
+<td class="at-c bgwhite" style="margin:5px;"><br>
+</td></tr></tbody></table>
+</td></tr>
+<tr style="display:none;">
+<td>
+<table class="roundy" style="background: transparent;width:100%;">
+
+<tbody><tr>
+<td class="at-c textwhite"><b>{{{name3}}}</b>
+</td></tr>
+<tr>
+<td class="at-c bgwhite" style="margin:5px;"><br>
+</td></tr></tbody></table>
+</td></tr>
+<tr style="display:none;">
+<td>
+<table class="roundy" style="background: transparent;width:100%;">
+
+<tbody><tr>
+<td class="at-c textwhite"><b>{{{name4}}}</b>
+</td></tr>
+<tr>
+<td class="at-c bgwhite" style="margin:5px;"><br>
+</td></tr></tbody></table>
+</td></tr>
+<tr style="display:none;">
+<td>
+<table class="roundy" style="background: transparent;width:100%;">
+
+<tbody><tr>
+<td class="at-c textwhite"><b>{{{name5}}}</b>
+</td></tr>
+<tr>
+<td class="at-c bgwhite" style="margin:5px;"><br>
+</td></tr></tbody></table>
+</td></tr>
+<tr style="display:none;">
+<td>
+<table class="roundy" style="background: transparent;width:100%;">
+
+<tbody><tr>
+<td class="at-c textwhite"><b>{{{name6}}}</b>
+</td></tr>
+<tr>
+<td class="at-c bgwhite" style="margin:5px;"><br>
+</td></tr></tbody></table>
+</td></tr>
+<tr>
+<td>
+<table class="roundy" style="display:none;">
+<tbody><tr>
+<td style="width:2%;">
+</td>
+<td style="width:3%;">
+</td>
+<th colspan="2" width="90%" class="at-c roundytop bgl-white">Primary Attribute
+</th>
+<td style="width:3%;">
+</td>
+<td style="width:2%;">
+</td></tr>
+<tr>
+<td colspan="6" width="90px" class="at-c roundytl roundytr bgwhite b-green" style="border-width: 0 0 1px 0;"><b>Category:</b>
+</td></tr>
+<tr style="display:none;">
+<th colspan="3" width="90px" class="at-r bgwhite b-green" style="border-width: 0 0 1px 0;">{{{userDefinedInfo}}}:
+</th>
+<td colspan="3" class="at-l b-green bgwhite" style="border-width: 0 0 1px 0;">{{{userdefinedvalue}}}
+</td></tr>
+<tr style="display:none;">
+<td colspan="6" width="90px" class="at-c roundybl roundybr bgwhite"><b>Brand:</b> Waveshare
+</td></tr></tbody></table>
+</td></tr>
+<tr>
+<td>
+<table class="a-r roundy" style="display:none;">
+<tbody><tr>
+<td style="width:2%;">
+</td>
+<td style="width:3%;">
+</td>
+<th colspan="2" width="90%" class="at-c roundytop bgl-white">Website
+</th>
+<td style="width:3%;">
+</td>
+<td style="width:2%;">
+</td></tr>
+<tr>
+<td colspan="6" width="90px" class="at-c roundytl roundytr bgwhite b-green" style="border-width: 0 0 1px 0;"><b>International:</b> <a target="_blank" rel="nofollow noreferrer noopener" class="external text" href="https://www.waveshare.com/esp32-s3-touch-lcd-1.28.htm">Website</a>
+</td></tr>
+<tr>
+<td colspan="6" width="90px" class="at-c roundybl roundybr bgwhite"><b>Chinese:</b> <a target="_blank" rel="nofollow noreferrer noopener" class="external text" href="https://www.waveshare.net/shop/ESP32-S3-Touch-LCD-1.28.htm">官网</a>
+</td></tr></tbody></table>
+</td></tr>
+<tr style="display:none;">
+<td>
+<table class="a-r roundy" style="background: transparent; border-collapse:collapse;width:100%;display:none;">
+<tbody><tr>
+<td style="width:2%;">
+</td>
+<td style="width:3%;">
+</td>
+<th colspan="2" width="90%" class="at-c roundytop bgl-white">Onboard Interfaces
+</th>
+<td style="width:3%;">
+</td>
+<td style="width:2%;">
+</td></tr>
+<tr>
+<td colspan="6" width="90px" class="at-l roundy bgwhite b-green" style="border-width: 0 0 1px 0;">
+<table class="roundy bgwhite fulltable" style="text-align:center;">
+
+<tbody><tr>
+<td class="roundy bl-gray bw-1" style="width:25%;display:none;"><small></small>
+</td>
+<td class="roundy bl-gray bw-1" style="width:25%;display:none;"><small></small>
+</td>
+<td class="roundy bl-gray bw-1" style="width:25%;display:none;"><small></small>
+</td>
+<td class="roundy bl-gray bw-1" style="width:25%;display:none;"><small></small>
+</td></tr>
+<tr>
+<td class="roundy bl-gray bw-1" style="width:25%;display:none;"><small></small>
+</td>
+<td class="roundy bl-gray bw-1" style="width:25%;display:none;"><small></small>
+</td>
+<td class="roundy bl-gray bw-1" style="width:25%;display:none;"><small></small>
+</td>
+<td class="roundy bl-gray bw-1" style="width:25%;display:none;"><small></small>
+</td></tr>
+<tr>
+<td class="roundy bl-gray bw-1" style="width:25%;display:none;"><small></small>
+</td>
+<td class="roundy bl-gray bw-1" style="width:25%;display:none;"><small></small>
+</td>
+<td class="roundy bl-gray bw-1" style="width:25%;display:none;"><small></small>
+</td>
+<td class="roundy bl-gray bw-1" style="width:25%;display:none;"><small></small>
+</td></tr>
+<tr>
+<td class="roundy bl-gray bw-1" style="width:25%;display:none;"><small></small>
+</td>
+<td class="roundy bl-gray bw-1" style="width:25%;display:none;"><small></small>
+</td>
+<td class="roundy bl-gray bw-1" style="width:25%;display:none;"><small></small>
+</td>
+<td class="roundy bl-gray bw-1" style="width:25%;display:none;"><small></small>
+</td></tr>
+<tr>
+<td class="roundy bl-gray bw-1" style="width:25%;display:none;"><small></small>
+</td>
+<td class="roundy bl-gray bw-1" style="width:25%;display:none;"><small></small>
+</td>
+<td class="roundy bl-gray bw-1" style="width:25%;display:none;"><small></small>
+</td>
+<td class="roundy bl-gray bw-1" style="width:25%;display:none;"><small></small>
+</td></tr></tbody></table>
+</td></tr></tbody></table>
+</td></tr>
+<tr style="display:none;">
+<td>
+<table class="a-r roundy" style="background: transparent; border-collapse:collapse;width:100%;;display:none;">
+<tbody><tr>
+<td style="width:2%;">
+</td>
+<td style="width:3%;">
+</td>
+<th colspan="2" width="90%" class="at-c roundytop bgl-white">Related Products
+</th>
+<td style="width:3%;">
+</td>
+<td style="width:2%;">
+</td></tr>
+<tr>
+<td colspan="6" width="90px" class="at-l roundy bgwhite b-green" style="border-width: 0 0 1px 0;">
+</td></tr></tbody></table>
+</td></tr></tbody></table>
+<div class="toccolours mw-collapsible mw-collapsed mw-made-collapsible"><span class="mw-collapsible-toggle mw-collapsible-toggle-default mw-collapsible-toggle-collapsed" role="button" tabindex="0" aria-expanded="false"><a class="mw-collapsible-text">Expand</a></span>
+
+
+<h1><span class="mw-headline" id="Overview">Overview</span></h1>
+<div class="mw-collapsible-content" style="display: none;">
+<h2><span class="mw-headline" id="Introduction">Introduction</span></h2>
+<p>ESP32-S3-Touch-LCD-1.28 is a low-cost, high-performance MCU board designed by Waveshare. It features peripherals such as a 1.28-inch capacitive touch LCD screen, a lithium-ion battery charging chip, a six-axis IMU sensor (three-axis accelerometer and three-axis gyroscope), and the ESP32-S3R2, a system-on-chip (SoC) that integrates low-power Wi-Fi and BLE 5.0, as well as external 16MB Flash and 2MB PSRAM. The hardware encryption accelerator, RNG, HMAC, and digital signature modules within the Soc can meet the security requirements of the Internet of Things. A variety of low-power operating states meet the power consumption requirements of application scenarios such as the Internet of Things (IoT), mobile devices, wearable electronic devices, and smart homes.
+</p>
+<h2><span class="mw-headline" id="Features">Features</span></h2>
+<ul><li>Equipped with high-performance Xtensa 32-bit LX7 dual-core processor, up to 240 MHz main frequency</li>
+<li>Supports 2.4GHz Wi-Fi (802.11 b/g/n) and  Bluetooth® 5 (BLE), with onboard antenna</li>
+<li>Built in 512KB of SRAM and 384KB ROM, with onboard 2MB PSRAM and an external 16MB Flash memory</li>
+<li>Using Type-C interface, keeping up with the trend of the times, no need to entangle the front and back plugging</li>
+<li>Onboard 1.28inch capacitive touch display, 240×240 resolution, 65K color</li>
+<li>Onboard QMI8658 6-axis IMU (3-axis accelerometer and 3-axis gyroscope) for detecting motion gesture</li>
+<li>Onboard 3.7V lithium battery recharge/discharge header and 6 × GPIO pins via SH1.0 connector</li>
+<li>Supports flexible clock, module power supply independent setting and other controls to realize low power consumption in different scenarios</li>
+<li>Integrated with USB serial port full-speed controller, GPIO pins allows flexibly configuring peripheral device functions</li></ul>
+<h2><span class="mw-headline" id="Onboard_Resources">Onboard Resources</span></h2>
+<p><a href="https://www.waveshare.com/wiki/File:ESP32-S3-Touch-LCD-1.28-introduction-01.png" class="image fancybox"><img alt="ESP32-S3-Touch-LCD-1.28-introduction-01.png" src="./ESP32-S3-Touch-LCD-1.28 - Waveshare Wiki_files/ESP32-S3-Touch-LCD-1.28-introduction-01.png" decoding="async" loading="lazy" width="801" height="551"></a>
+</p>
+<table style="background-color: #f0f0f0;margin: 0px 30px;width: 90%;">
+<tbody><tr>
+<td style="width:50%;padding: 10px 10px;">
+<p><b>1. ESP32-S3R2</b><br>
+&nbsp;&nbsp;&nbsp;The SoC with WiFi and Bluetooth, up to 240MHz operating frequency, with onboard 2MB PSRAM
+</p><p><b>2. W25Q128JVSIQ</b><br>
+&nbsp;&nbsp;&nbsp;16MB NOR-Flash
+</p><p><b>3. CH343P</b><br>
+&nbsp;&nbsp;&nbsp;USB to UART chip
+</p><p><b>4. ME6217C33M5G</b><br>
+&nbsp;&nbsp;&nbsp;800mA output, low dropout, high rejection rate
+</p><p><b>5. ETA6096</b><br>
+&nbsp;&nbsp;&nbsp;High-efficiency lithium battery charging chip
+</p>
+</td>
+<td>
+</td>
+<td style="width:45%;padding: 3px 10px;">
+<p><br>
+<b>6. QMI8658</b><br>
+&nbsp;&nbsp;&nbsp;6-axis IMU includes a 3-axis gyroscope and a 3-axis accelerometer
+</p><p><b>7. MX1.25 Lithium battery interface</b><br>
+&nbsp;&nbsp;&nbsp;MX1.25 2P connector, for 3.7V Lithium battery, supports charging and discharging
+</p><p><b>8. USB Type-C port</b><br>
+&nbsp;&nbsp;&nbsp;USB to serial port for program flashing and log printing
+</p><p><b>9. RESET button</b><br>
+</p><p><b>10. BOOT button</b><br>
+&nbsp;&nbsp;&nbsp;Press before reset to enter download mode
+</p><p><br>
+</p>
+</td></tr></tbody></table>
+<h2><span class="mw-headline" id="Interfaces">Interfaces</span></h2>
+<p><a href="https://www.waveshare.com/wiki/File:Esp32-s3-touch-lcd-1.28-003.png" class="image fancybox"><img alt="Esp32-s3-touch-lcd-1.28-003.png" src="./ESP32-S3-Touch-LCD-1.28 - Waveshare Wiki_files/Esp32-s3-touch-lcd-1.28-003.png" decoding="async" loading="lazy" width="882" height="648"></a>
+</p>
+<ul><li><b> Type-C interface </b>: The development board uses the CH343P chip to convert USB to UART, and connects the UART_TXD (GPIO43) and UART_RXD (GPIO44) of ESP32-S3 for firmware flashing and log printing. With the integrated automatic download circuit, it directly downloads the firmware upon connecting the Type-C cable.</li>
+<li><b> SH1.0 connector </b>: The development board leads out 6 GPIOs for external connection, the GPIOs can be configured for I2C, SPI and other peripheral functions, and the VSYS can directly input 5V to power the development board.</li>
+<li><b> LCD interface </b>: The development board has a 1.28-inch screen with 4-wire SPI communication on board, the SPI rate can be increased to 80MHz, and the touch uses I2C communication (the development board uses GPIO2 to control the brightness of the backlight, and two MOS tube control switch contacts are also drawn out around the battery holder, which are connected to GPIO4 and GPIO5 respectively, and can be used to solder small current devices such as vibration motors, etc.. For details, please refer to <a target="_blank" rel="nofollow noreferrer noopener" class="external text" href="https://files.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28/ESP32-S3-Touch-LCD-1.28-Sch.pdf">Schematic</a>)</li>
+<li><b> I2C interface </b>: The ESP32-S3 provides multi-channel hardware I2C, currently using GPIO6 (SDA) and GPIO7 (SCL) pins for the I2C bus. The QMI8658 six-axis inertial measurement unit and LCD touch control chip are mounted on the board. For details, please refer to <a target="_blank" rel="nofollow noreferrer noopener" class="external text" href="https://files.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28/ESP32-S3-Touch-LCD-1.28-Sch.pdf">Schematic</a></li>
+<li><b> MX1.25 connector </b>: The GPIO1 of the development board is used for measuring the battery voltage pin. The battery voltage is connected to GPIO1 through a voltage divider consisting of 200K and 100K in series. The ESP32-S3 series has 2 12Bit SAR ADC measurement units. In the source code, the conversion formula to voltage is 3.3 / (1&lt;&lt;12) * 3 * AD_Value.</li></ul>
+<table border="1;" style="width:100%; max-width:700px;" align="auto">
+<caption>Pin connection
+</caption>
+<tbody><tr style="background:#E0E4EB; color:black;" align="center">
+<td>ESP32-S3R2</td>
+<td>LCD</td>
+<td>SH1.0</td>
+<td>MX1.25</td>
+<td>QMI8658</td>
+<td>other
+</td></tr>
+<tr align="center">
+<td>GPIO0</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>BOOT0
+</td></tr>
+<tr align="center">
+<td>GPIO1</td>
+<td></td>
+<td></td>
+<td>ADC</td>
+<td></td>
+<td>
+</td></tr>
+<tr align="center">
+<td>GPIO2</td>
+<td>LCD_BL</td>
+<td></td>
+<td></td>
+<td></td>
+<td>
+</td></tr>
+<tr align="center">
+<td>GPIO3</td>
+<td></td>
+<td></td>
+<td></td>
+<td>INT2</td>
+<td>
+</td></tr>
+<tr align="center">
+<td>GPIO4</td>
+<td></td>
+<td></td>
+<td></td>
+<td>INT1</td>
+<td>MOSFET1_CS
+</td></tr>
+<tr align="center">
+<td>GPIO5</td>
+<td>TP_INT</td>
+<td></td>
+<td></td>
+<td></td>
+<td>MOSFET2_CS
+</td></tr>
+<tr align="center">
+<td>GPIO6</td>
+<td>TP_SDA</td>
+<td></td>
+<td></td>
+<td>SDA</td>
+<td>
+</td></tr>
+<tr align="center">
+<td>GPIO7</td>
+<td>TP_SCL</td>
+<td></td>
+<td></td>
+<td>SCL</td>
+<td>
+</td></tr>
+<tr align="center">
+<td>GPIO8</td>
+<td>LCD_DC</td>
+<td></td>
+<td></td>
+<td></td>
+<td>
+</td></tr>
+<tr align="center">
+<td>GPIO9</td>
+<td>LCD_CS</td>
+<td></td>
+<td></td>
+<td></td>
+<td>
+</td></tr>
+<tr align="center">
+<td>GPIO10</td>
+<td>LCD_CLK</td>
+<td></td>
+<td></td>
+<td></td>
+<td>
+</td></tr>
+<tr align="center">
+<td>GPIO11</td>
+<td>LCD_MOSI</td>
+<td></td>
+<td></td>
+<td></td>
+<td>
+</td></tr>
+<tr align="center">
+<td>GPIO12</td>
+<td>LCD_MISO</td>
+<td></td>
+<td></td>
+<td></td>
+<td>
+</td></tr>
+<tr align="center">
+<td>GPIO13</td>
+<td>TP_RST</td>
+<td></td>
+<td></td>
+<td></td>
+<td>
+</td></tr>
+<tr align="center">
+<td>GPIO14</td>
+<td>LCD_RST</td>
+<td></td>
+<td></td>
+<td></td>
+<td>
+</td></tr>
+<tr align="center">
+<td>GPIO15</td>
+<td></td>
+<td>GPIO15</td>
+<td></td>
+<td></td>
+<td>
+</td></tr>
+<tr align="center">
+<td>GPIO16</td>
+<td></td>
+<td>GPIO16</td>
+<td></td>
+<td></td>
+<td>
+</td></tr>
+<tr align="center">
+<td>GPIO17</td>
+<td></td>
+<td>GPIO17</td>
+<td></td>
+<td></td>
+<td>
+</td></tr>
+<tr align="center">
+<td>GPIO18</td>
+<td></td>
+<td>GPIO18</td>
+<td></td>
+<td></td>
+<td>
+</td></tr>
+<tr align="center">
+<td>GPIO19</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>
+</td></tr>
+<tr align="center">
+<td>GPIO20</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>
+</td></tr>
+<tr align="center">
+<td>GPIO21</td>
+<td></td>
+<td>GPIO21</td>
+<td></td>
+<td></td>
+<td>
+</td></tr>
+<tr align="center">
+<td>GPIO33</td>
+<td></td>
+<td>GPIO33</td>
+<td></td>
+<td></td>
+<td>
+</td></tr></tbody></table>
+<h2><span class="mw-headline" id="Dimensions">Dimensions</span></h2>
+<p><a href="https://www.waveshare.com/wiki/File:600px-Esp32-s3-touch-lcd-1.28-002.png" class="image fancybox"><img alt="600px-Esp32-s3-touch-lcd-1.28-002.png" src="./ESP32-S3-Touch-LCD-1.28 - Waveshare Wiki_files/600px-600px-Esp32-s3-touch-lcd-1.28-002.png" decoding="async" loading="lazy" width="600" height="981" srcset="/w/upload/c/c5/600px-Esp32-s3-touch-lcd-1.28-002.png 1.5x"></a>
+</p>
+<h2><span class="mw-headline" id="Specifications">Specifications</span></h2>
+<table border="1;" style="width:700px;" align="auto">
+
+<tbody><tr>
+<td style="background:#E0E4EB; color:black;text-align:center;" colspan="4">LCD parameters
+</td></tr>
+<tr>
+<td style="background:#E0E4EB; color:black;text-align:center;">Touch chip
+</td>
+<td style="text-align:center;">CST816S
+</td>
+<td style="background:#E0E4EB; color:black;text-align:center;">Touch interface
+</td>
+<td style="text-align:center;">I2C
+</td></tr>
+<tr>
+<td style="background:#E0E4EB; color:black;text-align:center;">Display chip
+</td>
+<td style="text-align:center;">GC9A01A
+</td>
+<td style="background:#E0E4EB; color:black;text-align:center;">Display interface
+</td>
+<td style="text-align:center;">SPI
+</td></tr>
+<tr>
+<td style="background:#E0E4EB; color:black;text-align:center;">Resolution
+</td>
+<td style="text-align:center;">240(H)RGB x 240(V)
+</td>
+<td style="background:#E0E4EB; color:black;text-align:center;">Display size
+</td>
+<td style="text-align:center;">Φ32.4mm
+</td></tr>
+<tr>
+<td style="background:#E0E4EB; color:black;text-align:center;">Display panel
+</td>
+<td style="text-align:center;">IPS
+</td>
+<td style="background:#E0E4EB; color:black;text-align:center;">Pixel size
+</td>
+<td style="text-align:center;">0.135(H)mm x 0.135(V)mm
+</td></tr>
+</tbody></table>
+<p><br>
+</p>
+<table border="1;" style="width:700px;" align="auto">
+
+<tbody><tr>
+<td style="background:#E0E4EB; color:black;text-align:center;" colspan="4">IMU parameters
+</td></tr>
+<tr>
+<td style="background:#E0E4EB; color:black;text-align:center;">Sensor name
+</td>
+<td>QMI8658
+</td></tr>
+<tr>
+<td style="background:#E0E4EB; color:black;text-align:center;">Accelerometer characteristics
+</td>
+<td>Resolution: 16 bits<br>Range (optional): ±2, ±4, ±8, ±16g
+</td></tr>
+<tr>
+<td style="background:#E0E4EB; color:black;text-align:center;">Gyroscope characteristics
+</td>
+<td>Resolution: 16 bits<br>Range (optional): ±16, ±32, ±64, ±128, ±256, ±512, ±1024, ±2048°/sec
+</td></tr>
+</tbody></table>
+</div>
+<div class="wiki-pages jet-green-color">
+</div>
+<h1><span class="mw-headline" id="Version_Description">Version Description</span></h1>
+<div role="note" class="note note-warn">This development board comes in both touch and non-touch versions. Please click on the corresponding product to view the detailed instructions.</div>
+<table>
+
+<tbody><tr>
+<td><a href="https://www.waveshare.com/wiki/ESP32-S3-LCD-1.28" title="ESP32-S3-LCD-1.28"><img alt="ESP32-S3-LCD-1.28 wiki" src="./ESP32-S3-Touch-LCD-1.28 - Waveshare Wiki_files/ESP32-S3-Touch-LCD-1.28-usenotes-03.png" decoding="async" loading="lazy" width="281" height="280"></a>
+</td>
+<td><a href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28" title="ESP32-S3-Touch-LCD-1.28"><img alt="ESP32-S3-Touch-LCD-1.28 wiki" src="./ESP32-S3-Touch-LCD-1.28 - Waveshare Wiki_files/280px-280px-ESP32-S3-Touch-LCD-1.28-usenotes-02.jpg" decoding="async" loading="lazy" width="280" height="280" srcset="/w/upload/thumb/c/ce/280px-ESP32-S3-Touch-LCD-1.28-usenotes-02.jpg/420px-280px-ESP32-S3-Touch-LCD-1.28-usenotes-02.jpg 1.5x, /w/upload/thumb/c/ce/280px-ESP32-S3-Touch-LCD-1.28-usenotes-02.jpg/560px-280px-ESP32-S3-Touch-LCD-1.28-usenotes-02.jpg 2x"></a>
+</td></tr>
+<tr>
+<td align="center"><b><a href="https://www.waveshare.com/wiki/ESP32-S3-LCD-1.28" title="ESP32-S3-LCD-1.28">ESP32-S3-LCD-1.28</a></b><br>Non Touch Version
+</td>
+<td align="center"><b><a class="mw-selflink selflink">ESP32-S3-Touch-LCD-1.28</a></b><br>Touch Version
+</td></tr></tbody></table>
+<h1><span class="mw-headline" id="Usage_instructions">Usage instructions</span></h1>
+<p>ESP32-S3-Touch-LCD-1.28 currently provides two development tools and frameworks, <b>Arduino IDE</b> and <b>MicroPython</b>, providing flexible development options, you can choose the right development tool according to your project needs and personal habits.
+</p>
+<h2><span class="mw-headline" id="Development_tools">Development tools</span></h2>
+<table>
+
+<tbody><tr>
+<th style="width: 180px;">
+</th>
+<th>
+</th></tr>
+<tr>
+<td><a href="https://www.waveshare.com/wiki/File:180px-Arduino-IDE-logo.jpg" class="image fancybox"><img alt="180px-Arduino-IDE-logo.jpg" src="./ESP32-S3-Touch-LCD-1.28 - Waveshare Wiki_files/180px-Arduino-IDE-logo.jpg" decoding="async" loading="lazy" width="180" height="164"></a></td>
+<td>
+<h3><span class="mw-headline" id="Arduino_IDE">Arduino IDE</span></h3>
+<p>Arduino IDE is an open source electronic prototyping platform, convenient and flexible, easy to get started. After a simple learning, you can start to develop quickly. At the same time, Arduino has a large global user community, providing an abundance of open source code, project examples and tutorials, as well as rich library resources, encapsulating complex functions, allowing developers to quickly implement various functions.
+</p>
+</td></tr>
+<tr>
+<td><a href="https://www.waveshare.com/wiki/File:180px-MicroPython-logo.jpg" class="image fancybox"><img alt="180px-MicroPython-logo.jpg" src="./ESP32-S3-Touch-LCD-1.28 - Waveshare Wiki_files/180px-MicroPython-logo.jpg" decoding="async" loading="lazy" width="180" height="180"></a></td>
+<td>
+<h3><span class="mw-headline" id="MicroPython">MicroPython</span></h3>
+<p>Micropython is a full implementation of the Python 3 programming language that runs directly on embedded hardware such as ESP32, Raspberry Pi Pico, etc. You can run Python scripts directly on the board through REPL, which is very suitable for rapid prototyping.
+</p>
+</td></tr></tbody></table>
+<p>Arduino and MicroPython are suitable for beginners and non-professionals because they are easy to learn and quick to get started. 
+</p>
+<h2><span class="mw-headline" id="Components_preparation">Components preparation</span></h2>
+<ul><li>ESP32-S3-Touch-LCD-1.28 x1</li>
+<li>USB cable (Type-A to Type-C) x 1</li></ul>
+<p><a href="https://www.waveshare.com/wiki/File:300px-ESP32-S3-Touch-LCD-1.28-usenotes-01.png" class="image fancybox"><img alt="300px-ESP32-S3-Touch-LCD-1.28-usenotes-01.png" src="./ESP32-S3-Touch-LCD-1.28 - Waveshare Wiki_files/300px-ESP32-S3-Touch-LCD-1.28-usenotes-01.png" decoding="async" loading="lazy" width="300" height="116"></a>
+</p>
+<div role="note" class="note note-warn">Before operating, it is recommended to browse the table of contents to quickly understand the document structure. For smooth operation, please read the FAQ carefully to understand possible problems in advance. All resources in the document are provided with hyperlinks for easy download. </div>
+<h1><span class="mw-headline" id="Working_with_Arduino">Working with Arduino</span></h1>
+<p>This chapter introduces setting up the Arduino environment, including the Arduino IDE, management of ESP32 boards, installation of related libraries, program compilation and downloading, as well as testing demos. It aims to help users master the development board and facilitate secondary development.
+<a href="https://www.waveshare.com/wiki/File:Arduino-flow-04.png" class="image fancybox"><img alt="Arduino-flow-04.png" src="./ESP32-S3-Touch-LCD-1.28 - Waveshare Wiki_files/800px-Arduino-flow-04.png" decoding="async" loading="lazy" width="800" height="44" srcset="/w/upload/thumb/1/17/Arduino-flow-04.png/1200px-Arduino-flow-04.png 1.5x, /w/upload/1/17/Arduino-flow-04.png 2x"></a>
+</p>
+<h2><span class="mw-headline" id="Environment_setup">Environment setup</span></h2>
+<h3><span class="mw-headline" id="Download_and_install_Arduino_IDE">Download and install Arduino IDE</span></h3>
+<ul><li>Click to visit the <a target="_blank" rel="nofollow noreferrer noopener" class="external text" href="https://www.arduino.cc/en/software">official website</a>, select the corresponding system and system bit to download. <br><a href="https://www.waveshare.com/wiki/File:ESP32-S3-AMOLED-1.91-Ar-software-01.png" class="image fancybox"><img alt="ESP32-S3-AMOLED-1.91-Ar-software-01.png" src="./ESP32-S3-Touch-LCD-1.28 - Waveshare Wiki_files/ESP32-S3-AMOLED-1.91-Ar-software-01.png" decoding="async" loading="lazy" width="902" height="458"></a></li>
+<li>Run the installer and install all by default.</li></ul>
+<div role="note" class="note note-info">The environment setup is carried out on the Windows 10 system, Linux and Mac users can access <a target="_blank" rel="nofollow noreferrer noopener" class="external text" href="https://docs.espressif.com/projects/arduino-esp32/en/latest/installing.html">Arduino-esp32 environment setup</a> for reference. (To use on Mac,
+you need to install the Mac driver <a target="_blank" rel="nofollow noreferrer noopener" class="external text" href="https://files.waveshare.com/wiki/common/CH34XSER_MAC.7z">MAC driver </a>.) </div>
+<h3><span class="mw-headline" id="Install_ESP32_development_board"><b>Install ESP32 development board</b></span></h3>
+<ul><li>In order to use the ESP32-related motherboard in the Arduino IDE, the software package of the <b>esp32 by Espressif Systems</b> board must be installed</li>
+<li>According to <font color="red"><b> Board installation requirement</b></font>, it is generally recommended to use <b>Install Online</b>. If online installation fails, use <b>Install Offline</b></li>
+<li>For the installation tutorial, please refer to <a target="_blank" rel="nofollow noreferrer noopener" class="external text" href="https://www.waveshare.com/wiki/Arduino_Board_Managers_Tutorial">Arduino board manager tutorial</a></li>
+<li>The <b>esp32 by Espressif Systems</b> development board comes with an offline package. Click here to download: <a target="_blank" rel="nofollow noreferrer noopener" class="external text" href="https://drive.google.com/drive/folders/1Pcs_A4FKWvdSHnz9lEBYqOpr-noTMbIv?usp=sharing">esp32_package_2.0.12_arduino offline package</a></li></ul>
+<table class="wikitable table table-bordered" style="width:80%">
+<caption>
+<ul><li>ESP32-S3-Touch-LCD-1.28 required development board installation instructions</li></ul>
+</caption>
+<tbody><tr>
+<th>Board name</th>
+<th>Board installation requirement</th>
+<th>Version number requirement
+</th></tr>
+<tr style="text-align:center;">
+<td>esp32 by Espressif Systems</td>
+<td>"Install Offline" / "Install Online"</td>
+<td>2.0.12
+</td></tr>
+</tbody></table>
+<h3><span class="mw-headline" id="Install_library">Install library</span></h3>
+<ul><li>When installing Arduino libraries, there are usually two ways to choose from: <b>Install online</b> and <b>Install offline</b>.<b> <font color="red"> If the library installation requires offline installation, you must use the provided library file</font></b><br> For most libraries, users can easily search and install them through the online library manager of the Arduino software. However, some open-source libraries or custom libraries are not synchronized to the Arduino Library Manager, so they cannot be acquired through online searches. In this case, users can only manually install these libraries offline.</li>
+<li>For library installation tutorial, please refer to <a target="_blank" rel="nofollow noreferrer noopener" class="external text" href="https://www.waveshare.com/wiki/Arduino_Library_Manager_Tutorial">Arduino library manager tutorial</a></li>
+<li>ESP32-S3-Touch-LCD-1.28 library file is stored in the sample program, click here to jump: <a href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#Resources">ESP32-S3-Touch-LCD-1.28 Demo</a></li></ul>
+<table class="wikitable table table-bordered" style="width:80%">
+<caption>
+<ul><li>ESP32-S3-Touch-LCD-1.28 Library file installation instructions</li></ul>
+</caption>
+<tbody><tr>
+<th>Library Name</th>
+<th>Description</th>
+<th>Version</th>
+<th>Library Installation Requirements
+</th></tr>
+<tr style="text-align:center;">
+<td>LVGL</td>
+<td>Graphical library</td>
+<td>v8.3.10</td>
+<td>"Install Offline"
+</td></tr>
+<tr style="text-align:center;">
+<td>TFT_eSPI</td>
+<td>LCD library</td>
+<td>v2.5.34</td>
+<td>"Install Offline"
+</td></tr>
+<tr style="text-align:center;">
+<td>TFT_eSPI_Setups</td>
+<td>Custom library</td>
+<td>--</td>
+<td>"Install Offline"
+</td></tr></tbody></table>
+<div role="note" class="note note-info">For more learning and use of LVGL, please refer to <a target="_blank" rel="nofollow noreferrer noopener" class="external text" href="https://docs.lvgl.io/master/intro/introduction/index.html">LVGL official documentation</a></div>
+<h2><span class="mw-headline" id="Run_the_First_Arduino_Demo">Run the First Arduino Demo</span></h2>
+<div class="toccolours mw-collapsible mw-collapsed mw-made-collapsible"><span class="mw-collapsible-toggle mw-collapsible-toggle-default mw-collapsible-toggle-collapsed" role="button" tabindex="0" aria-expanded="false"><a class="mw-collapsible-text">Expand</a></span>
+<div role="note" class="note note-reminder">If you are just getting started with ESP32 and Arduino, and you don't know how to create, compile, flash, and run Arduino ESP32 programs, then please expand and take a look. Hope it can help you! </div>
+<div class="mw-collapsible-content" style="padding: 10px; background-color: rgb(249, 249, 249); border-radius: 10px; display: none;">
+<div style="margin-bottom: 10px;">
+<h3><span class="mw-headline" id="New_Project">New Project</span></h3>
+<ul><li>Run the Arduino IDE and select <code><b>File</b></code> -&gt; <code><b>New Sketch</b></code> <br> <a href="https://www.waveshare.com/wiki/File:ESP32-S3-AMOLED-1.91-Ar-study-01.png" class="image fancybox"><img alt="ESP32-S3-AMOLED-1.91-Ar-study-01.png" src="./ESP32-S3-Touch-LCD-1.28 - Waveshare Wiki_files/ESP32-S3-AMOLED-1.91-Ar-study-01.png" decoding="async" loading="lazy" width="800" height="584"></a></li>
+<li>Enter the code:</li></ul>
+<pre class="code2highlight lang-c hljs cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">setup</span><span class="hljs-params">()</span> </span>{
+  <span class="hljs-comment">// put your setup code here, to run once:</span>
+  Serial.begin(<span class="hljs-number">115200</span>);
+}
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">loop</span><span class="hljs-params">()</span> </span>{
+  <span class="hljs-comment">// put your main code here, to run repeatedly:</span>
+  Serial.println(<span class="hljs-string">"Hello, World!"</span>);
+  delay(<span class="hljs-number">2000</span>);
+}</pre>
+<ul><li>Save the project and select <code><b>File</b></code> -&gt; <code><b>Save As...</b></code>. In the pop-up menu, select the path to save the project, and enter a project name, such as <b>Hello_World</b>, click <code><b>Save</b></code></li></ul>
+<pre><br><a href="https://www.waveshare.com/wiki/File:ESP32-S3-AMOLED-1.91-Ar-study-02.png" class="image fancybox"><img alt="ESP32-S3-AMOLED-1.91-Ar-study-02.png" src="./ESP32-S3-Touch-LCD-1.28 - Waveshare Wiki_files/ESP32-S3-AMOLED-1.91-Ar-study-02.png" decoding="async" loading="lazy" width="800" height="584"></a>
+</pre>
+</div>
+<div style="margin-bottom: 10px;">
+<h3><span class="mw-headline" id="Compile_and_Flash_Demos">Compile and Flash Demos</span></h3>
+<ul><li>Select the corresponding development board, take the ESP32S3 motherboard as an example:<br></li></ul>
+<p><font color="red">①. </font>Click to select the dropdown menu option <b>Select Other Board and Port</b>; <br>
+<font color="red">②. </font>Search for the required development board model <b>esp32s3 dev module</b> and select; <br>
+<font color="red">③. </font>Select <b>COM Port</b>; <br>
+<font color="red">④. </font><b>Save</b> the selection. <br>
+<a href="https://www.waveshare.com/wiki/File:ESP32-S3-AMOLED-1.91-Ar-study-03.png" class="image fancybox"><img alt="ESP32-S3-AMOLED-1.91-Ar-study-03.png" src="./ESP32-S3-Touch-LCD-1.28 - Waveshare Wiki_files/ESP32-S3-AMOLED-1.91-Ar-study-03.png" decoding="async" loading="lazy" width="800" height="584"></a>
+</p>
+<ul><li>If the ESP32S3 mainboard only has a USB port, you need to enable <b>USB CDC</b>, as shown in the following diagram: <br></li></ul>
+<p><a href="https://www.waveshare.com/wiki/File:ESP32-S3-AMOLED-1.91-Ar-study-04.png" class="image fancybox"><img alt="ESP32-S3-AMOLED-1.91-Ar-study-04.png" src="./ESP32-S3-Touch-LCD-1.28 - Waveshare Wiki_files/ESP32-S3-AMOLED-1.91-Ar-study-04.png" decoding="async" loading="lazy" width="798" height="580"></a>
+</p>
+<ul><li>Compile and upload the program: <br></li></ul>
+<p><font color="red">①. </font>Compile the program; <font color="red">②. </font>Compile and download the program; <font color="red">③. </font>Download successful. <br>
+<a href="https://www.waveshare.com/wiki/File:ESP32-S3-AMOLED-1.91-Ar-study-05.png" class="image fancybox"><img alt="ESP32-S3-AMOLED-1.91-Ar-study-05.png" src="./ESP32-S3-Touch-LCD-1.28 - Waveshare Wiki_files/ESP32-S3-AMOLED-1.91-Ar-study-05.png" decoding="async" loading="lazy" width="800" height="583"></a>
+</p>
+<ul><li>Open the <b>Serial Monitor</b> window, and the demo will print "Hello World!" every 2 seconds, and the operation is as follows:<br></li></ul>
+<p><a href="https://www.waveshare.com/wiki/File:ESP32-S3-AMOLED-1.91-Ar-study-06.png" class="image fancybox"><img alt="ESP32-S3-AMOLED-1.91-Ar-study-06.png" src="./ESP32-S3-Touch-LCD-1.28 - Waveshare Wiki_files/ESP32-S3-AMOLED-1.91-Ar-study-06.png" decoding="async" loading="lazy" width="798" height="580"></a>
+</p>
+</div>
+</div>
+</div>
+</div>
+<div class="wiki-pages jet-green-color">
+<h2><span class="mw-headline" id="Demos">Demos</span></h2>
+<p><a href="https://www.waveshare.com/wiki/File:Demo-flow-01.png" class="image fancybox"><img alt="Demo-flow-01.png" src="./ESP32-S3-Touch-LCD-1.28 - Waveshare Wiki_files/1000px-Demo-flow-01.png" decoding="async" loading="lazy" width="1000" height="54" srcset="/w/upload/7/74/Demo-flow-01.png 1.5x"></a>
+</p>
+<table class="wikitable table table-striped table-bordered" style="width:80%;background: white;">
+<caption>
+<ul><li>ESP32-S3-Touch-LCD-1.28 Demo</li></ul>
+</caption>
+<tbody><tr>
+<th>Demo</th>
+<th>Basic Description</th>
+<th>Dependency Library
+</th></tr>
+<tr style="text-align:center;">
+<td>ESP32-S3-Touch-LCD-1.28-Test</td>
+<td>Test onboard device functionality</td>
+<td>---
+</td></tr>
+<tr style="text-align:center;">
+<td>LVGL_Arduino</td>
+<td>Display LVGL benchmark, music, etc</td>
+<td>LVGL, TFT_eSPI , TFT_eSPI_Setups
+</td></tr>
+<tr style="text-align:center;">
+<td>LVGL_Chinese_Font</td>
+<td>Display the 1000 built-in Chinese character fonts of LVGL</td>
+<td>LVGL, TFT_eSPI, TFT_eSPI_Setups
+</td></tr>
+<tr style="text-align:center;">
+<td>LVGL_Chinese_7500_Char</td>
+<td>Display the 7500 built-in Chinese character fonts of LVGL</td>
+<td>LVGL, TFT_eSPI, TFT_eSPI_Setups
+</td></tr></tbody></table>
+<h3><span class="mw-headline" id="Arduino_project_parameter_settings"><b>Arduino project parameter settings</b></span></h3>
+<p><a href="https://www.waveshare.com/wiki/File:ESP32-S3-Touch-LCD-1.28_Add_1.png" class="image fancybox"><img alt="ESP32-S3-Touch-LCD-1.28 Add 1.png" src="./ESP32-S3-Touch-LCD-1.28 - Waveshare Wiki_files/ESP32-S3-Touch-LCD-1.28_Add_1.png" decoding="async" loading="lazy" width="1037" height="823"></a>
+</p>
+<div class="toccolours mw-collapsible mw-made-collapsible"><span class="mw-collapsible-toggle mw-collapsible-toggle-default" role="button" tabindex="0" aria-expanded="true"><a class="mw-collapsible-text">Collapse</a></span>
+<h3><span class="mw-headline" id="ESP32-S3-Touch-LCD-1.28-Test"><b>ESP32-S3-Touch-LCD-1.28-Test</b></span></h3>
+<div class="mw-collapsible-content" style="padding: 10px; background-color: #f9f9f9; border-radius: 10px;">
+    <div style="margin-bottom: 20px;">
+<p><b>Demo description</b>
+</p>
+<hr>
+<ul><li>This demo is used to test the use of screens, six-axis sensors, BAT, touch screens</li></ul>
+    </div>
+    <div style="margin-bottom: 20px;">
+<p><b>Hardware connection</b>
+</p>
+<hr>
+<ul><li>Connect the development board to the computer</li></ul>
+<p><a href="https://www.waveshare.com/wiki/File:300px-ESP32-S3-Touch-LCD-1.28-demo-01.png" class="image fancybox"><img alt="300px-ESP32-S3-Touch-LCD-1.28-demo-01.png" src="./ESP32-S3-Touch-LCD-1.28 - Waveshare Wiki_files/300px-ESP32-S3-Touch-LCD-1.28-demo-01.png" decoding="async" loading="lazy" width="300" height="439"></a>
+</p>
+    </div>
+    <div style="margin-bottom: 20px;">
+<p><b>Code analysis</b>
+</p>
+<hr>
+<ul><li><b>setup()</b>
+<ul><li>Initialize the serial port and set the baud rate to 115200</li>
+<li>Initialize the touch sensor</li>
+<li>Initialize the external PSRAM (if available) and allocate memory space for the image</li>
+<li>Initialize the LCD display, including setting it to horizontal display mode, clearing the screen to white, creating a new image cache, and setting the relevant parameters</li>
+<li>Perform a series of graphic drawing operations, including drawing points, lines, rectangles, circles, numbers, strings, and more, and display the image on the LCD</li>
+<li>Read the data from the QMI8658 sensor and display it on the LCD, while detecting touch events</li>
+<li>Finally, perform a touch test. When a touch event occurs, draw a dot at the touch position and update the display</li></ul></li></ul>
+    </div>
+    <div style="margin-bottom: 20px;">
+<p><b>Result demonstration</b>
+</p>
+<hr>
+<ul><li>After power-on, the screen first displays white, red, green, and blue colors in intervals of 2 seconds to check for any light leaks and black spots. If the screen is too fast to see clearly, please press the RESET button to restart the process</li>
+<li>Then enter the sensor test session, after the color display, the sensor data will be displayed on the screen, the ACC_X, ACC_Y and ACC_Z values will change with the angular deflection of the device, and the GYR_X, GYR_Y, and GYR_Z values will change with the change of the acceleration of the device</li>
+<li>Connect a 3.7V lithium battery at this moment. Under normal circumstances, the BAT (V) value will decrease</li>
+<li>After checking the sensor, long press the red area "LongPress Quit" to enter the touch test phase. Tap the demo on the white area of the Touch test</li>
+<li>Flash the code directly, the LCD screen is shown in the figure<br><a href="https://www.waveshare.com/wiki/File:400px-ESP32-S3-Touch-LCD-1.28-ArDemo-demo-01.png" class="image fancybox"><img alt="400px-ESP32-S3-Touch-LCD-1.28-ArDemo-demo-01.png" src="./ESP32-S3-Touch-LCD-1.28 - Waveshare Wiki_files/400px-ESP32-S3-Touch-LCD-1.28-ArDemo-demo-01.png" decoding="async" loading="lazy" width="400" height="400"></a><a href="https://www.waveshare.com/wiki/File:400px-ESP32-S3-Touch-LCD-1.28-ArDemo-demo-02.png" class="image fancybox"><img alt="400px-ESP32-S3-Touch-LCD-1.28-ArDemo-demo-02.png" src="./ESP32-S3-Touch-LCD-1.28 - Waveshare Wiki_files/400px-ESP32-S3-Touch-LCD-1.28-ArDemo-demo-02.png" decoding="async" loading="lazy" width="400" height="400"></a><br><a href="https://www.waveshare.com/wiki/File:400px-ESP32-S3-Touch-LCD-1.28-ArDemo-demo-03.png" class="image fancybox"><img alt="400px-ESP32-S3-Touch-LCD-1.28-ArDemo-demo-03.png" src="./ESP32-S3-Touch-LCD-1.28 - Waveshare Wiki_files/400px-ESP32-S3-Touch-LCD-1.28-ArDemo-demo-03.png" decoding="async" loading="lazy" width="400" height="400"></a><a href="https://www.waveshare.com/wiki/File:400px-ESP32-S3-Touch-LCD-1.28-ArDemo-demo-04.png" class="image fancybox"><img alt="400px-ESP32-S3-Touch-LCD-1.28-ArDemo-demo-04.png" src="./ESP32-S3-Touch-LCD-1.28 - Waveshare Wiki_files/400px-ESP32-S3-Touch-LCD-1.28-ArDemo-demo-04.png" decoding="async" loading="lazy" width="400" height="400"></a><br></li>
+<li><font color="red">If an error occurs, ensure that the ESP32 development board version is 2.0.12</font></li></ul>
+<p><a href="https://www.waveshare.com/wiki/File:ESP32-S3-LCD-1.28-demo-10.png" class="image fancybox"><img alt="ESP32-S3-LCD-1.28-demo-10.png" src="./ESP32-S3-Touch-LCD-1.28 - Waveshare Wiki_files/ESP32-S3-LCD-1.28-demo-10.png" decoding="async" loading="lazy" width="800" height="582"></a>
+</p>
+    </div>
+</div>
+</div>
+<div class="wiki-pages jet-green-color">
+<div class="toccolours mw-collapsible mw-made-collapsible"><span class="mw-collapsible-toggle mw-collapsible-toggle-default" role="button" tabindex="0" aria-expanded="true"><a class="mw-collapsible-text">Collapse</a></span>
+<h3><span class="mw-headline" id="LVGL_Arduino"><b>LVGL_Arduino</b></span></h3>
+<div class="mw-collapsible-content" style="padding: 10px; background-color: #f9f9f9; border-radius: 10px;">
+    <div style="margin-bottom: 20px;">
+<p><b>Demo description</b>
+</p>
+<hr>
+<ul><li>The demo is used to display LVGL benchmark, music, etc</li></ul>
+    </div>
+    <div style="margin-bottom: 20px;">
+<p><b>Hardware connection</b>
+</p>
+<hr>
+<ul><li>Connect the development board to the computer</li></ul>
+    </div>
+    <div style="margin-bottom: 20px;">
+<p><b>Code analysis</b>
+</p>
+<hr>
+<ul><li><b><code>my_disp_flush()</code></b>: Callback function in the LVGL library used for display refresh, responsible for updating the content of the LVGL drawing buffer to the TFT LCD
+<ul><li><b><code>lv_disp_drv_t *disp_drv</code></b>: The provided display driver structure pointer contains information and function pointers related to display. In this function, it is used to notify LVGL that the refresh is complete</li>
+<li><b><code>const lv_area_t *area</code></b>: Defined area structure pointer, indicating the region to be refreshed. This area is a rectangular area relative to the entire display screen</li>
+<li><b><code>lv_color_t *color_p</code></b>: Defined color structure pointer, representing the color data to be displayed within the refresh area. In this function, the drawing is done by writing this color data to the TFT buffer</li></ul></li>
+<li><b>void example_increase_reboot()</b>: The callback function of the timer, where the counter is count, adds the counter by one every call, and triggers an action when the count reaches a certain value, here it simulates a restart operation after 30 timer triggers, and the specific operation can be adjusted as needed</li>
+<li><b>void my_touchpad_read()</b>: The input device reads callback function in the LVGL library and is used to handle input events for the touch screen
+<ul><li><b><code>lv_indev_drv_t *indev_drv</code></b>: Pointer to the input device driver structure in LVGL. This structure contains information about input devices and callback functions</li>
+<li><b><code>lv_indev_data_t *data</code></b>: Pointer to the input device data structure in LVGL. The structure is used to store the status and data of the input device, including the current touch state (pressed or released) and the coordinates of the touch points</li></ul></li></ul>
+    </div>
+    <div style="margin-bottom: 20px;">
+<p><b>Result demonstration</b>
+</p>
+<hr>
+<p><a href="https://www.waveshare.com/wiki/File:400px-ESP32-S3-Touch-LCD-1.28-ArDemo-lvgl-01.png" class="image fancybox"><img alt="400px-ESP32-S3-Touch-LCD-1.28-ArDemo-lvgl-01.png" src="./ESP32-S3-Touch-LCD-1.28 - Waveshare Wiki_files/400px-ESP32-S3-Touch-LCD-1.28-ArDemo-lvgl-01.png" decoding="async" loading="lazy" width="400" height="400"></a><a href="https://www.waveshare.com/wiki/File:400px-ESP32-S3-Touch-LCD-1.28-ArDemo-lvgl-02.png" class="image fancybox"><img alt="400px-ESP32-S3-Touch-LCD-1.28-ArDemo-lvgl-02.png" src="./ESP32-S3-Touch-LCD-1.28 - Waveshare Wiki_files/400px-ESP32-S3-Touch-LCD-1.28-ArDemo-lvgl-02.png" decoding="async" loading="lazy" width="400" height="400"></a>
+</p>
+<ul><li><font color="red">If an error occurs, ensure that the ESP32 development board version is 2.0.12</font></li></ul>
+<p><a href="https://www.waveshare.com/wiki/File:ESP32-S3-LCD-1.28-demo-10.png" class="image fancybox"><img alt="ESP32-S3-LCD-1.28-demo-10.png" src="./ESP32-S3-Touch-LCD-1.28 - Waveshare Wiki_files/ESP32-S3-LCD-1.28-demo-10.png" decoding="async" loading="lazy" width="800" height="582"></a>
+</p>
+    </div>
+</div>
+</div>
+<div class="wiki-pages jet-green-color">
+<div class="toccolours mw-collapsible mw-made-collapsible"><span class="mw-collapsible-toggle mw-collapsible-toggle-default" role="button" tabindex="0" aria-expanded="true"><a class="mw-collapsible-text">Collapse</a></span>
+<h3><span class="mw-headline" id="LVGL_Chinese_Font"><b>LVGL_Chinese_Font</b></span></h3>
+<div class="mw-collapsible-content" style="padding: 10px; background-color: #f9f9f9; border-radius: 10px;">
+    <div style="margin-bottom: 20px;">
+<p><b>Demo description</b>
+</p>
+<hr>
+<ul><li>The demo is used to display 1000 commonly used Chinese fonts built into LVGL</li></ul>
+    </div>
+    <div style="margin-bottom: 20px;">
+<p><b>Hardware connection</b>
+</p>
+<hr>
+<ul><li>Connect the development board to the computer</li></ul>
+    </div>
+    <div style="margin-bottom: 20px;">
+<p><b>Code analysis</b>
+</p>
+<hr>
+<ul><li><b>my_disp_flush()</b>
+<ul><li>This function is the refresh callback function for the LVGL display drive</li>
+<li>Calculate the width w and height h to be refreshed based on the input display area parameter area</li>
+<li>Call the relevant functions of the TFT display: tft.startWrite(), tft.setAddrWindow(), and tft.pushColors() to write the color data color_p from the LVGL to a specific area of the TFT display</li>
+<li>Finally call lv_disp_flush_ready() to notify LVGL that the refresh is complete</li></ul></li></ul>
+    </div>
+    <div style="margin-bottom: 20px;">
+<p><b>Result demonstration</b>
+</p>
+<hr>
+<p><a href="https://www.waveshare.com/wiki/File:400px-ESP32-S3-Touch-LCD-1.28-ArDemo-CH_fontl-01.png" class="image fancybox"><img alt="400px-ESP32-S3-Touch-LCD-1.28-ArDemo-CH fontl-01.png" src="./ESP32-S3-Touch-LCD-1.28 - Waveshare Wiki_files/400px-ESP32-S3-Touch-LCD-1.28-ArDemo-CH_fontl-01.png" decoding="async" loading="lazy" width="400" height="400"></a>
+</p>
+<ul><li><font color="red">If an error occurs, ensure that the ESP32 development board version is 2.0.12</font></li></ul>
+<p><a href="https://www.waveshare.com/wiki/File:ESP32-S3-LCD-1.28-demo-10.png" class="image fancybox"><img alt="ESP32-S3-LCD-1.28-demo-10.png" src="./ESP32-S3-Touch-LCD-1.28 - Waveshare Wiki_files/ESP32-S3-LCD-1.28-demo-10.png" decoding="async" loading="lazy" width="800" height="582"></a>
+</p>
+    </div>
+</div>
+</div>
+<div class="wiki-pages jet-green-color">
+<div class="toccolours mw-collapsible mw-made-collapsible"><span class="mw-collapsible-toggle mw-collapsible-toggle-default" role="button" tabindex="0" aria-expanded="true"><a class="mw-collapsible-text">Collapse</a></span>
+<h3><span class="mw-headline" id="LVGL_Chinese_7500_Char"><b>LVGL_Chinese_7500_Char</b></span></h3>
+<div class="mw-collapsible-content" style="padding: 10px; background-color: #f9f9f9; border-radius: 10px;">
+    <div style="margin-bottom: 20px;">
+<p><b>Demo description</b>
+</p>
+<hr>
+<ul><li>The demo is used to display 7500 Chinese fonts of LVGL, the font file is large, and the download of the firmware takes a long time</li></ul>
+    </div>
+    <div style="margin-bottom: 20px;">
+<p><b>Hardware connection</b>
+</p>
+<hr>
+<ul><li>Connect the development board to the computer</li></ul>
+    </div>
+    <div style="margin-bottom: 20px;">
+<p><b>Code analysis</b>
+</p>
+<hr>
+<ul><li><b>setup()</b>
+<ul><li>First activate serial port communication, set the baud rate to 115200, and prepare for potential serial port debugging</li>
+<li>Initialize LVGL (Light and Versatile Graphics Library), including setting the version information output, and registering the log print callback function (if log functionality is enabled)</li>
+<li>Initialize the TFT display <code><b>tft</b></code> and <code><b>touch</b></code> sensor, including setting the rotation direction of the display and possible touch calibration data</li>
+<li>Initialize the LVGL display buffer <code><b>draw_buf</b></code> and display driver <code><b>disp_drv</b></code>, set the display resolution, refresh callback function, etc., and register the display driver with LVGL</li>
+<li>Initialize the input device driver <code><b>indev_drv</b></code>, set it to the pointer type and specify the touch read callback function, and then register the input device driver</li>
+<li>Create a label <code><b>label</b></code>, set the text font, text content (supporting text color recreation), and display it centrally on the screen</li>
+<li>You can optionally call LVGL's demo or demonstration functions to demonstrate different functional effects</li></ul></li>
+<li><b>loop()</b>
+<ul><li>Call <code><b>lv_timer_handler()</b></code> function to let the LVGL graphics library handle its internal scheduled tasks and events</li>
+<li>Use the <code><b>delay(5)</b></code> function to introduce a small delay to avoid excessive CPU usage by the demo</li></ul></li></ul>
+    </div>
+    <div style="margin-bottom: 20px;">
+<p><b>Result demonstration</b>
+</p>
+<hr>
+<p><a href="https://www.waveshare.com/wiki/File:400px-ESP32-S3-Touch-LCD-1.28-ArDemo-CH_7500-01.png" class="image fancybox"><img alt="400px-ESP32-S3-Touch-LCD-1.28-ArDemo-CH 7500-01.png" src="./ESP32-S3-Touch-LCD-1.28 - Waveshare Wiki_files/400px-ESP32-S3-Touch-LCD-1.28-ArDemo-CH_7500-01.png" decoding="async" loading="lazy" width="400" height="400"></a>
+</p>
+<ul><li><font color="red">If an error occurs, ensure that the ESP32 development board version is 2.0.12</font></li></ul>
+<p><a href="https://www.waveshare.com/wiki/File:ESP32-S3-LCD-1.28-demo-10.png" class="image fancybox"><img alt="ESP32-S3-LCD-1.28-demo-10.png" src="./ESP32-S3-Touch-LCD-1.28 - Waveshare Wiki_files/ESP32-S3-LCD-1.28-demo-10.png" decoding="async" loading="lazy" width="800" height="582"></a>
+</p>
+    </div>
+</div>
+</div>
+<div class="wiki-pages jet-green-color">
+<h1><span class="mw-headline" id="Working_with_MicroPython">Working with MicroPython</span></h1>
+<p>This section focuses on setting up the MicroPython development environment, primarily covering firmware flashing, installation, and the use of Thonny. For the installation part of Thonny, detailed explanations of the installation steps and usage instructions are provided, offering comprehensive and clear guidance for developers to build a MicroPython development environment. <br>
+<a href="https://www.waveshare.com/wiki/File:MicroPython-flow-01.png" class="image fancybox"><img alt="MicroPython-flow-01.png" src="./ESP32-S3-Touch-LCD-1.28 - Waveshare Wiki_files/600px-MicroPython-flow-01.png" decoding="async" loading="lazy" width="600" height="54" srcset="/w/upload/thumb/b/b6/MicroPython-flow-01.png/900px-MicroPython-flow-01.png 1.5x, /w/upload/thumb/b/b6/MicroPython-flow-01.png/1200px-MicroPython-flow-01.png 2x"></a>
+</p>
+<h2><span class="mw-headline" id="Environment_setup_2">Environment setup</span></h2>
+<h3><span class="mw-headline" id="Download_and_install_Thonny"><b>Download and install Thonny</b></span></h3>
+<ul><li>Open the download page of <a target="_blank" rel="nofollow noreferrer noopener" class="external text" href="https://thonny.org/">Thonny official website</a> and select the corresponding system and system bit to download<br><a href="https://www.waveshare.com/wiki/File:ESP32-S3-Touch-LCD-Thonny_install-01.png" class="image fancybox"><img alt="ESP32-S3-Touch-LCD-Thonny install-01.png" src="./ESP32-S3-Touch-LCD-1.28 - Waveshare Wiki_files/ESP32-S3-Touch-LCD-Thonny_install-01.png" decoding="async" loading="lazy" width="630" height="614"></a></li>
+<li>Select the appropriate system and version, for example, with a 64-bit Windows, the mouse needs to be moved to the Windows section to display the corresponding information, then click to Download and Install<br><a href="https://www.waveshare.com/wiki/File:ESP32-S3-Touch-LCD-Thonny_install-02.png" class="image"><img alt="ESP32-S3-Touch-LCD-Thonny install-02.png" src="./ESP32-S3-Touch-LCD-1.28 - Waveshare Wiki_files/ESP32-S3-Touch-LCD-Thonny_install-02.png" decoding="async" loading="lazy" width="654" height="618"></a></li>
+<li>The rest can be installed by default</li></ul>
+<h3><span class="mw-headline" id="Flash_the_firmware">Flash the firmware</span></h3>
+<ul><li>Currently, the development board is developed using customized firmware, which is available in <a href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#Resources">ESP32-S3-Touch-LCD-1.28 demo</a>, the firmware is merged into a single file, note that the download address is the 0x00 location</li>
+<li>Firmware path: <pre>...\ESP32-S3-Touch-LCD-1.28-Demo\Firmware\MicroPython-bin</pre></li>
+<li>For a tutorial on flashing firmware, please refer to <a target="_blank" rel="nofollow noreferrer noopener" class="external text" href="https://www.waveshare.com/wiki/Flash_Firmware_Flashing_and_Erasing">Flash Firmware Flashing and Erasing tutorial</a></li>
+<li>The bin file in the factory-bin folder is a file for testing the onboard function, and there is no need to flash it here</li></ul>
+<div role="note" class="note note-info">For MicroPython firmware creation, refer to <a target="_blank" rel="nofollow noreferrer noopener" class="external text" href="https://github.com/russhughes/gc9a01_mpy">link</a>, and refer to <a target="_blank" rel="nofollow noreferrer noopener" class="external text" href="https://github.com/micropython/micropython/tree/master/ports/esp32">MicroPython firmware compilation</a> for more learning resources for MicroPython firmware compilation</div>
+<h2><span class="mw-headline" id="Thonny_Usage">Thonny Usage</span></h2>
+<div class="toccolours mw-collapsible mw-collapsed mw-made-collapsible"><span class="mw-collapsible-toggle mw-collapsible-toggle-default mw-collapsible-toggle-collapsed" role="button" tabindex="0" aria-expanded="false"><a class="mw-collapsible-text">Expand</a></span>
+<div role="note" class="note note-reminder">If you are just getting started with ESP32 and Thonny, and you don't know how to use Thonny, please expand and take a look. Hope it can help you! </div>
+<div class="mw-collapsible-content" style="display: none;">
+<h3><span class="mw-headline" id="Select_the_development_board_and_model"><b>Select the development board and model</b></span></h3>
+<ul><li>Download and install the latest Thonny IDE, then open Thonny IDE -&gt; Configure interpreter..., as shown in the following image<br><a href="https://www.waveshare.com/wiki/File:ESP32-S3-Touch_1.28-Thonny_use-01.png" class="image"><img alt="ESP32-S3-Touch 1.28-Thonny use-01.png" src="./ESP32-S3-Touch-LCD-1.28 - Waveshare Wiki_files/ESP32-S3-Touch_1.28-Thonny_use-01.png" decoding="async" loading="lazy" width="999" height="710"></a><br><a href="https://www.waveshare.com/wiki/File:ESP32-S3-Touch_1.28-Thonny_use-02.png" class="image"><img alt="ESP32-S3-Touch 1.28-Thonny use-02.png" src="./ESP32-S3-Touch-LCD-1.28 - Waveshare Wiki_files/ESP32-S3-Touch_1.28-Thonny_use-02.png" decoding="async" loading="lazy" width="999" height="709"></a></li>
+<li>Select ESP32 and the corresponding COM port<br><a href="https://www.waveshare.com/wiki/File:ESP32-S3-Touch_1.28-Thonny_use-03.png" class="image"><img alt="ESP32-S3-Touch 1.28-Thonny use-03.png" src="./ESP32-S3-Touch-LCD-1.28 - Waveshare Wiki_files/ESP32-S3-Touch_1.28-Thonny_use-03.png" decoding="async" loading="lazy" width="557" height="542"></a></li>
+<li>Click this button to see the output statement in the shell, which indicates that the development board firmware has been successfully utilized<br><a href="https://www.waveshare.com/wiki/File:ESP32-S3-Touch_1.28-Thonny_use-04.png" class="image"><img alt="ESP32-S3-Touch 1.28-Thonny use-04.png" src="./ESP32-S3-Touch-LCD-1.28 - Waveshare Wiki_files/ESP32-S3-Touch_1.28-Thonny_use-04.png" decoding="async" loading="lazy" width="997" height="712"></a></li></ul>
+<h3><span class="mw-headline" id="Upload_demo"><b>Upload demo</b></span></h3>
+<div role="note" class="note note-reminder">The following is an example of using <b>ESP32-S3-Touch-1.28</b>, if you install other demos, the operation steps are similar. </div>
+<ul><li>How to find the desired demo, if there is no Files column at the beginning, we can find it in the View<br><a href="https://www.waveshare.com/wiki/File:ESP32-S3-Touch_1.28-Thonny_use-05.png" class="image"><img alt="ESP32-S3-Touch 1.28-Thonny use-05.png" src="./ESP32-S3-Touch-LCD-1.28 - Waveshare Wiki_files/ESP32-S3-Touch_1.28-Thonny_use-05.png" decoding="async" loading="lazy" width="997" height="710"></a><br><a href="https://www.waveshare.com/wiki/File:ESP32-S3-Touch_1.28-Thonny_use-06.png" class="image"><img alt="ESP32-S3-Touch 1.28-Thonny use-06.png" src="./ESP32-S3-Touch-LCD-1.28 - Waveshare Wiki_files/ESP32-S3-Touch_1.28-Thonny_use-06.png" decoding="async" loading="lazy" width="998" height="710"></a></li>
+<li>Upload the local file to the development board, select the file, right-click with the mouse, find "Upload to/", and then download<br><a href="https://www.waveshare.com/wiki/File:ESP32-S3-Touch_1.28-Thonny_use-07.png" class="image"><img alt="ESP32-S3-Touch 1.28-Thonny use-07.png" src="./ESP32-S3-Touch-LCD-1.28 - Waveshare Wiki_files/ESP32-S3-Touch_1.28-Thonny_use-07.png" decoding="async" loading="lazy" width="997" height="709"></a></li>
+<li>The following is the interface where all downloads are completed, <font color="red"><b>the downloaded file must be consistent with the file in the red box</b></font>, otherwise it may fail to run<br><a href="https://www.waveshare.com/wiki/File:ESP32-S3-Touch_1.28-Thonny_use-08.png" class="image"><img alt="ESP32-S3-Touch 1.28-Thonny use-08.png" src="./ESP32-S3-Touch-LCD-1.28 - Waveshare Wiki_files/ESP32-S3-Touch_1.28-Thonny_use-08.png" decoding="async" loading="lazy" width="999" height="710"></a></li>
+<li>Select the file with the .py suffix, and click the green button to flash and run <br><a href="https://www.waveshare.com/wiki/File:ESP32-S3-Touch_1.28-Thonny_use-09.png" class="image"><img alt="ESP32-S3-Touch 1.28-Thonny use-09.png" src="./ESP32-S3-Touch-LCD-1.28 - Waveshare Wiki_files/ESP32-S3-Touch_1.28-Thonny_use-09.png" decoding="async" loading="lazy" width="993" height="706"></a></li>
+<li>When running another file, first click the red stop button, so that the other file can run normally<br><a href="https://www.waveshare.com/wiki/File:ESP32-S3-Touch_1.28-Thonny_use-10.png" class="image"><img alt="ESP32-S3-Touch 1.28-Thonny use-10.png" src="./ESP32-S3-Touch-LCD-1.28 - Waveshare Wiki_files/ESP32-S3-Touch_1.28-Thonny_use-10.png" decoding="async" loading="lazy" width="999" height="709"></a></li></ul>
+</div>
+</div>
+</div>
+<h2><span class="mw-headline" id="Demos_2">Demos</span></h2>
+<p><a href="https://www.waveshare.com/wiki/File:1000px-Demo-flow-02.png" class="image"><img alt="1000px-Demo-flow-02.png" src="./ESP32-S3-Touch-LCD-1.28 - Waveshare Wiki_files/1000px-1000px-Demo-flow-02.png" decoding="async" loading="lazy" width="1000" height="58" srcset="/w/upload/f/f0/1000px-Demo-flow-02.png 1.5x"></a>
+</p>
+<table class="wikitable table table-striped table-bordered" style="width:80%;background: white;">
+<caption>
+<ul><li>ESP32-S3-Touch-LCD-1.28 Demo</li></ul>
+</caption>
+<tbody><tr>
+<th>Demo</th>
+<th>Basic Description
+</th></tr>
+<tr style="text-align:center;">
+<td>cst816_example.py</td>
+<td>Touch the screen and print the corresponding coordinates
+</td></tr>
+<tr style="text-align:center;">
+<td>alien.py</td>
+<td>Display the "alien.jpg" image randomly
+</td></tr>
+<tr style="text-align:center;">
+<td>bitarray.py</td>
+<td>Create and display animation of the Pac-Man sprite in multiple random locations
+</td></tr>
+<tr style="text-align:center;">
+<td>hello.py</td>
+<td>Randomly display different colors of "Hello!" text, and you can switch different rotation angles by looping
+</td></tr>
+<tr style="text-align:center;">
+<td>hershey.py</td>
+<td>Loop through different greetings
+</td></tr>
+<tr style="text-align:center;">
+<td>jpg.py</td>
+<td>Alternate between two JPEG images
+</td></tr>
+<tr style="text-align:center;">
+<td>noto_fonts.py</td>
+<td>Displays the names of three different fonts
+</td></tr>
+<tr style="text-align:center;">
+<td>pbitmap.py</td>
+<td>Display a precompiled bitmap image
+</td></tr>
+<tr style="text-align:center;">
+<td>rotation.py</td>
+<td>Cycle through the text display at different rotation values
+</td></tr>
+<tr style="text-align:center;">
+<td>scroll.py</td>
+<td>Implement smooth scrolling of characters on the display screen
+</td></tr></tbody></table>
+<div class="toccolours mw-collapsible mw-made-collapsible"><span class="mw-collapsible-toggle mw-collapsible-toggle-default" role="button" tabindex="0" aria-expanded="true"><a class="mw-collapsible-text">Collapse</a></span>
+<h3><span class="mw-headline" id="Upload_demo_and_special_demos"><b>Upload demo and special demos</b></span></h3>
+<div class="mw-collapsible-content" style="padding: 10px; background-color: #f9f9f9; border-radius: 10px;">
+<h4><span class="mw-headline" id="Upload_demo_2"><b>Upload demo</b></span></h4>
+<ul><li>Upload the local file to the development board, select the file, right-click with the mouse, find "Upload to/", and then download<br><a href="https://www.waveshare.com/wiki/File:ESP32-S3-Touch_1.28-Thonny_use-07.png" class="image"><img alt="ESP32-S3-Touch 1.28-Thonny use-07.png" src="./ESP32-S3-Touch-LCD-1.28 - Waveshare Wiki_files/ESP32-S3-Touch_1.28-Thonny_use-07.png" decoding="async" loading="lazy" width="997" height="709"></a></li>
+<li>The following is the interface where all downloads are completed, <font color="red"><b>the downloaded file must be consistent with the file in the red box</b></font>, otherwise it may fail to run<br><a href="https://www.waveshare.com/wiki/File:ESP32-S3-Touch_1.28-Thonny_use-08.png" class="image"><img alt="ESP32-S3-Touch 1.28-Thonny use-08.png" src="./ESP32-S3-Touch-LCD-1.28 - Waveshare Wiki_files/ESP32-S3-Touch_1.28-Thonny_use-08.png" decoding="async" loading="lazy" width="999" height="710"></a></li>
+<li>Select the file with the .py suffix, and click the green button to flash and run (the operation figure is as follows)<br><a href="https://www.waveshare.com/wiki/File:ESP32-S3-Touch_1.28-Thonny_use-09.png" class="image"><img alt="ESP32-S3-Touch 1.28-Thonny use-09.png" src="./ESP32-S3-Touch-LCD-1.28 - Waveshare Wiki_files/ESP32-S3-Touch_1.28-Thonny_use-09.png" decoding="async" loading="lazy" width="993" height="706"></a></li>
+<li>When running another file, first click the red stop button, so that the other file can run normally<br><a href="https://www.waveshare.com/wiki/File:ESP32-S3-Touch_1.28-Thonny_use-10.png" class="image"><img alt="ESP32-S3-Touch 1.28-Thonny use-10.png" src="./ESP32-S3-Touch-LCD-1.28 - Waveshare Wiki_files/ESP32-S3-Touch_1.28-Thonny_use-10.png" decoding="async" loading="lazy" width="999" height="709"></a></li></ul>
+<h4><span class="mw-headline" id="Upload_special_demos"><b>Upload special demos</b></span></h4>
+<p>Among the given demos, the bluenarble.py, cst816.py, and cst816_example.py files are more special. Please read all the following points before trying to flash it yourself.
+</p>
+<ul><li>Bluenarble.cy stores images, while cst816.cy stores functions for implementing touch screen operations, <font color="red"><b>nothing will happen if you run the file</b></font><br><a href="https://www.waveshare.com/wiki/File:ESP32-S3-Touch_1.28-Thonny_use-11.png" class="image"><img alt="ESP32-S3-Touch 1.28-Thonny use-11.png" src="./ESP32-S3-Touch-LCD-1.28 - Waveshare Wiki_files/ESP32-S3-Touch_1.28-Thonny_use-11.png" decoding="async" loading="lazy" width="996" height="712"></a></li>
+<li>After the cst816_example.py runs, the touch screen will print the corresponding coordinates and <font color="red"><b>LCD will not be illuminated</b></font><br><a href="https://www.waveshare.com/wiki/File:ESP32-S3-Touch_1.28-Thonny_use-12.png" class="image"><img alt="ESP32-S3-Touch 1.28-Thonny use-12.png" src="./ESP32-S3-Touch-LCD-1.28 - Waveshare Wiki_files/ESP32-S3-Touch_1.28-Thonny_use-12.png" decoding="async" loading="lazy" width="996" height="708"></a></li></ul>
+</div>
+</div>
+<div class="toccolours mw-collapsible mw-made-collapsible"><span class="mw-collapsible-toggle mw-collapsible-toggle-default" role="button" tabindex="0" aria-expanded="true"><a class="mw-collapsible-text">Collapse</a></span>
+<h3><span class="mw-headline" id="alien.py"><b>alien.py </b></span></h3>
+<div class="mw-collapsible-content" style="padding: 10px; background-color: #f9f9f9; border-radius: 10px;">
+    <div style="margin-bottom: 20px;">
+<p><b>Demo description</b>
+</p>
+<hr>
+<ul><li>This demo is used to randomly display the "alien.jpg" image on a specific display</li></ul>
+    </div>
+    <div style="margin-bottom: 20px;">
+<p><b>Hardware connection</b>
+</p>
+<hr>
+<ul><li>Connect the development board to the computer</li></ul>
+<p><a href="https://www.waveshare.com/wiki/File:300px-ESP32-S3-Touch-LCD-1.28-demo-01.png" class="image"><img alt="300px-ESP32-S3-Touch-LCD-1.28-demo-01.png" src="./ESP32-S3-Touch-LCD-1.28 - Waveshare Wiki_files/300px-ESP32-S3-Touch-LCD-1.28-demo-01.png" decoding="async" loading="lazy" width="300" height="439"></a>
+</p>
+    </div>
+    <div style="margin-bottom: 20px;">
+<p><b>Code analysis</b>
+</p>
+<hr>
+<ul><li><b>GC9A01()</b>: The importance of the GC9A01 constructor is to establish the hardware connection, set the initial parameters, and create an operable display object that lays the foundation for subsequent display operations
+<ul><li><b><code>spi_interface</code></b>: Establish SPI communication with the display screen</li>
+<li><b><code>width</code></b> and <b><code>height</code></b>: Set the display resolution</li>
+<li><b><code>reset_pin</code></b>: Connect various control pins of the display screen</li>
+<li><b><code>rotation</code></b>: Set the initial rotation angle</li></ul></li></ul>
+    </div>
+    <div style="margin-bottom: 20px;">
+<p><b>Result demonstration</b>
+</p>
+<hr>
+<ul><li>LCD screen display<br></li></ul>
+<p><a href="https://www.waveshare.com/wiki/File:300px-ESP32-S3-Touch_1.28-MP-Thonny_demo-alien-01.png" class="image"><img alt="300px-ESP32-S3-Touch 1.28-MP-Thonny demo-alien-01.png" src="./ESP32-S3-Touch-LCD-1.28 - Waveshare Wiki_files/300px-ESP32-S3-Touch_1.28-MP-Thonny_demo-alien-01.png" decoding="async" loading="lazy" width="300" height="300"></a>
+</p>
+    </div>
+</div>
+</div>
+</div>
+<div class="wiki-pages jet-green-color">
+<div class="toccolours mw-collapsible mw-made-collapsible"><span class="mw-collapsible-toggle mw-collapsible-toggle-default" role="button" tabindex="0" aria-expanded="true"><a class="mw-collapsible-text">Collapse</a></span>
+<h3><span class="mw-headline" id="bitarray.py"><b>bitarray.py </b></span></h3>
+<div class="mw-collapsible-content" style="padding: 10px; background-color: #f9f9f9; border-radius: 10px;">
+    <div style="margin-bottom: 20px;">
+<p><b>Demo description</b>
+</p>
+<hr>
+<ul><li>The demo creates and displays multiple animations of the Pac-Man sprite in random locations on a specific display</li></ul>
+    </div>
+    <div style="margin-bottom: 20px;">
+<p><b>Hardware connection</b>
+</p>
+<hr>
+<ul><li>Connect the development board to the computer</li></ul>
+    </div>
+    <div style="margin-bottom: 20px;">
+<p><b>Code analysis</b>
+</p>
+<hr>
+<ul><li><b>pacman class move method</b>: Responsible for updating the status of the Pac-Man sprite  to move and animate it on the screen
+<ul><li>First increase the current number of steps of the sprite, and then make sure that the number of steps loops within the specified range of <code><b>SPRITE_STEPS</b></code>, which may correspond to different animation frames or states of the sprite</li>
+<li>Then, move the sprite's position in the horizontal direction. When the sprite's horizontal position reaches a specific value of 302, reset the step count. This might be done to trigger a specific animation state or behavior. Finally, the conversion operation is used to ensure that the horizontal position of the sprite cycles within a certain range to avoid exceeding the display area</li></ul></li></ul>
+<ul><li><b>tft.map_bitarray_to_rgb565 </b>
+<ul><li><code><b>tft.map_bitarray_to_rgb565</b></code> function selects bitmap data from the <code><b>SPRITE_BITMAPS</b></code> based on the current steps of the sprite, converts it into an RGB565 format buffer named  <code><b>sprite</b></code>. At the same time, the width of the sprite, as well as the foreground and background colors, were specified</li></ul></li>
+<li><b>tft.blit_buffer </b>
+<ul><li><code><b>tft.blit_buffer</b></code> function draws the converted buffer to a specific location on the display screen, which is determined by the current coordinates of the sprite and specifies its width and height</li></ul></li></ul>
+    </div>
+    <div style="margin-bottom: 20px;">
+<p><b>Result demonstration</b>
+</p>
+<hr>
+<ul><li>LCD screen display<br></li></ul>
+<p><a href="https://www.waveshare.com/wiki/File:300px-ESP32-S3-Touch_1.28-MP-Thonny_demo-bitarray-02.png" class="image"><img alt="300px-ESP32-S3-Touch 1.28-MP-Thonny demo-bitarray-02.png" src="./ESP32-S3-Touch-LCD-1.28 - Waveshare Wiki_files/300px-ESP32-S3-Touch_1.28-MP-Thonny_demo-bitarray-02.png" decoding="async" loading="lazy" width="300" height="300"></a>
+</p>
+    </div>
+</div>
+</div>
+</div>
+<div class="wiki-pages jet-green-color">
+<div class="toccolours mw-collapsible mw-made-collapsible"><span class="mw-collapsible-toggle mw-collapsible-toggle-default" role="button" tabindex="0" aria-expanded="true"><a class="mw-collapsible-text">Collapse</a></span>
+<h3><span class="mw-headline" id="hello.py"><b>hello.py </b></span></h3>
+<div class="mw-collapsible-content" style="padding: 10px; background-color: #f9f9f9; border-radius: 10px;">
+    <div style="margin-bottom: 20px;">
+<p><b>Demo description</b>
+</p>
+<hr>
+<ul><li>The demo randomly displays different colors of "Hello!" text on a specific display, and different rotation angles can be switched by cycling</li></ul>
+    </div>
+    <div style="margin-bottom: 20px;">
+<p><b>Hardware connection</b>
+</p>
+<hr>
+<ul><li>Connect the development board to the computer</li></ul>
+    </div>
+    <div style="margin-bottom: 20px;">
+<p><b>Code analysis</b>
+</p>
+<hr>
+<ul><li><b>tft.text</b>: Draw the text "Hello!" on the display
+<ul><li>Using the specified font, the position of the text is determined within the range of the display by random numbers, and the foreground and background colors are determined by the randomly generated RGB565 color values</li></ul></li></ul>
+<ul><li><b>while True </b>: Implement the dynamic effect of random display of "Hello!" text at different rotation angles
+<ul><li>By using an infinite loop and iterating through four rotation angles, set the display rotation angle, clear the screen, calculate the text display range, and cyclically call the <code><b>tft.text</b></code> function to display text at random positions in random colors</li></ul></li></ul>
+    </div>
+    <div style="margin-bottom: 20px;">
+<p><b>Result demonstration</b>
+</p>
+<hr>
+<ul><li>LCD screen display<br></li></ul>
+<p><a href="https://www.waveshare.com/wiki/File:300px-ESP32-S3-Touch_1.28-MP-Thonny_demo-hello-03.png" class="image"><img alt="300px-ESP32-S3-Touch 1.28-MP-Thonny demo-hello-03.png" src="./ESP32-S3-Touch-LCD-1.28 - Waveshare Wiki_files/300px-ESP32-S3-Touch_1.28-MP-Thonny_demo-hello-03.png" decoding="async" loading="lazy" width="300" height="300"></a>
+</p>
+    </div>
+</div>
+</div>
+</div>
+<div class="wiki-pages jet-green-color">
+<div class="toccolours mw-collapsible mw-made-collapsible"><span class="mw-collapsible-toggle mw-collapsible-toggle-default" role="button" tabindex="0" aria-expanded="true"><a class="mw-collapsible-text">Collapse</a></span>
+<h3><span class="mw-headline" id="hershey.py"><b>hershey.py </b></span></h3>
+<div class="mw-collapsible-content" style="padding: 10px; background-color: #f9f9f9; border-radius: 10px;">
+    <div style="margin-bottom: 20px;">
+<p><b>Demo description</b>
+</p>
+<hr>
+<ul><li>The demo loops through different greetings on a specific display</li></ul>
+    </div>
+    <div style="margin-bottom: 20px;">
+<p><b>Hardware connection</b>
+</p>
+<hr>
+<ul><li>Connect the development board to the computer</li></ul>
+    </div>
+    <div style="margin-bottom: 20px;">
+<p><b>Code analysis</b>
+</p>
+<hr>
+<ul><li><b>main</b>: The loop section of the function that cycles through different fonts, colors, and greetings on the display
+<ul><li>Move the display position line by line, get the next color, font, and greeting, clear the previous line and draw new content, reset the line position when it exceeds a certain range, add a delay to control the display speed</li></ul></li></ul>
+<ul><li><b>cycle </b>: Create an object that can be iterated over in a loop
+<ul><li>Accept parameters. If iterable, loop directly. If a single element, convert it into an iterable list and loop, facilitating the convenient looping of color, font, and greeting lists</li></ul></li></ul>
+    </div>
+    <div style="margin-bottom: 20px;">
+<p><b>Result demonstration</b>
+</p>
+<hr>
+<ul><li>LCD screen display<br></li></ul>
+<p><a href="https://www.waveshare.com/wiki/File:300px-ESP32-S3-Touch_1.28-MP-Thonny_demo-hershey-04.png" class="image"><img alt="300px-ESP32-S3-Touch 1.28-MP-Thonny demo-hershey-04.png" src="./ESP32-S3-Touch-LCD-1.28 - Waveshare Wiki_files/300px-ESP32-S3-Touch_1.28-MP-Thonny_demo-hershey-04.png" decoding="async" loading="lazy" width="300" height="300"></a>
+</p>
+    </div>
+</div>
+</div>
+</div>
+<div class="wiki-pages jet-green-color">
+<div class="toccolours mw-collapsible mw-made-collapsible"><span class="mw-collapsible-toggle mw-collapsible-toggle-default" role="button" tabindex="0" aria-expanded="true"><a class="mw-collapsible-text">Collapse</a></span>
+<h3><span class="mw-headline" id="jpg.py"><b>jpg.py </b></span></h3>
+<div class="mw-collapsible-content" style="padding: 10px; background-color: #f9f9f9; border-radius: 10px;">
+    <div style="margin-bottom: 20px;">
+<p><b>Demo description</b>
+</p>
+<hr>
+<ul><li>This demo alternates displaying two JPEG images on a specific display</li></ul>
+    </div>
+    <div style="margin-bottom: 20px;">
+<p><b>Hardware connection</b>
+</p>
+<hr>
+<ul><li>Connect the development board to the computer</li></ul>
+    </div>
+    <div style="margin-bottom: 20px;">
+<p><b>Code analysis</b>
+</p>
+<hr>
+<ul><li><b>main</b>: The loop section of the function that cycles through different fonts, colors, and greetings on the display
+<ul><li>Iterate through the list of image filenames, call the <code><b>tft.jpg</b></code> function to display the image in a slower way at a specific location, and wait 5 seconds</li></ul></li></ul>
+<ul><li><b>tft.jpg </b>: Display the specified JPEG picture on the display
+<ul><li>Read, decode picture files and draw to display screen, determine display position and mode according to incoming parameters</li></ul></li></ul>
+    </div>
+    <div style="margin-bottom: 20px;">
+<p><b>Result demonstration</b>
+</p>
+<hr>
+<ul><li>LCD screen display<br></li></ul>
+<p><a href="https://www.waveshare.com/wiki/File:300px-ESP32-S3-Touch_1.28-MP-Thonny_demo-jpg-05.png" class="image"><img alt="300px-ESP32-S3-Touch 1.28-MP-Thonny demo-jpg-05.png" src="./ESP32-S3-Touch-LCD-1.28 - Waveshare Wiki_files/300px-ESP32-S3-Touch_1.28-MP-Thonny_demo-jpg-05.png" decoding="async" loading="lazy" width="300" height="300"></a><a href="https://www.waveshare.com/wiki/File:300px-ESP32-S3-Touch_1.28-MP-Thonny_demo-pbitmap-07.png" class="image"><img alt="300px-ESP32-S3-Touch 1.28-MP-Thonny demo-pbitmap-07.png" src="./ESP32-S3-Touch-LCD-1.28 - Waveshare Wiki_files/300px-ESP32-S3-Touch_1.28-MP-Thonny_demo-pbitmap-07.png" decoding="async" loading="lazy" width="300" height="300"></a>
+</p>
+    </div>
+</div>
+</div>
+</div>
+<div class="wiki-pages jet-green-color">
+<div class="toccolours mw-collapsible mw-made-collapsible"><span class="mw-collapsible-toggle mw-collapsible-toggle-default" role="button" tabindex="0" aria-expanded="true"><a class="mw-collapsible-text">Collapse</a></span>
+<h3><span class="mw-headline" id="noto_fonts.py"><b>noto_fonts.py</b></span></h3>
+<div class="mw-collapsible-content" style="padding: 10px; background-color: #f9f9f9; border-radius: 10px;">
+    <div style="margin-bottom: 20px;">
+<p><b>Demo description</b>
+</p>
+<hr>
+<ul><li>The demo displays the names of three different fonts (NotoSans, NotoSerif, NotoSansMono) on a specific display, and these font names are shown in the center on separate lines</li></ul>
+    </div>
+    <div style="margin-bottom: 20px;">
+<p><b>Hardware connection</b>
+</p>
+<hr>
+<ul><li>Connect the development board to the computer</li></ul>
+    </div>
+    <div style="margin-bottom: 20px;">
+<p><b>Code analysis</b>
+</p>
+<hr>
+<ul><li><b>main</b>: The main entrance of the demo, which initializes the display and displays three font names
+<ul><li>Create a display object and initialize it, fill the background in black, and call the center function to display the three font names in turn</li></ul></li></ul>
+<ul><li><b>center </b>: Display a given string in the center of the display in the specified font
+<ul><li>Get the screen width, calculate the width of the string, if it is less than the screen width, calculate the coordinates for horizontal centering, otherwise for left alignment. Finally, display the string at the specified location</li></ul></li></ul>
+    </div>
+    <div style="margin-bottom: 20px;">
+<p><b>Result demonstration</b>
+</p>
+<hr>
+<ul><li>LCD screen display<br></li></ul>
+<p><a href="https://www.waveshare.com/wiki/File:300px-ESP32-S3-Touch_1.28-MP-Thonny_demo-noto-fonts-06.png" class="image"><img alt="300px-ESP32-S3-Touch 1.28-MP-Thonny demo-noto-fonts-06.png" src="./ESP32-S3-Touch-LCD-1.28 - Waveshare Wiki_files/300px-ESP32-S3-Touch_1.28-MP-Thonny_demo-noto-fonts-06.png" decoding="async" loading="lazy" width="300" height="300"></a>
+</p>
+    </div>
+</div>
+</div>
+</div>
+<div class="wiki-pages jet-green-color">
+<div class="toccolours mw-collapsible mw-made-collapsible"><span class="mw-collapsible-toggle mw-collapsible-toggle-default" role="button" tabindex="0" aria-expanded="true"><a class="mw-collapsible-text">Collapse</a></span>
+<h3><span class="mw-headline" id="pbitmap.py"><b>pbitmap.py</b></span></h3>
+<div class="mw-collapsible-content" style="padding: 10px; background-color: #f9f9f9; border-radius: 10px;">
+    <div style="margin-bottom: 20px;">
+<p><b>Demo description</b>
+</p>
+<hr>
+<ul><li>This demo displays a pre-compiled bitmap image on a specific display</li></ul>
+    </div>
+    <div style="margin-bottom: 20px;">
+<p><b>Hardware connection</b>
+</p>
+<hr>
+<ul><li>Connect the development board to the computer</li></ul>
+    </div>
+    <div style="margin-bottom: 20px;">
+<p><b>Code analysis</b>
+</p>
+<hr>
+<ul><li><b>main</b>: The main entrance of the demo, which initializes the display and displays the bitmap
+<ul><li>Create a display object, fill it with a black background after initialization, and call <code><b>tft.pbitmap</b></code> to display the image in the pre-compiled bitmap module</li></ul></li></ul>
+<p>tft.pbitmap<b>: Display pre-compiled bitmap on the screen</b>
+</p>
+<ul><li><ul><li>Read the bitmap data and draw it to the display, and determine the display position based on the incoming parameters</li></ul></li></ul>
+    </div>
+    <div style="margin-bottom: 20px;">
+<p><b>Result demonstration</b>
+</p>
+<hr>
+<ul><li>LCD screen display<br></li></ul>
+<p><a href="https://www.waveshare.com/wiki/File:300px-ESP32-S3-Touch_1.28-MP-Thonny_demo-pbitmap-07.png" class="image"><img alt="300px-ESP32-S3-Touch 1.28-MP-Thonny demo-pbitmap-07.png" src="./ESP32-S3-Touch-LCD-1.28 - Waveshare Wiki_files/300px-ESP32-S3-Touch_1.28-MP-Thonny_demo-pbitmap-07.png" decoding="async" loading="lazy" width="300" height="300"></a>
+</p>
+    </div>
+</div>
+</div>
+</div>
+<div class="wiki-pages jet-green-color">
+<div class="toccolours mw-collapsible mw-made-collapsible"><span class="mw-collapsible-toggle mw-collapsible-toggle-default" role="button" tabindex="0" aria-expanded="true"><a class="mw-collapsible-text">Collapse</a></span>
+<h3><span class="mw-headline" id="rotation.py"><b>rotation.py</b></span></h3>
+<div class="mw-collapsible-content" style="padding: 10px; background-color: #f9f9f9; border-radius: 10px;">
+    <div style="margin-bottom: 20px;">
+<p><b>Demo description</b>
+</p>
+<hr>
+<ul><li>The demo loops through the text display at different rotation values on a specific display</li></ul>
+    </div>
+    <div style="margin-bottom: 20px;">
+<p><b>Hardware connection</b>
+</p>
+<hr>
+<ul><li>Connect the development board to the computer</li></ul>
+    </div>
+    <div style="margin-bottom: 20px;">
+<p><b>Code analysis</b>
+</p>
+<hr>
+<ul><li><b>main</b>: The main entrance of the demo, which initializes the display and loops through the text display at different rotation values
+<ul><li>Create a display object and initialize it, set different rotation values in turn in the loop, clear the screen and display the text with the rotation value information and wait for observation</li></ul></li></ul>
+<ul><li><b>tft.rotation</b>: Set the display rotation angle
+<ul><li>Adjust the display orientation according to the incoming parameters</li></ul></li></ul>
+    </div>
+    <div style="margin-bottom: 20px;">
+<p><b>Result demonstration</b>
+</p>
+<hr>
+<ul><li>LCD screen display<br></li></ul>
+<p><a href="https://www.waveshare.com/wiki/File:300px-ESP32-S3-Touch_1.28-MP-Thonny_demo-rotation-08.png" class="image"><img alt="300px-ESP32-S3-Touch 1.28-MP-Thonny demo-rotation-08.png" src="./ESP32-S3-Touch-LCD-1.28 - Waveshare Wiki_files/300px-ESP32-S3-Touch_1.28-MP-Thonny_demo-rotation-08.png" decoding="async" loading="lazy" width="300" height="300"></a>
+</p>
+    </div>
+</div>
+</div>
+</div>
+<div class="wiki-pages jet-green-color">
+<div class="toccolours mw-collapsible mw-made-collapsible"><span class="mw-collapsible-toggle mw-collapsible-toggle-default" role="button" tabindex="0" aria-expanded="true"><a class="mw-collapsible-text">Collapse</a></span>
+<h3><span class="mw-headline" id="scroll.py"><b>scroll.py</b></span></h3>
+<div class="mw-collapsible-content" style="padding: 10px; background-color: #f9f9f9; border-radius: 10px;">
+    <div style="margin-bottom: 20px;">
+<p><b>Demo description</b>
+</p>
+<hr>
+<ul><li>This demo implements a smooth scrolling display of characters on a specific display</li></ul>
+    </div>
+    <div style="margin-bottom: 20px;">
+<p><b>Hardware connection</b>
+</p>
+<hr>
+<ul><li>Connect the development board to the computer</li></ul>
+    </div>
+    <div style="margin-bottom: 20px;">
+<p><b>Code analysis</b>
+</p>
+<hr>
+<ul><li><b>main</b>: The main entrance of the demo, which initializes the display, sets the color, and scrolls through the characters
+<ul><li>Create a display object, set up a color generator to get the foreground color, set the scroll area after initializing the display, clear the top row in the loop, display characters on the new line and update the color and character values, set the scroll address for scrolling and control the speed</li></ul></li></ul>
+<ul><li><b>cycle </b>: Create an object that can be iterated over in a loop
+<ul><li>Accept parameters. If iterable, loop directly. If a single element, convert it into an iterable list and loop</li></ul></li></ul>
+    </div>
+    <div style="margin-bottom: 20px;">
+<p><b>Result demonstration</b>
+</p>
+<hr>
+<ul><li>LCD screen display<br></li></ul>
+<p><a href="https://www.waveshare.com/wiki/File:300px-ESP32-S3-Touch_1.28-MP-Thonny_demo-scroll-09.png" class="image"><img alt="300px-ESP32-S3-Touch 1.28-MP-Thonny demo-scroll-09.png" src="./ESP32-S3-Touch-LCD-1.28 - Waveshare Wiki_files/300px-ESP32-S3-Touch_1.28-MP-Thonny_demo-scroll-09.png" decoding="async" loading="lazy" width="300" height="300"></a>
+</p>
+    </div>
+</div>
+</div>
+</div>
+<div class="wiki-pages jet-green-color">
+<h1><span class="mw-headline" id="Flash_Firmware_Flashing_and_Erasing">Flash Firmware Flashing and Erasing</span></h1>
+<hr>
+<div class="mw-collapsible-content" style="padding: 10px; background-color: #f9f9f9; border-radius: 10px;">
+    <div style="margin-bottom: 20px;">
+<ul><li><b>The current demo provides test firmware, which can be used to test whether the onboard device functions properly by directly flashing the test firmware</b></li>
+<li><b>bin file path: </b><pre>...\ESP32-S3-Touch-LCD-1.28-Demo\Firmware\factory-bin</pre></li></ul>
+<div role="note" class="note note-info"><a target="_blank" rel="nofollow noreferrer noopener" class="external text" href="https://www.waveshare.com/wiki/Flash_Firmware_Flashing_and_Erasing">Flash firmware flashing and erasing </a> for reference </div>
+</div>
+</div>
+</div>
+<div class="wiki-pages jet-green-color">
+<h1><span class="mw-headline" id="Resources">Resources</span></h1>
+<h2><span class="mw-headline" id="Schematic_diagram">Schematic diagram</span></h2>
+<ul><li><a target="_blank" rel="nofollow noreferrer noopener" class="external text" href="https://files.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28/ESP32-S3-Touch-LCD-1.28-Sch.pdf">ESP32-S3-Touch-LCD-1.28 Schematic diagram</a></li></ul>
+<h2><span class="mw-headline" id="Project_diagram">Project diagram</span></h2>
+<ul><li><a target="_blank" rel="nofollow noreferrer noopener" class="external text" href="https://files.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28/ESP32-S3-Touch-LCD-1.28.zip">ESP32-S3-Touch-LCD-1.28 3D diagram</a></li></ul>
+<h2><span class="mw-headline" id="Demo">Demo</span></h2>
+<ul><li><a target="_blank" rel="nofollow noreferrer noopener" class="external text" href="https://files.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28/ESP32-S3-Touch-LCD-1.28-Demo.zip">ESP32-S3-Touch-LCD-1.28 Demo</a></li></ul>
+<h2><span class="mw-headline" id="Datasheets">Datasheets</span></h2>
+<h3><span class="mw-headline" id="ESP32-S3">ESP32-S3</span></h3>
+<ul><li><a target="_blank" rel="nofollow noreferrer noopener" class="external text" href="https://files.waveshare.com/wiki/common/Esp32-s3_technical_reference_manual_en.pdf">ESP32-S3 Technical Reference Manual</a></li>
+<li><a target="_blank" rel="nofollow noreferrer noopener" class="external text" href="https://files.waveshare.com/wiki/common/Esp32-s3_datasheet_en.pdf">ESP32-S3 Series Datasheet</a></li>
+<li><a target="_blank" rel="nofollow noreferrer noopener" class="external text" href="https://www.espressif.com/en/support/documents/technical-documents?keys=&amp;field_type_tid%5B%5D=842">ESP32-S3 Technical Documents</a></li></ul>
+<h3><span class="mw-headline" id="Other_components">Other components</span></h3>
+<ul><li><a target="_blank" rel="nofollow noreferrer noopener" class="external text" href="https://files.waveshare.com/wiki/common/GC9A01A.pdf">GC9A01A Datasheet</a></li>
+<li><a target="_blank" rel="nofollow noreferrer noopener" class="external text" href="https://files.waveshare.com/wiki/common/CST816S_Datasheet_EN.pdf">CST816S Datasheet</a></li>
+<li><a target="_blank" rel="nofollow noreferrer noopener" class="external text" href="https://files.waveshare.com/wiki/common/CST816S_register_declaration.pdf">CST816S Register description</a></li></ul>
+<h2><span class="mw-headline" id="Software_tools">Software tools</span></h2>
+<h3><span class="mw-headline" id="Arduino">Arduino</span></h3>
+<ul><li><a target="_blank" rel="nofollow noreferrer noopener" class="external text" href="https://www.arduino.cc/en/software/">Arduino IDE Official download link</a></li></ul>
+<h3><span class="mw-headline" id="Thonny">Thonny</span></h3>
+<ul><li><a target="_blank" rel="nofollow noreferrer noopener" class="external text" href="https://thonny.org/">Thonny official download link</a></li></ul>
+<h3><span class="mw-headline" id="Firmware_flashing_tool">Firmware flashing tool</span></h3>
+<ul><li><a target="_blank" rel="nofollow noreferrer noopener" class="external text" href="https://files.waveshare.com/wiki/common/Flash_download_tool_3.9.5_0.zip">ESP32 Firmware flashing tool</a></li></ul>
+<h2><span class="mw-headline" id="Other_resource_link">Other resource link</span></h2>
+<ul><li><a target="_blank" rel="nofollow noreferrer noopener" class="external text" href="https://docs.espressif.com/projects/arduino-esp32/en/latest/index.html">ESP32-Arduino official documentation</a></li>
+<li><a target="_blank" rel="nofollow noreferrer noopener" class="external text" href="https://docs.lvgl.io/master/intro/introduction/index.html">LVGL official documentation</a></li></ul>
+<h2><span class="mw-headline" id="Project_Resources">Project Resources</span></h2>
+<p>This section features third - party project resources. We merely provide links and bear no responsibility for content updates or maintenance. Thank you for your understanding.<br>
+</p><p><b>ElectroDonut - the Digital Trapped Soul Pendant</b><br>
+<iframe width="400" height="315" src="./ESP32-S3-Touch-LCD-1.28 - Waveshare Wiki_files/2smcsryumeQ.html" frameborder="0" allowfullscreen=""></iframe>
+</p>
+<ul><li>Youtube: <a target="_blank" rel="nofollow noreferrer noopener" class="external text" href="https://www.youtube.com/watch?v=2smcsryumeQ">https://www.youtube.com/watch?v=2smcsryumeQ</a></li>
+<li>Guide: <a target="_blank" rel="nofollow noreferrer noopener" class="external text" href="https://www.instructables.com/Luna-the-Live-Moon-Phase-Display/">https://www.instructables.com/Luna-the-Live-Moon-Phase-Display/</a></li>
+<li>Github: <a target="_blank" rel="nofollow noreferrer noopener" class="external text" href="https://github.com/vishalsoniindia/Luna---The-Live-Moon-Phase-Display">https://github.com/vishalsoniindia/Luna---The-Live-Moon-Phase-Display</a></li></ul>
+<h1><span class="mw-headline" id="FAQ">FAQ</span></h1>
+<div class="panel-group">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h4 class="panel-title">
+							<a data-toggle="collapse" data-parent="#accordion" href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#accordion1">
+								<b>Question:</b> After the module downloads the demo and re-downloads it, why sometimes it can't connect to the serial port or the flashing fails? 
+							</a>
+						</h4>
+					</div>
+					<div id="accordion1" class="panel-collapse collapse in">
+						<div class="panel-body">
+<div>&nbsp;<b>Answer:</b></div>
+<div>
+<ul><li>Click the Reset button for more than 1 second, wait for the PC to re-recognize the device and then download again<br></li>
+<li>Long press the BOOT button, press RESET at the same time, then release RESET, then release the BOOT button, at this time the module can enter the download mode, which can solve most of the problems that can not be downloaded.</li></ul>
+</div>
+<div style="display:none;"></div>
+<div style="display:none;"></div>
+<p><font color="red" style="display:none;"></font>
+</p>
+						</div>
+					</div>
+				</div>
+</div>
+<p><br>
+</p>
+<div class="panel-group">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h4 class="panel-title">
+							<a data-toggle="collapse" data-parent="#accordion" href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#accordion2">
+								<b>Question:</b> Why does the module keep resetting and flicker when viewed the recognition status from the device manager? 
+							</a>
+						</h4>
+					</div>
+					<div id="accordion2" class="panel-collapse collapse in">
+						<div class="panel-body">
+<div>&nbsp;<b>Answer:</b></div>
+<div>
+<p>It may be due to Flash blank and the USB port is not stable, you can long-press the BOOT button, press RESET at the same time, and then release RESET, and then release the BOOT button, at this time the module can enter the download mode to flash the firmware (demo) to solve the situation.
+</p>
+</div>
+<div style="display:none;"></div>
+<div style="display:none;"></div>
+<p><font color="red" style="display:none;"></font>
+</p>
+						</div>
+					</div>
+				</div>
+</div>
+<p><br>
+</p>
+<div class="panel-group">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h4 class="panel-title">
+							<a data-toggle="collapse" data-parent="#accordion" href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#accordion3">
+								<b>Question:</b> How to deal with the first compilation of the program being extremely slow?
+							</a>
+						</h4>
+					</div>
+					<div id="accordion3" class="panel-collapse collapse in">
+						<div class="panel-body">
+<div>&nbsp;<b>Answer:</b></div>
+<div>
+<ul><li>It's normal for the first compilation to be slow, just be patient<br></li></ul>
+</div>
+<div style="display:none;"></div>
+<div style="display:none;"></div>
+<p><font color="red" style="display:none;"></font>
+</p>
+						</div>
+					</div>
+				</div>
+</div>
+<p><br>
+</p>
+<div class="panel-group">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h4 class="panel-title">
+							<a data-toggle="collapse" data-parent="#accordion" href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#accordion4">
+								<b>Question:</b> What should I do if I can't find the AppData folder? 
+							</a>
+						</h4>
+					</div>
+					<div id="accordion4" class="panel-collapse collapse in">
+						<div class="panel-body">
+<div>&nbsp;<b>Answer:</b></div>
+<div>
+<ul><li>Some AppData folders are hidden by default and can be set to show.</li>
+<li>English system: Explorer-&gt;View-&gt;Check "Hidden items"</li>
+<li>Chinese system: File Explorer -&gt; View -&gt; Display -&gt; Check "Hidden Items"<br></li></ul>
+</div>
+<div style="display:none;"></div>
+<div style="display:none;"></div>
+<p><font color="red" style="display:none;"></font>
+</p>
+						</div>
+					</div>
+				</div>
+</div>
+<p><br>
+</p>
+<div class="panel-group">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h4 class="panel-title">
+							<a data-toggle="collapse" data-parent="#accordion" href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#accordion5">
+								<b>Question:</b> How do I check the COM port I use? 
+							</a>
+						</h4>
+					</div>
+					<div id="accordion5" class="panel-collapse collapse in">
+						<div class="panel-body">
+<div>&nbsp;<b>Answer:</b></div>
+<div>
+<ul><li>Windows system:</li></ul>
+<p>①View through Device Manager: Press the Windows + R keys to open the "Run" dialog box; input devmgmt.msc and press Enter to open the Device Manager; expand the "Ports (COM and LPT)" section, where all COM ports and their current statuses will be listed. <br>
+②Use the command prompt to view: Open the Command Prompt (CMD), enter the "mode" command, which will display status information for all COM ports. <br>
+③Check hardware connections: If you have already connected external devices to the COM port, the device usually occupies a port number, which can be determined by checking the connected hardware.
+</p>
+<ul><li>Linux system:</li></ul>
+<p>①Use the dmesg command to view: Open the terminal. <br>
+①Use the ls command to view: Enter ls /dev/ttyS* or ls /dev/ttyUSB* to list all serial port devices. <br>
+③Use the setserial command to view: Enter setserial -g /dev/ttyS* to view the configuration information of all serial port devices. <br>
+</p>
+</div>
+<div style="display:none;"></div>
+<div style="display:none;"></div>
+<p><font color="red" style="display:none;"></font>
+</p>
+						</div>
+					</div>
+				</div>
+</div>
+<p><br>
+</p>
+<div class="panel-group">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h4 class="panel-title">
+							<a data-toggle="collapse" data-parent="#accordion" href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#accordion6">
+								<b>Question:</b> Why does the program flashing fail when using a MAC device? 
+							</a>
+						</h4>
+					</div>
+					<div id="accordion6" class="panel-collapse collapse in">
+						<div class="panel-body">
+<div>&nbsp;<b>Answer:</b></div>
+<div>
+<ul><li>Install <a target="_blank" rel="nofollow noreferrer noopener" class="external text" href="https://files.waveshare.com/wiki/common/CH34XSER_MAC.7z">MAC Driver</a> and flash again.</li></ul>
+</div>
+<div style="display:none;"></div>
+<div style="display:none;"></div>
+<p><font color="red" style="display:none;"></font>
+</p>
+						</div>
+					</div>
+				</div>
+</div>
+<p><br>
+</p>
+<div class="panel-group">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h4 class="panel-title">
+							<a data-toggle="collapse" data-parent="#accordion" href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#accordion7">
+								<b>Question:</b> What is the screen driver? 
+							</a>
+						</h4>
+					</div>
+					<div id="accordion7" class="panel-collapse collapse in">
+						<div class="panel-body">
+<div>&nbsp;<b>Answer:</b></div>
+<div>
+<p>GC9A01A
+</p>
+</div>
+<div style="display:none;"></div>
+<div style="display:none;"></div>
+<p><font color="red" style="display:none;"></font>
+</p>
+						</div>
+					</div>
+				</div>
+</div>
+<p><br>
+</p>
+<div class="panel-group">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h4 class="panel-title">
+							<a data-toggle="collapse" data-parent="#accordion" href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#accordion8">
+								<b>Question:</b> Can the other six pins be used for RXTX? 
+							</a>
+						</h4>
+					</div>
+					<div id="accordion8" class="panel-collapse collapse in">
+						<div class="panel-body">
+<div>&nbsp;<b>Answer:</b></div>
+<div>
+<p>Yes, just specify the pin directly when the UART is initialized:
+<a href="https://www.waveshare.com/wiki/File:ESP32-S3-1.28-UART.png" class="image"><img alt="ESP32-S3-1.28-UART.png" src="./ESP32-S3-Touch-LCD-1.28 - Waveshare Wiki_files/ESP32-S3-1.28-UART.png" decoding="async" loading="lazy" width="1850" height="218"></a>
+</p>
+</div>
+<div style="display:none;"></div>
+<div style="display:none;"></div>
+<p><font color="red" style="display:none;"></font>
+</p>
+						</div>
+					</div>
+				</div>
+</div>
+<p><br>
+</p>
+<div class="panel-group">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h4 class="panel-title">
+							<a data-toggle="collapse" data-parent="#accordion" href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#accordion9">
+								<b>Question:</b> What battery does ESP32-S3-Touch-LCD-1.28 use to power it? 
+							</a>
+						</h4>
+					</div>
+					<div id="accordion9" class="panel-collapse collapse in">
+						<div class="panel-body">
+<div>&nbsp;<b>Answer:</b></div>
+<div>
+<p>MX1.25 2P connector, which can be used to connect to a 3.7V battery, supports charging and discharging, as shown in the figure: <br>
+<a href="https://www.waveshare.com/wiki/File:Esp-1.28-battery-600mah.png" class="image"><img alt="Esp-1.28-battery-600mah.png" src="./ESP32-S3-Touch-LCD-1.28 - Waveshare Wiki_files/Esp-1.28-battery-600mah.png" decoding="async" loading="lazy" width="379" height="281"></a>
+</p>
+</div>
+<div style="display:none;"></div>
+<div style="display:none;"></div>
+<p><font color="red" style="display:none;"></font>
+</p>
+						</div>
+					</div>
+				</div>
+</div>
+<p><br>
+</p>
+<h1><span class="mw-headline" id="Support">Support</span></h1>
+<p><br>
+<br>
+</p>
+<div style="background:linear-gradient(to bottom right,#91C942,#7DB036); border-radius:15px; width:100%;min-width:750px;">
+<div style="display:flex;flex-direction: row;align-items: flex-start;">
+<div style="flex:l; font-size:15px; width:70%; margin-top:20px; margin-bottom:20px; margin-right:40px;padding-left:40px;">
+<p style="font-size:20px; font-weight:bold;">
+Technical Support
+</p>
+<p>
+If you need technical support or have any feedback/review, please click the <b>Submit Now</b> button to submit a ticket, Our support team will check and reply to you within 1 to 2 working days. Please be patient as we make every effort to help you to resolve the issue. 
+<br> 
+Working Time: 9 AM - 6 PM GMT+8 (Monday to Friday)
+</p>
+</div>
+<div style="margin-top:94px;">
+<div id="service" style="display:flex; flex:r; background-color:#393939; color:white; text-align:center; font-size:20px; border-radius:20px;">
+<p><a target="_blank" rel="nofollow noreferrer noopener" class="external text" href="https://service.waveshare.com/">Submit Now</a>
+</p>
+</div>
+</div>
+</div>
+</div>
+</div></div></div></div></div>
+<!-- 
+NewPP limit report
+Cached time: 20260514181343
+Cache expiry: 0
+Dynamic content: true
+Complications: []
+CPU time usage: 0.366 seconds
+Real time usage: 1.022 seconds
+Preprocessor visited node count: 1330/1000000
+Post‐expand include size: 18751/2097152 bytes
+Template argument size: 10879/2097152 bytes
+Highest expansion depth: 8/40
+Expensive parser function count: 0/100
+Unstrip recursion depth: 0/20
+Unstrip post‐expand size: 8605/5000000 bytes
+-->
+<!--
+Transclusion expansion time report (%,ms,calls,template)
+100.00%  403.878      1 -total
+ 45.22%  182.614      9 Template:FAQ
+ 13.87%   56.038      1 Template:Infobox_item
+ 10.88%   43.937      1 Template:Run_the_first_Arduino_demo
+  7.83%   31.634      1 Template:Servicebox1
+  6.94%   28.049      9 Template:Note
+  6.71%   27.084      1 Template:Thonny_Usage
+  5.16%   20.837      1 Template:Amazon_nolink
+-->
+</div></div>								<div class="printfooter">
+				Retrieved from "<a dir="ltr" href="https://www.waveshare.com/w/index.php?title=ESP32-S3-Touch-LCD-1.28&amp;oldid=106808">https://www.waveshare.com/w/index.php?title=ESP32-S3-Touch-LCD-1.28&amp;oldid=106808</a>"				</div>
+												<div id="catlinks" class="catlinks catlinks-allhidden" data-mw="interface"></div>												<div class="visualClear"></div>
+							</div>
+			<!-- /bodyContent -->
+		</div>
+						</div>
+				</div>
+			</div>
+			<!-- /content -->
+
+			<!-- sidebar-left -->
+			<div class="sidebar-wrapper sidebar-left-wrapper">
+				<div class="sidebar-container container">
+					<div class="row">
+						<div id="sidebar-left" class="col-md-2 col-md-offset-0">
+							<div id="tweekiTOC"><div class="toctitle" lang="en" dir="ltr"><h2 id="mw-toc-heading">Contents</h2><span class="toctogglespan"><label class="toctogglelabel" for="toctogglecheckbox"></label></span></div><div id="toc" class="toc" role="navigation" aria-labelledby="mw-toc-heading" style="display: table;"><input type="checkbox" role="button" id="toctogglecheckbox" class="toctogglecheckbox" style="display:none">
+<ul class="nav">
+<li class="toclevel-1 tocsection-1"><a href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#Overview"><span class="tocnumber">1</span> <span class="toctext">Overview</span></a>
+<ul class="nav">
+<li class="toclevel-2 tocsection-2"><a href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#Introduction"><span class="tocnumber">1.1</span> <span class="toctext">Introduction</span></a></li>
+<li class="toclevel-2 tocsection-3"><a href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#Features"><span class="tocnumber">1.2</span> <span class="toctext">Features</span></a></li>
+<li class="toclevel-2 tocsection-4"><a href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#Onboard_Resources"><span class="tocnumber">1.3</span> <span class="toctext">Onboard Resources</span></a></li>
+<li class="toclevel-2 tocsection-5"><a href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#Interfaces"><span class="tocnumber">1.4</span> <span class="toctext">Interfaces</span></a></li>
+<li class="toclevel-2 tocsection-6"><a href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#Dimensions"><span class="tocnumber">1.5</span> <span class="toctext">Dimensions</span></a></li>
+<li class="toclevel-2 tocsection-7"><a href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#Specifications"><span class="tocnumber">1.6</span> <span class="toctext">Specifications</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1 tocsection-8"><a href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#Version_Description"><span class="tocnumber">2</span> <span class="toctext">Version Description</span></a></li>
+<li class="toclevel-1 tocsection-9"><a href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#Usage_instructions"><span class="tocnumber">3</span> <span class="toctext">Usage instructions</span></a>
+<ul class="nav">
+<li class="toclevel-2 tocsection-10"><a href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#Development_tools"><span class="tocnumber">3.1</span> <span class="toctext">Development tools</span></a>
+<ul class="nav">
+<li class="toclevel-3 tocsection-11"><a href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#Arduino_IDE"><span class="tocnumber">3.1.1</span> <span class="toctext">Arduino IDE</span></a></li>
+<li class="toclevel-3 tocsection-12"><a href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#MicroPython"><span class="tocnumber">3.1.2</span> <span class="toctext">MicroPython</span></a></li>
+</ul>
+</li>
+<li class="toclevel-2 tocsection-13"><a href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#Components_preparation"><span class="tocnumber">3.2</span> <span class="toctext">Components preparation</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1 tocsection-14"><a href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#Working_with_Arduino"><span class="tocnumber">4</span> <span class="toctext">Working with Arduino</span></a>
+<ul class="nav">
+<li class="toclevel-2 tocsection-15"><a href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#Environment_setup"><span class="tocnumber">4.1</span> <span class="toctext">Environment setup</span></a>
+<ul class="nav">
+<li class="toclevel-3 tocsection-16"><a href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#Download_and_install_Arduino_IDE"><span class="tocnumber">4.1.1</span> <span class="toctext">Download and install Arduino IDE</span></a></li>
+<li class="toclevel-3 tocsection-17"><a href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#Install_ESP32_development_board"><span class="tocnumber">4.1.2</span> <span class="toctext"><b>Install ESP32 development board</b></span></a></li>
+<li class="toclevel-3 tocsection-18"><a href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#Install_library"><span class="tocnumber">4.1.3</span> <span class="toctext">Install library</span></a></li>
+</ul>
+</li>
+<li class="toclevel-2"><a href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#Run_the_First_Arduino_Demo"><span class="tocnumber">4.2</span> <span class="toctext">Run the First Arduino Demo</span></a>
+<ul class="nav">
+<li class="toclevel-3"><a href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#New_Project"><span class="tocnumber">4.2.1</span> <span class="toctext">New Project</span></a></li>
+<li class="toclevel-3"><a href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#Compile_and_Flash_Demos"><span class="tocnumber">4.2.2</span> <span class="toctext">Compile and Flash Demos</span></a></li>
+</ul>
+</li>
+<li class="toclevel-2 tocsection-19"><a href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#Demos"><span class="tocnumber">4.3</span> <span class="toctext">Demos</span></a>
+<ul class="nav">
+<li class="toclevel-3 tocsection-20"><a href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#Arduino_project_parameter_settings"><span class="tocnumber">4.3.1</span> <span class="toctext"><b>Arduino project parameter settings</b></span></a></li>
+<li class="toclevel-3 tocsection-21"><a href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#ESP32-S3-Touch-LCD-1.28-Test"><span class="tocnumber">4.3.2</span> <span class="toctext"><b>ESP32-S3-Touch-LCD-1.28-Test</b></span></a></li>
+<li class="toclevel-3 tocsection-22"><a href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#LVGL_Arduino"><span class="tocnumber">4.3.3</span> <span class="toctext"><b>LVGL_Arduino</b></span></a></li>
+<li class="toclevel-3 tocsection-23"><a href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#LVGL_Chinese_Font"><span class="tocnumber">4.3.4</span> <span class="toctext"><b>LVGL_Chinese_Font</b></span></a></li>
+<li class="toclevel-3 tocsection-24"><a href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#LVGL_Chinese_7500_Char"><span class="tocnumber">4.3.5</span> <span class="toctext"><b>LVGL_Chinese_7500_Char</b></span></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toclevel-1 tocsection-25"><a href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#Working_with_MicroPython"><span class="tocnumber">5</span> <span class="toctext">Working with MicroPython</span></a>
+<ul class="nav">
+<li class="toclevel-2 tocsection-26"><a href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#Environment_setup_2"><span class="tocnumber">5.1</span> <span class="toctext">Environment setup</span></a>
+<ul class="nav">
+<li class="toclevel-3 tocsection-27"><a href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#Download_and_install_Thonny"><span class="tocnumber">5.1.1</span> <span class="toctext"><b>Download and install Thonny</b></span></a></li>
+<li class="toclevel-3 tocsection-28"><a href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#Flash_the_firmware"><span class="tocnumber">5.1.2</span> <span class="toctext">Flash the firmware</span></a></li>
+</ul>
+</li>
+<li class="toclevel-2"><a href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#Thonny_Usage"><span class="tocnumber">5.2</span> <span class="toctext">Thonny Usage</span></a>
+<ul class="nav">
+<li class="toclevel-3"><a href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#Select_the_development_board_and_model"><span class="tocnumber">5.2.1</span> <span class="toctext"><b>Select the development board and model</b></span></a></li>
+<li class="toclevel-3"><a href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#Upload_demo"><span class="tocnumber">5.2.2</span> <span class="toctext"><b>Upload demo</b></span></a></li>
+</ul>
+</li>
+<li class="toclevel-2 tocsection-29"><a href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#Demos_2"><span class="tocnumber">5.3</span> <span class="toctext">Demos</span></a>
+<ul class="nav">
+<li class="toclevel-3 tocsection-30"><a href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#Upload_demo_and_special_demos"><span class="tocnumber">5.3.1</span> <span class="toctext"><b>Upload demo and special demos</b></span></a>
+<ul class="nav">
+<li class="toclevel-4 tocsection-31"><a href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#Upload_demo_2"><span class="tocnumber">5.3.1.1</span> <span class="toctext"><b>Upload demo</b></span></a></li>
+<li class="toclevel-4 tocsection-32"><a href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#Upload_special_demos"><span class="tocnumber">5.3.1.2</span> <span class="toctext"><b>Upload special demos</b></span></a></li>
+</ul>
+</li>
+<li class="toclevel-3 tocsection-33"><a href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#alien.py"><span class="tocnumber">5.3.2</span> <span class="toctext"><b>alien.py </b></span></a></li>
+<li class="toclevel-3 tocsection-34"><a href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#bitarray.py"><span class="tocnumber">5.3.3</span> <span class="toctext"><b>bitarray.py </b></span></a></li>
+<li class="toclevel-3 tocsection-35"><a href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#hello.py"><span class="tocnumber">5.3.4</span> <span class="toctext"><b>hello.py </b></span></a></li>
+<li class="toclevel-3 tocsection-36"><a href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#hershey.py"><span class="tocnumber">5.3.5</span> <span class="toctext"><b>hershey.py </b></span></a></li>
+<li class="toclevel-3 tocsection-37"><a href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#jpg.py"><span class="tocnumber">5.3.6</span> <span class="toctext"><b>jpg.py </b></span></a></li>
+<li class="toclevel-3 tocsection-38"><a href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#noto_fonts.py"><span class="tocnumber">5.3.7</span> <span class="toctext"><b>noto_fonts.py</b></span></a></li>
+<li class="toclevel-3 tocsection-39"><a href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#pbitmap.py"><span class="tocnumber">5.3.8</span> <span class="toctext"><b>pbitmap.py</b></span></a></li>
+<li class="toclevel-3 tocsection-40"><a href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#rotation.py"><span class="tocnumber">5.3.9</span> <span class="toctext"><b>rotation.py</b></span></a></li>
+<li class="toclevel-3 tocsection-41"><a href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#scroll.py"><span class="tocnumber">5.3.10</span> <span class="toctext"><b>scroll.py</b></span></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toclevel-1 tocsection-42"><a href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#Flash_Firmware_Flashing_and_Erasing"><span class="tocnumber">6</span> <span class="toctext">Flash Firmware Flashing and Erasing</span></a></li>
+<li class="toclevel-1 tocsection-43"><a href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#Resources"><span class="tocnumber">7</span> <span class="toctext">Resources</span></a>
+<ul class="nav">
+<li class="toclevel-2 tocsection-44"><a href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#Schematic_diagram"><span class="tocnumber">7.1</span> <span class="toctext">Schematic diagram</span></a></li>
+<li class="toclevel-2 tocsection-45"><a href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#Project_diagram"><span class="tocnumber">7.2</span> <span class="toctext">Project diagram</span></a></li>
+<li class="toclevel-2 tocsection-46"><a href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#Demo"><span class="tocnumber">7.3</span> <span class="toctext">Demo</span></a></li>
+<li class="toclevel-2 tocsection-47"><a href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#Datasheets"><span class="tocnumber">7.4</span> <span class="toctext">Datasheets</span></a>
+<ul class="nav">
+<li class="toclevel-3 tocsection-48"><a href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#ESP32-S3"><span class="tocnumber">7.4.1</span> <span class="toctext">ESP32-S3</span></a></li>
+<li class="toclevel-3 tocsection-49"><a href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#Other_components"><span class="tocnumber">7.4.2</span> <span class="toctext">Other components</span></a></li>
+</ul>
+</li>
+<li class="toclevel-2 tocsection-50"><a href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#Software_tools"><span class="tocnumber">7.5</span> <span class="toctext">Software tools</span></a>
+<ul class="nav">
+<li class="toclevel-3 tocsection-51"><a href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#Arduino"><span class="tocnumber">7.5.1</span> <span class="toctext">Arduino</span></a></li>
+<li class="toclevel-3 tocsection-52"><a href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#Thonny"><span class="tocnumber">7.5.2</span> <span class="toctext">Thonny</span></a></li>
+<li class="toclevel-3 tocsection-53"><a href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#Firmware_flashing_tool"><span class="tocnumber">7.5.3</span> <span class="toctext">Firmware flashing tool</span></a></li>
+</ul>
+</li>
+<li class="toclevel-2 tocsection-54"><a href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#Other_resource_link"><span class="tocnumber">7.6</span> <span class="toctext">Other resource link</span></a></li>
+<li class="toclevel-2 tocsection-55"><a href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#Project_Resources"><span class="tocnumber">7.7</span> <span class="toctext">Project Resources</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1 tocsection-56"><a href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#FAQ"><span class="tocnumber">8</span> <span class="toctext">FAQ</span></a></li>
+<li class="toclevel-1 tocsection-57"><a href="https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28#Support"><span class="tocnumber">9</span> <span class="toctext">Support</span></a></li>
+</ul>
+<div id="toctotop"><a href="javascript:scrollTo(0,0);">To Top</a></div></div></div>						</div>
+					</div>
+				</div>
+			</div>
+			<!-- /sidebar-left -->
+					<!-- footer -->
+			<div id="footer" role="contentinfo" class="footer container footer-sticky bg-light" style="margin-top: 0px; opacity: 1;">
+			<ul id="footer-custom"><li class="dropup"><a href="https://www.waveshare.com/w/index.php?title=Special:UserLogin&amp;returnto=ESP32-S3-Touch-LCD-1.28" title="You are encouraged to log in; however, it is not mandatory [alt-shift-o]" accesskey="o">Login / Create Account</a></li></ul><div style="clear:both"></div>			</div>
+			<!-- /footer -->
+		
+<script>
+var fbtFancyBoxOptions = {};
+</script>
+
+<script>(RLQ=window.RLQ||[]).push(function(){mw.config.set({"wgPageParseReport":{"limitreport":{"cputime":"0.366","walltime":"1.022","ppvisitednodes":{"value":1330,"limit":1000000},"postexpandincludesize":{"value":18751,"limit":2097152},"templateargumentsize":{"value":10879,"limit":2097152},"expansiondepth":{"value":8,"limit":40},"expensivefunctioncount":{"value":0,"limit":100},"unstrip-depth":{"value":0,"limit":20},"unstrip-size":{"value":8605,"limit":5000000},"timingprofile":["100.00%  403.878      1 -total"," 45.22%  182.614      9 Template:FAQ"," 13.87%   56.038      1 Template:Infobox_item"," 10.88%   43.937      1 Template:Run_the_first_Arduino_demo","  7.83%   31.634      1 Template:Servicebox1","  6.94%   28.049      9 Template:Note","  6.71%   27.084      1 Template:Thonny_Usage","  5.16%   20.837      1 Template:Amazon_nolink"]},"cachereport":{"timestamp":"20260514181343","ttl":0,"transientcontent":true}}});mw.config.set({"wgBackendResponseTime":1688});});</script>	
+
+</body></html>

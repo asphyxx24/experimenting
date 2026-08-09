@@ -1,13 +1,14 @@
 # Companion-Watch — Selbstbau-Smartwatch mit Jarvis-Anbindung
 
-**Status:** 🔬 Recherche
-**Letztes Update:** 2026-05-06
+**Status:** 🛠 Prototyp
+**Letztes Update:** 2026-05-14
 
 ## Idee
 
 Eine selbstgebaute Smartwatch auf ESP32-S3-Basis, die als universelles Companion-Device am Handgelenk dient. Kern-Features:
 
-- **Jarvis-Voice (Push-to-Talk):** Knopf drücken → Audio-Stream zum Jarvis-Backend → Antwort hören.
+- **Jarvis-Voice (Push-to-Talk):** Knopf drücken → Audio aufnehmen → Groq Whisper STT → Jarvis-Backend → Antwort hören.
+- **WhatsApp-Fernbedienung:** Eingehende Anrufe annehmen/ablehnen, Sprachnachrichten vom Handgelenk senden.
 - **IR-Universal-Remote:** TV, HiFi, Klima vom Handgelenk steuern.
 - **Health-Tracking:** Schritte, Puls, SpO2, Schlaf — ersetzt das Xiaomi Mi Band.
 - **Notifications:** Backend pusht Meldungen → Display + Vibration.
@@ -43,73 +44,135 @@ ESP32-S3: WiFi + BLE 5.0, 240 MHz Dual-Core, IMU on-board (QMI8658), USB-C-Charg
 | Schlaf-Stages | ja | ja (Algo-Port nötig) | gleich |
 | SpO2 | ja | ja | gleich |
 | Voice/Jarvis-PTT | nein | ja | unser Vorteil |
+| WhatsApp-Fernbedienung | nein | ja | unser Vorteil |
 | IR-Remote | nein | ja | unser Vorteil |
 | Erweiterbare UIs | nein | ja | unser Vorteil |
 | Tragekomfort | super dünn | klotzig (~18 mm) | Mi Band gewinnt |
 | Daten offen / hackbar | proprietär | komplett offen | unser Vorteil |
 
-**Konsequenz:** ersetzt die Mi Band, wenn man die Lade-Routine alle 2–3 Tage und die Bauhöhe akzeptiert. Sleep-Staging-Algorithmen müssen portiert werden (z. B. Cole-Kripke, [pyActigraphy](https://github.com/ghammad/pyActigraphy), [Bangle.js Sleep-Logger](https://github.com/espruino/BangleApps/tree/master/apps/sleeplog)).
+**Konsequenz:** ersetzt die Mi Band, wenn man die Lade-Routine alle 2–3 Tage und die Bauhöhe akzeptiert.
 
 ## Architektur
 
 ```
-[Jarvis-Backend] ──WiFi/WebSocket──> [ESP32-S3 Companion am Handgelenk]
-        |                                       |
-        |                                       | Display: UI (Pet, Remote, Status)
-        | Datenquellen + Push                   | Audio I2S in/out
-        |                                       | IR-Blaster
-        v                                       | IMU + PPG
-[Health Connect / Mi Fit / Strava /             |
- GitHub / Calendar / Custom-API]                v
-                                       [User: Tap, PTT, Schlaf, ...]
+┌─────────────────────────────────────────────────────────────┐
+│                    OptiPlex (Jarvis-Backend)                 │
+│                                                             │
+│  ┌─────────────┐   ┌──────────────┐   ┌─────────────────┐  │
+│  │ Jarvis Core │   │ WhatsApp     │   │ Virtual Audio   │  │
+│  │ (Python)    │   │ (whatsapp-   │   │ Bridge (Linux   │  │
+│  │             │◄──│  web.js)     │   │ PipeWire loop)  │  │
+│  └──────┬──────┘   └──────┬───────┘   └────────┬────────┘  │
+│         │                 │                     │           │
+└─────────┼─────────────────┼─────────────────────┼───────────┘
+          │ WiFi/WebSocket  │ Events/Commands      │ Audio
+          ▼                 ▼                     ▼
+┌─────────────────────────────────────────────────────────────┐
+│              ESP32-S3-Touch-LCD-1.28 (Uhr)                  │
+│                                                             │
+│  Display (240×240) │ INMP441 Mikro │ I2S Speaker           │
+│  Touch             │ PTT-Knopf     │ IMU + PPG             │
+│  Vibration (MOSFET)│ IR-Blaster    │ RGB-LED               │
+└─────────────────────────────────────────────────────────────┘
+          │
+          ▼ Audio-Datei (PTT-Ende)
+┌─────────────────┐
+│  Groq Whisper   │  (Cloud, kostenlos, ~<1s)
+│  STT Batch API  │
+└─────────────────┘
 ```
 
 Das Gerät ist **dummer Client mit IO**, nicht eigenständige AI. Modi:
 1. **Idle:** UI-Animation, IMU lauscht, WiFi off.
-2. **Voice:** PTT gedrückt → WiFi connect → Audio-Stream zu Jarvis → Antwort.
+2. **Voice:** PTT gedrückt → aufnehmen → loslassen → Groq STT → Jarvis → Antwort.
 3. **Remote:** Display zeigt Buttons, IR/BLE/WiFi-Calls feuern.
 4. **Notification:** Backend pusht → Display + Vibration.
 5. **Sleep:** Display off, IMU + PPG samplen, alles in Flash, morgens syncen.
+6. **WhatsApp:** Eingehender Anruf → Vibration + Caller-Screen → Annehmen/Ablehnen. Sprachnachricht via PTT → Groq STT oder direkt als Audio senden.
+
+## Entschiedene Technologie-Fragen
+
+### STT — Groq Whisper
+- **Dienst:** Groq API, Modell `whisper-large-v3`
+- **Modus:** Batch (nicht Streaming) — bei PTT völlig ausreichend
+- **Kosten:** Free Tier: 2000 Requests/Tag, 20/min — für Privatnutzung nie erschöpft
+- **Latenz:** <1 s Turnaround nach Aufnahme-Ende
+- **Warum nicht RealtimeSTT:** RealtimeSTT ist ein Wrapper für Always-Listening mit VAD. PTT-Button ersetzt VAD komplett — überflüssig.
+- **Warum nicht lokal (faster-whisper):** OptiPlex-i5 ohne GPU braucht 1–3 s für large-v3. Groq ist schneller und kostenlos.
+- **Migrationspfad:** faster-whisper lokal optional wenn GPU nachrüstbar oder Latenz kein Problem.
+
+### Transport — zweiphasig
+- **Phase 1 (Laptop-Test):** USB Serial via CH343P (COM5) → Python-Skript → Groq API
+- **Phase 2 (OptiPlex):** WiFi WebSocket → Jarvis-Backend → Groq API
+
+### Firmware-Framework — ESP-IDF bleibt
+Arduino IDE und MicroPython werden von Waveshare in der Wiki gezeigt, sind aber für Einsteiger-Demos gedacht. ESP-IDF bietet nativen I2S-Treiber, FreeRTOS-Tasks und den vollständigen WiFi-Stack — alles was für Voice-Streaming, paralleles UI und WebSocket nötig ist. Bestehender Code (Display, Touch, Sprites) läuft bereits stabil.
+
+### WhatsApp-Integration
+- **OptiPlex:** WhatsApp Web persistent in Chromium (Multi-Device, Sitzung überlebt Neustarts)
+- **Automatisierung:** `whatsapp-web.js` (Node.js) erkennt eingehende Anrufe/Nachrichten und pusht Events an Jarvis
+- **Live-Anrufe:** Linux PipeWire Loopback (Äquivalent zu Windows VB-Audio Virtual Cable) leitet ESP32-Audio als virtuelles Mikrofon an WhatsApp weiter
+- **Watch-UI:** Minimaler 240×240-Screen — Callername + Annehmen/Ablehnen, kein Browser
+- **Ban-Risiko:** Sehr gering bei Privatnutzung mit normalem Nutzungsvolumen
+
+### Hardware-Korrekturen (aus Waveshare Wiki)
+- **GPIO4/5 sind nicht frei:** Beide steuern on-board MOSFETs und IMU-Interrupts
+- **Freie GPIOs:** Nur GPIO15, 16, 17, 18, 21, 33 (alle am SH1.0-Connector)
+- **Vibrationsmotor:** On-board MOSFET auf GPIO4 — kein externer Transistor nötig, direkt anlöten
+- **Battery ADC:** GPIO1 mit Spannungsteiler bereits on-board
 
 ## Offene Fragen
 
-- [ ] Watch-Case: bestehendes STL ([Watch-Case mit Akku-Slot](https://www.printables.com/model/484236)) reicht erstmal, oder direkt eigener Custom-Print?
-- [ ] PTT-Hardware: Side-Push am Gehäuse vs. Touchscreen-Hold vs. IMU-Geste? → Knopf am verlässlichsten.
-- [ ] Backend-Push-Protokoll: WebSocket dauerhaft offen vs. MQTT mit Wakeup-Pings vs. nur Pull bei PTT?
+- [ ] Watch-Case: bestehendes STL ([Watch-Case mit Akku-Slot](https://www.printables.com/model/484236)) oder Custom-Print?
+- [ ] Backend-Push-Protokoll: WebSocket dauerhaft offen vs. MQTT mit Wakeup-Pings?
 - [ ] Sleep-Stage-Algorithmus: Cole-Kripke selbst implementieren oder pyActigraphy-Logik portieren?
-- [ ] Authentifizierung Gerät <> Backend: Pre-Shared-Key flashen vs. mTLS-Cert?
+- [ ] Authentifizierung Gerät ↔ Backend: Pre-Shared-Key flashen vs. mTLS-Cert?
 - [ ] Mehrere Geräte (Schlüsselbund + Schreibtisch + Handgelenk): wie unterscheidet das Backend?
+- [ ] On-board MOSFET Strom-Rating prüfen (Schaltplan) — reicht es für Coin-Vibrationsmotor?
+- [ ] Linux-Audio-Bridge: PipeWire Loopback oder PulseAudio null sink für WhatsApp-Mikrofon?
+- [ ] OptiPlex dauerhaft laufen lassen vs. WoL (WoL funktioniert aktuell nicht — USB-LAN-Adapter, kein natives LAN)?
 
 ## Spike-Plan
 
-### Spike 0 — Display + Gehäuse (1–2 Wochen)
-1. Hardware bestellen ([`BAUTEILE.md`](BAUTEILE.md) Pflicht-Block).
-2. Display ansteuern, einfache UI rendern.
-3. Watch-Case drucken (existierendes STL), Board einbauen.
-4. Battery-Lebensdauer im Idle-Mode messen.
+### Spike 0 — Display + Gehäuse ✅ DONE
+1. ~~Hardware bestellen~~ ✓
+2. ~~Display ansteuern, einfache UI rendern~~ ✓
+3. ~~Touch-Erkennung~~ ✓
+4. ~~Sprite-Animation~~ ✓ (Farben noch nicht perfekt)
+5. Watch-Case drucken + Board einbauen — ausstehend
+6. Battery-Lebensdauer im Idle-Mode messen — ausstehend
+
+### Spike D — Jarvis-Voice-Integration (nächster Schritt, 2–3 Wochen)
+1. INMP441 an SH1.0-Connector löten (WS=GPIO15, SCK=GPIO16, SD=GPIO17)
+2. ESP-IDF I2S-Treiber + FreeRTOS-Task: aufnehmen während PTT gedrückt
+3. Phase 1: Audio via USB Serial → Python-Skript auf Laptop → Groq API → Text ausgeben
+4. MAX98357A + Speaker verlöten, Antwort-Wiedergabe
+5. Phase 2: Transport auf WiFi WebSocket zum OptiPlex umstellen
 
 ### Spike A — Aktigraphie (1 Woche)
-5. IMU-Daten loggen, Schritte zählen.
-6. Cole-Kripke-Algo aufsetzen, Tag/Nacht-Erkennung.
+6. IMU-Daten loggen, Schritte zählen.
+7. Cole-Kripke-Algo aufsetzen, Tag/Nacht-Erkennung.
 
 ### Spike B — PPG / Puls (1–2 Wochen)
-7. MAX30102 verlöten + I2C ansprechen.
-8. Spot-Check ("Puls drücken") + 5-min-Sampling-Loop.
-9. HRV (RMSSD) berechnen.
+8. MAX30102 verlöten + I2C ansprechen.
+9. Spot-Check ("Puls drücken") + 5-min-Sampling-Loop.
+10. HRV (RMSSD) berechnen.
 
 ### Spike C — Sleep-Mode (1 Woche)
-10. Power-State, der nachts Display abschaltet, IMU + PPG samplet.
-11. Logs in Flash, morgens Sync ans Backend.
-
-### Spike D — Jarvis-Voice-Integration (2–3 Wochen)
-12. PTT-Knopf, INMP441 + MAX98357A verkabeln.
-13. WiFi-Stream zum Backend (WebSocket + Opus oder PCM).
-14. Audio-Wiedergabe der Antwort.
+11. Power-State, der nachts Display abschaltet, IMU + PPG samplet.
+12. Logs in Flash, morgens Sync ans Backend.
 
 ### Spike E — IR-Universal-Remote (1 Woche)
-15. IR-LED + Treiber-Transistor.
-16. IR-Codes vom Backend pushen lassen.
+13. IR-LED an on-board MOSFET (GPIO5) oder eigenem GPIO.
+14. IR-Codes vom Backend pushen lassen.
 
 ### Spike F — Mi-Band-Ablöse (laufend)
-17. Eine Woche parallel zur Mi Band tragen, Daten vergleichen.
-18. Wenn Sleep-Daten plausibel → Mi Band weglegen.
+15. Eine Woche parallel zur Mi Band tragen, Daten vergleichen.
+16. Wenn Sleep-Daten plausibel → Mi Band weglegen.
+
+### Spike G — WhatsApp-Integration (2–3 Wochen)
+17. `whatsapp-web.js` auf OptiPlex einrichten, WhatsApp Web verknüpfen.
+18. Incoming-Call-Event → Jarvis → WebSocket-Push → Uhr vibriert + zeigt Caller.
+19. Annehmen-Button auf Uhr → Jarvis → whatsapp-web.js akzeptiert Anruf.
+20. PipeWire Loopback einrichten: ESP32-Audio → virtuelles Mikrofon → WhatsApp.
+21. PTT auf Uhr → Audio → whatsapp-web.js sendet als Sprachnachricht.

@@ -70,7 +70,7 @@ Die Wahl der DE ist **reine Geschmackssache** — alle drei laufen identisch sta
 | Emulation (bis PS2) | PCSX2, RetroArch | geplant |
 | Lokale Cloud | Nextcloud | geplant |
 | DNS-Werbeblocker | AdGuard Home | geplant |
-| Heimautomatisierung | Home Assistant | geplant |
+| Heimautomatisierung | Eigene Skripte/Services (kein Home Assistant) | geplant |
 | IoT-Endpunkt | Mosquitto MQTT | geplant |
 | Workflow-Automatisierung | n8n | geplant |
 | Trading Bot | Python-Bot (siehe `ideas/trading-bot`) | geplant |
@@ -87,7 +87,6 @@ Die Wahl der DE ist **reine Geschmackssache** — alle drei laufen identisch sta
 │  Docker                             │
 │  ├── AdGuard Home      (DNS, :53)   │
 │  ├── Nextcloud         (:443)       │
-│  ├── Home Assistant    (:8123)      │
 │  ├── Mosquitto MQTT    (:1883)      │
 │  └── n8n               (:5678)     │
 │                                     │
@@ -109,8 +108,7 @@ Alle Server-Dienste in Docker → einfaches Update, saubere Isolation, einheitli
 3. **Docker installieren** — offizielle Ubuntu-Anleitung
 4. **AdGuard Home** — zuerst, da DNS-Blocker für alle anderen Geräte im Netz
 5. **Nextcloud** — lokale Cloud einrichten, Speicher einbinden
-6. **Home Assistant** — Heimautomatisierung, MQTT-Integration
-7. **Mosquitto MQTT** — Broker für ESP32-Projekte (Companion-Watch, Auto-Bewässerung)
+6. **Mosquitto MQTT** — Broker für ESP32-Projekte (Companion-Watch, Auto-Bewässerung)
 8. **n8n** — Workflow-Automatisierung
 9. **Emulation** — PCSX2 + RetroArch nativ installieren
 10. **Trading Bot** — IBKR TWS + Python-Umgebung + systemd-Timer
@@ -141,7 +139,7 @@ Kein 24/7-Betrieb nötig — systemd startet und stoppt automatisch zur Marktzei
 Mosquitto als zentraler Broker für alle ESP32-Projekte aus diesem Repo:
 - `companion-watch` → sendet Gesundheits-/Statusdaten
 - `auto-bewaesserung` → sendet Sensor-Daten, empfängt Steuerbefehle
-- Home Assistant abonniert alle Topics und reagiert darauf
+- Kein Home Assistant — eigene Skripte/Services abonnieren die Topics und reagieren darauf (Automatisierung wird selbst gebaut, nicht mit Standard-Tool zusammengeklickt)
 
 ---
 
@@ -157,7 +155,7 @@ Mosquitto als zentraler Broker für alle ESP32-Projekte aus diesem Repo:
 | Nextcloud-Daten | wächst |
 | Trading Bot Logs | minimal |
 
-**Erweiterung:** 2,5"-SATA-Fach im OptiPlex 3090 intern verfügbar → günstige 1–2 TB HDD oder SSD einbauen. Alternativ USB 3.0 HDD extern.
+**Erweiterung:** externe USB-HDD im Einsatz (interne 2,5"-Erweiterung verworfen). Verbaute SSD reicht für OS + Docker-Volumes aus.
 
 **Backup:** 3-2-1-Regel — mindestens eine Kopie extern (Backblaze B2 via `rclone` empfohlen)
 
@@ -188,7 +186,7 @@ Mosquitto als zentraler Broker für alle ESP32-Projekte aus diesem Repo:
 | Gerät | Modell | Status |
 |---|---|---|
 | Tastatur + Touchpad | Rii Wireless (2.4GHz + Bluetooth) | bestellt |
-| Gamepad | offen — z.B. Xbox Controller | wenn Emulation eingerichtet |
+| Gamepad | vorhanden | bereit für Emulation |
 
 ### Display-Anschluss
 
@@ -210,10 +208,23 @@ Realistische Einbußen: **keine spürbaren.** USB 3.0 Gigabit Adapter erreicht ~
 
 ---
 
+## Erweiterungen (Kaufempfehlungen)
+
+Sinnvolle Ergänzungen fürs Setup, passend zum Ansatz "selbst basteln statt fertiges Tool":
+
+| Was | Kosten | Begründung |
+|---|---|---|
+| Zigbee-USB-Dongle (SONOFF Zigbee 3.0 Plus / ConBee II) + Zigbee2MQTT | ~25–35€ | Bridge publiziert direkt auf Mosquitto — kein Home Assistant nötig. Öffnet Zugriff auf günstige Zigbee-Sensoren/Aktoren als Bausteine für eigene Python-Automatisierung, im selben Broker wie Companion-Watch und Auto-Bewässerung |
+| Zigbee-Energiemess-Steckdose | ~15–20€ | Landet als eigenes MQTT-Topic — echte Stromkosten des OptiPlex live verifizieren statt schätzen |
+| Kleine USV (z.B. APC Back-UPS 650) | ~50–70€ | Schützt Nextcloud-Writes und offene Trades während Marktzeiten bei Stromausfall |
+
+**Priorität:** Zigbee-Dongle + Energiesteckdose zuerst (zusammen unter 50€, direkt nach der Linux-Installation nutzbar). USV vorziehen, sobald der Trading Bot live geht.
+
+---
+
 ## Offene Fragen
 
 - [ ] **Desktop-Umgebung**: GNOME, KDE Plasma oder XFCE? → ausprobieren
-- [ ] **Externer Speicher**: interne 2,5"-HDD/SSD oder externe USB-Lösung?
 - [ ] **Remote-Zugriff**: Cloudflare Tunnel oder WireGuard VPN?
 - [ ] **Netzwerk**: Gigabit LAN zum Router vorhanden oder WLAN?
 - [ ] **Nextcloud vs. Syncthing**: Nextcloud (vollwertige Cloud) oder Syncthing (simpler Sync)?
