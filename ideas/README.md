@@ -9,18 +9,23 @@
 - ❄️ **Eingefroren** — pausiert, ggf. später wieder aufgreifen
 - ⚰️ **Verworfen** — bewusst nicht weiterverfolgt (Begründung in der README)
 
-## Liste
+## Heim-Stack
+
+Diese drei Ideen bauen aufeinander auf: der Homelab-Server hostet Jarvis, Jarvis ist das Backend der Companion-Watch, die Watch schickt ihre Daten über MQTT zurück ins Homelab. Änderungen an einer betreffen oft die anderen — bei Architektur-Entscheidungen die Nachbarn mitlesen.
 
 | Idee | Status | Kurzbeschreibung |
 |------|--------|------------------|
-| [homelab](homelab/README.md) | 🛠 Prototyp | Dell OptiPlex 3090 als Heimserver: Emulation, Nextcloud, Home Assistant, MQTT, Trading Bot |
+| [homelab](homelab/README.md) | 🛠 Prototyp | Dell OptiPlex 3090 als Heimserver: Emulation, Nextcloud, Jellyfin, MQTT, eigene Heimautomatisierung (kein Home Assistant) (Trading Bot: optional/zurückgestellt) |
+| [companion-watch](companion-watch/README.md) | 🔬 Recherche | Selbstbau-Smartwatch (ESP32-S3): Jarvis-Voice-PTT, IR-Remote, Health-Tracking, Habit-Tamagotchi-Pet-UI — Mi-Band-Ersatz |
+| [jarvis](jarvis/README.md) | 🔬 Recherche | Sprachassistent auf dem Homelab-Server: Push-to-Talk → whisper.cpp → Claude (Headless) → TTS. Backend für die Companion-Watch. Latenz-Messung erledigt (~2,1 s pro Antwort) |
+
+## Eigenständig
+
+| Idee | Status | Kurzbeschreibung |
+|------|--------|------------------|
 | [trading-bot](trading-bot/README.md) | 🔬 Recherche | Modularer Aktien-Trading-Bot (IBKR, FinBERT Sentiment, vectorbt Backtesting) |
 | [piano-display](piano-display/README.md) | 🔬 Recherche | Kabelloser 13" RPi-5-Touchscreen fürs E-Piano — Noten, YouTube, optional PC-Zusatzmonitor |
 | [papagei-llm](papagei-llm/README.md) | 🔬 Recherche | Eigenes LLM für Verkaufstelefonie (Outbound/Inbound), self-hosted für niedrige Latenzen |
-| [bluetooth-dual](bluetooth-dual/README.md) | 🔬 Recherche | Audio von einem Handy auf zwei verschiedene Bluetooth-Kopfhörer streamen |
-| [companion-watch](companion-watch/README.md) | 🛠 Prototyp | Selbstbau-Smartwatch (ESP32-S3): Jarvis-Voice-PTT, WhatsApp-Remote, IR-Remote, Health-Tracking — Mi-Band-Ersatz |
-| [habit-tamagotchi](habit-tamagotchi/README.md) | 🔬 Recherche | Virtuelles Tier, das auf echte Habits reagiert — erste Zielplattform: Companion-Watch |
-| [auto-bewaesserung](auto-bewaesserung/README.md) | 🔬 Recherche | Selbstbau-Bewässerung für 4 Balkon-Blumenkästen, autark mit Tank, Solar & Akku |
 | [minecraft-controller](minecraft-controller/README.md) | 🔬 Recherche | Controller-Support für Minecraft/Hypixel Skyblock am Mini-PC — Controlify statt Controllable, Scuf-Paddle-Mapping |
 
-<!-- Neue Ideen hier eintragen. Reihenfolge: aktivste oben. -->
+<!-- Neue Ideen in die passende Gruppe eintragen. Reihenfolge innerhalb einer Gruppe: aktivste oben. -->

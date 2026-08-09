@@ -12,14 +12,23 @@
 
 ```powershell
 & C:\esp\esp-idf\export.ps1
-Set-Location C:\Users\anton\Desktop\projects\experimenting\ideas\companion-watch\firmware
+Set-Location C:\Users\anton\Desktop\experimenting\ideas\companion-watch\firmware
 idf.py build
 idf.py -p COM5 flash
 ```
 
-## Vollständige Pin-Belegung (aus Waveshare Wiki verifiziert)
+> **Achtung Build-Last:** Ein Full-Build übersetzt ~1080 Targets. In Kombination mit Windows Defenders Echtzeitschutz (jede `.o`-Datei wird gescannt) treibt das die CPU auf 100 % — gemessen 56 % allein für die Antimalware Service Executable. Vor einem Full-Build ankündigen; inkrementelle Builds sind unkritisch. Defender-Ausschlüsse für `C:\esp`, `C:\Users\anton\.espressif` und dieses Repo entschärfen das (brauchen Admin-Rechte).
 
-### Belegt — on-board Peripherie
+## Pin-Belegung (verifiziert)
+
+- **LCD SPI:** MOSI=11, SCLK=10, CS=9, DC=8, RST=14, Backlight=2
+- **Touch (CST816S):** I2C SDA=6, SCL=7, RST=13, Addr=0x15
+- **IMU (QMI8658):** gleicher I2C-Bus (GPIO 6/7)
+- **I2S-Mikrofon (INMP441):** WS=GPIO15, SCK=GPIO16, SD=GPIO17 — verifiziert funktionierend (2026-05-16)
+
+### Vollständige Pin-Belegung (aus Waveshare Wiki verifiziert)
+
+#### Belegt — on-board Peripherie
 
 | GPIO | Funktion | Chip/Zweck |
 |------|----------|------------|
@@ -40,7 +49,7 @@ idf.py -p COM5 flash
 | GPIO43 | UART_TXD | CH343P USB-UART (Flash/Log) |
 | GPIO44 | UART_RXD | CH343P USB-UART (Flash/Log) |
 
-### Frei — GPIO_OUT Connector P2 (12-Pin)
+#### Frei — GPIO_OUT Connector P2 (12-Pin)
 
 **Achtung: der Connector ist 12-Pin (NICHT 6-Pin wie zuvor dokumentiert).** Pin 1 ist mit "G1" auf dem Stecker-Gehäuse markiert (links). Verifiziert aus dem Schaltplan (files.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.28/ESP32-S3-Touch-LCD-1.28-Sch.pdf).
 
@@ -59,7 +68,7 @@ idf.py -p COM5 flash
 | 11 | GPIO21 | |
 | 12 | GPIO33 | |
 
-### INMP441 I2S Mikrofon — verifiziert funktionierend (2026-05-16)
+#### INMP441 I2S Mikrofon — verifiziert funktionierend (2026-05-16)
 
 Verkabelt über das mitgelieferte 12-Pin-Kabel an P2:
 
@@ -72,7 +81,7 @@ Verkabelt über das mitgelieferte 12-Pin-Kabel an P2:
 | SCK | 8 | GPIO16 |
 | SD | 9 | GPIO17 |
 
-**I2S-Konfiguration (kritisch — Sample-Code in main.c):**
+**I2S-Konfiguration (kritisch):**
 
 - Standard mode, Philips slot, 32-bit width, MONO slot mode
 - **`slot_mask = I2S_STD_SLOT_LEFT` zwingend setzen** — sonst liest der ESP32 den falschen Kanal und das Audio fiept nur
@@ -81,7 +90,7 @@ Verkabelt über das mitgelieferte 12-Pin-Kabel an P2:
 
 **WAV-Capture-Tool:** `aufnahme.py` im Projektroot — startet Recording über Serial, speichert mit Zeitstempel im Dateinamen. Voraussetzung: idf monitor muss geschlossen sein, Buffer wird beim Start geleert.
 
-### Vibrationsmotor — Board-MOSFETs nutzen
+#### Vibrationsmotor — Board-MOSFETs nutzen
 
 Das Board hat zwei Schaltstufen (MOSFETs) bereits eingebaut, Lötpads rund um den Akkuhalter:
 - **MOSFET1:** GPIO4 steuert → direkt Vibrationsmotor anlöten, kein Transistor nötig
@@ -96,9 +105,10 @@ firmware/
 ├── CMakeLists.txt
 ├── sdkconfig.defaults
 └── main/
-    ├── main.c              ← Hauptloop, Touch→Animation-Switch
+    ├── main.c              ← Hauptloop, PTT-Events + Animation-Switch
     ├── display.c/h         ← GC9A01 via SPI
-    ├── touch.c/h           ← CST816S Tap-Erkennung
+    ├── touch.c/h           ← CST816S: Tap-Flanke + Halte-Zustand
+    ├── ptt.c/h             ← Push-to-Talk-Zustandsautomat (Touchscreen)
     ├── sprite_engine.c/h   ← Animation-Engine, Nearest-Neighbor ×4
     ├── pig_sprites.h        ← generierte Sprite-Daten (RGB565)
     └── idf_component.yml
@@ -114,17 +124,22 @@ python tools\generate_pig.py
 ```
 Liest `C:\Users\anton\Downloads\Minecraft_pig_walkin...-888999626-0.png`, erzeugt `firmware/main/pig_sprites.h` mit 3 Animationen (idle, walk, sleep).
 
-## Aktueller Stand (2026-05-16)
+## Aktueller Stand (2026-08-07)
 
 - Display (GC9A01) funktioniert ✓
 - Touch (CST816S) Tap-Erkennung funktioniert ✓
 - Sprite-Animation mit Tap-Umschaltung funktioniert ✓
+- I2S-Mikrofon verlötet und funktionsfähig ✓ (Pins noch nicht dokumentiert)
+- **Push-to-Talk über Touchscreen implementiert — kompiliert, aber noch nicht auf Hardware getestet**
 - Pig-Sprites aus Retro-Diffusion-Sheet geladen — funktioniert grundsätzlich, aber noch nicht 100% (Farben/Darstellung noch nicht perfekt)
 - Placeholder-Sprites sind noch im Code als Fallback (sprite_engine.c)
 - **INMP441-Mikrofon angeschlossen und verifiziert funktionierend ✓** — WAV-Aufnahme über `aufnahme.py` testweise gelaufen, Sprache klar erkennbar
 
 ## Offene Punkte
 
+- **PTT auf Hardware gegentesten** — vor allem, ob die 200-ms-Mindesthaltedauer und die 80-ms-Loslass-Karenz sich gut anfühlen
+- **GPIOs des Mikrofons dokumentieren**, dann I2S-Aufnahme in den `PTT_EVENT_START`/`STOP`-Zweigen von `main.c` implementieren
+- CST816S-Interrupt-Pin prüfen: aktuell wird gepollt, für die Akkulaufzeit im Idle wäre Interrupt-Betrieb besser
 - Sprite-Darstellung verfeinern (Farben, Byte-Order prüfen falls Farben falsch)
 - Weitere/bessere Sprite-Sheets generieren
 - Sleep-Animation verbessern (zzz-Overlay)

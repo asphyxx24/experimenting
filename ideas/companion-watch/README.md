@@ -7,13 +7,12 @@
 
 Eine selbstgebaute Smartwatch auf ESP32-S3-Basis, die als universelles Companion-Device am Handgelenk dient. Kern-Features:
 
-- **Jarvis-Voice (Push-to-Talk):** Knopf drücken → Audio aufnehmen → Groq Whisper STT → Jarvis-Backend → Antwort hören.
-- **WhatsApp-Fernbedienung:** Eingehende Anrufe annehmen/ablehnen, Sprachnachrichten vom Handgelenk senden.
+- **Jarvis-Voice (Push-to-Talk):** Knopf drücken → Audio-Stream zum [Jarvis-Backend](../jarvis/README.md) → Antwort hören.
 - **IR-Universal-Remote:** TV, HiFi, Klima vom Handgelenk steuern.
 - **Health-Tracking:** Schritte, Puls, SpO2, Schlaf — ersetzt das Xiaomi Mi Band.
 - **Notifications:** Backend pusht Meldungen → Display + Vibration.
 
-Langfristig Plattform für verschiedene UIs und Modi (z. B. [Habit-Tamagotchi](../habit-tamagotchi/README.md) als erste Zielplattform für ein Pet-UI).
+Langfristig Plattform für verschiedene UIs und Modi (z. B. [Habit-Tamagotchi](habit-tamagotchi/README.md) als erste Zielplattform für ein Pet-UI).
 
 ## Hardware-Entscheidung
 
@@ -82,6 +81,8 @@ ESP32-S3: WiFi + BLE 5.0, 240 MHz Dual-Core, IMU on-board (QMI8658), USB-C-Charg
 └─────────────────┘
 ```
 
+Das Jarvis-Backend ist eine eigene Idee: [`ideas/jarvis`](../jarvis/README.md) — läuft auf dem [Homelab](../homelab/README.md)-OptiPlex (whisper.cpp → Claude Headless → TTS).
+
 Das Gerät ist **dummer Client mit IO**, nicht eigenständige AI. Modi:
 1. **Idle:** UI-Animation, IMU lauscht, WiFi off.
 2. **Voice:** PTT gedrückt → aufnehmen → loslassen → Groq STT → Jarvis → Antwort.
@@ -123,14 +124,41 @@ Arduino IDE und MicroPython werden von Waveshare in der Wiki gezeigt, sind aber 
 
 ## Offene Fragen
 
-- [ ] Watch-Case: bestehendes STL ([Watch-Case mit Akku-Slot](https://www.printables.com/model/484236)) oder Custom-Print?
-- [ ] Backend-Push-Protokoll: WebSocket dauerhaft offen vs. MQTT mit Wakeup-Pings?
+- [ ] Watch-Case: bestehendes STL ([Watch-Case mit Akku-Slot](https://www.printables.com/model/484236)) reicht erstmal, oder direkt eigener Custom-Print?
+- [x] **PTT-Hardware: Touchscreen-Hold** — entschieden 2026-08-07, siehe Abschnitt [Push-to-Talk](#push-to-talk-touchscreen) unten.
+- [ ] Backend-Push-Protokoll: WebSocket dauerhaft offen vs. MQTT mit Wakeup-Pings vs. nur Pull bei PTT?
 - [ ] Sleep-Stage-Algorithmus: Cole-Kripke selbst implementieren oder pyActigraphy-Logik portieren?
 - [ ] Authentifizierung Gerät ↔ Backend: Pre-Shared-Key flashen vs. mTLS-Cert?
 - [ ] Mehrere Geräte (Schlüsselbund + Schreibtisch + Handgelenk): wie unterscheidet das Backend?
 - [ ] On-board MOSFET Strom-Rating prüfen (Schaltplan) — reicht es für Coin-Vibrationsmotor?
 - [ ] Linux-Audio-Bridge: PipeWire Loopback oder PulseAudio null sink für WhatsApp-Mikrofon?
 - [ ] OptiPlex dauerhaft laufen lassen vs. WoL (WoL funktioniert aktuell nicht — USB-LAN-Adapter, kein natives LAN)?
+
+## Push-to-Talk (Touchscreen)
+
+**Entschieden (2026-08-07): Finger auf das Display legen und halten nimmt auf, loslassen sendet.** Bewusst gegen die frühere Einschätzung ("Knopf am verlässlichsten") — der Touchscreen ist bereits verbaut und funktioniert, ein Side-Push-Schalter bräuchte dagegen ein Bauteil, einen freien GPIO und einen Durchbruch im gedruckten Gehäuse.
+
+Der Treiber konnte das schon: `touch.c` liest Register `0x02` des CST816S, also die **Fingeranzahl** — ein Zustand, keine Geste. Bisher wurde daraus nur die steigende Flanke (`touch_tapped()`) gemeldet und der Rest verworfen. Ergänzt wurde `touch_is_down()`, das den Zustand direkt liefert.
+
+Implementiert in [`firmware/main/ptt.c`](firmware/main/ptt.c) als Zustandsautomat mit drei praxisrelevanten Details:
+
+| Problem | Lösung | Wert |
+|---|---|---|
+| Ärmel streift übers Display = Finger für einen kapazitiven Sensor | Mindest-Haltedauer, bevor die Aufnahme startet | 200 ms |
+| Sensor verliert kurz Kontakt, wenn der Finger rollt → Abbruch mitten im Satz | Karenzzeit, bevor "losgelassen" gilt | 80 ms |
+| Etwas liegt dauerhaft auf dem Display | Notabschaltung der Aufnahme | 30 s |
+
+Dazu kommt: Bei I2C-Fehlern behält der Treiber den letzten bekannten Zustand, statt ein Loslassen vorzutäuschen — ein einzelner Bus-Aussetzer beendet damit keine laufende Aufnahme.
+
+**Tap und PTT teilen sich dieselbe Fläche.** Deshalb meldet `ptt_update()` beide Ereignisse: `PTT_EVENT_TAP` (kurz berührt → UI bedienen) und `PTT_EVENT_START`/`STOP`. Wer stattdessen weiter `touch_tapped()` auswertet, schaltet beim Aufsetzen des Fingers ungewollt die Animation um, bevor klar ist, ob daraus ein PTT-Halten wird.
+
+Während der Aufnahme zeigt ein roter Balken oben am Display den Status — die Mitte ist vom Finger verdeckt.
+
+**Status:** kompiliert und gelinkt, **noch nicht auf Hardware getestet**.
+
+**Bekannte offene Punkte:**
+- Der CST816S hat einen Interrupt-Pin. Aktuell wird gepollt (alle 16 ms, I2C-Lesungen auf 5 ms gedrosselt). Für die Akkulaufzeit im Idle wäre Interrupt-Betrieb besser — ob der Pin auf dem Waveshare-Board herausgeführt ist, steht in der Pin-Belegung nicht.
+- Kapazitiv heißt: nasse Finger und Handschuhe funktionieren nicht. Falls das im Alltag stört, bleibt ein Knopf als Ergänzung möglich.
 
 ## Spike-Plan
 
@@ -159,8 +187,16 @@ Arduino IDE und MicroPython werden von Waveshare in der Wiki gezeigt, sind aber 
 10. HRV (RMSSD) berechnen.
 
 ### Spike C — Sleep-Mode (1 Woche)
-11. Power-State, der nachts Display abschaltet, IMU + PPG samplet.
-12. Logs in Flash, morgens Sync ans Backend.
+10. Power-State, der nachts Display abschaltet, IMU + PPG samplet.
+11. Logs in Flash, morgens Sync ans Backend.
+
+### Spike D — Jarvis-Voice-Integration (2–3 Wochen)
+
+> Setzt voraus, dass das Backend steht — siehe [`ideas/jarvis`](../jarvis/README.md). Dessen Schritte 1–3 (Audio-Pipeline auf dem Server, erst mit USB-Headset, dann netzwerkfähig) laufen unabhängig von der Uhr und können parallel zu den Spikes 0–C passieren.
+
+12. PTT-Knopf, INMP441 + MAX98357A verkabeln.
+13. WiFi-Stream zum Backend (WebSocket + Opus oder PCM).
+14. Audio-Wiedergabe der Antwort.
 
 ### Spike E — IR-Universal-Remote (1 Woche)
 13. IR-LED an on-board MOSFET (GPIO5) oder eigenem GPIO.
