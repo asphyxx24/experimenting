@@ -39,7 +39,11 @@ Windows wird neuinstalliert. Kein einziger geplanter Dienst oder Use Case erford
 
 ### Basis: Kubuntu 26.04 LTS ("Resolute Raccoon")
 
-**Entschieden (Stand 01.07.2026):** Kubuntu 26.04 LTS statt 24.04 — bringt **KDE Plasma 6.6 nativ** mit (kein PPA-Umweg, der für 24.04 ohnehin nicht existiert), Support bis April 2031 (ESM sogar bis 2036 mit kostenlosem Ubuntu Pro, bis 5 Geräte). Da der OptiPlex ohnehin neu aufgesetzt wird (kein Upgrade von einem laufenden 24.04-System), ist der übliche Rat "auf den ersten Point-Release 26.04.1 warten" hier nicht relevant — der betrifft nur den `do-release-upgrade`-Pfad von bestehenden Installationen. Bei einer Neuinstallation reicht: 26.04 installieren, einmal vollständig updaten (`sudo apt update && sudo apt upgrade`) → identischer Patch-Stand wie mit 26.04.1-Medium.
+**Bestätigt am 09.11.2026:** Sowohl dieser Mini-PC als auch der vorhandene HP-Pavilion-Laptop erhalten Kubuntu LTS mit KDE Plasma. Damit werden Desktop und Systemverwaltung auf beiden Geräten vereinheitlicht. Die Installation steht weiterhin aus.
+
+**Support-Klarstellung (09.11.2026):** Kubuntu 26.04 wird vom Kubuntu-Team bis April 2029 unterstützt. Längere Supportzeiträume für Teile der Ubuntu-Basis sind keine entsprechende Supportzusage für den vollständigen KDE-Desktop. Quelle: [Kubuntu-Veröffentlichung](https://kubuntu.org/news/kubuntu-26-04-release-notes/).
+
+**Entschieden (Stand 01.07.2026):** Kubuntu 26.04 LTS statt 24.04 — bringt **KDE Plasma 6.6 nativ** mit (kein PPA-Umweg, der für 24.04 ohnehin nicht existiert), Kubuntu-Support bis April 2029; längere Supportzeiträume für Teile der Ubuntu-Basis gelten nicht automatisch für den KDE-Desktop. Da der OptiPlex ohnehin neu aufgesetzt wird (kein Upgrade von einem laufenden 24.04-System), ist der übliche Rat "auf den ersten Point-Release 26.04.1 warten" hier nicht relevant — der betrifft nur den `do-release-upgrade`-Pfad von bestehenden Installationen. Bei einer Neuinstallation reicht: 26.04 installieren, einmal vollständig updaten (`sudo apt update && sudo apt upgrade`) → identischer Patch-Stand wie mit 26.04.1-Medium.
 
 **Zwei Breaking Changes gegenüber 24.04, für den Neuaufbau aber folgenlos:**
 - **cgroup v1 wurde entfernt** (nur noch v2) — betrifft nur alte Container/Skripte mit hartcodierten v1-Annahmen, nicht eine frische Docker-Installation.
